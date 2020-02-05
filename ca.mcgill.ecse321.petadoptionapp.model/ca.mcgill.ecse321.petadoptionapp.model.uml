@@ -5,7 +5,7 @@
       <contents xmi:type="ecore:EAnnotation" xmi:id="_-ZBZoEeJEeqcn_ys3YkpBQ" source="codegen">
         <details xmi:id="_-ZBZoUeJEeqcn_ys3YkpBQ" key="codegenDirectory" value="/ca.mcgill.ecse321.petadoptionapp.model/src-gen"/>
         <details xmi:id="_-ZO1AEeJEeqcn_ys3YkpBQ" key="observedFolders" value="/ca.mcgill.ecse321.petadoptionapp.model/src"/>
-        <details xmi:id="_V0bMwEeNEeqAvcqXqVSLjA" key="AssociatedSourceCode" value="/ca.mcgill.ecse321.petadoptionapp.model/src-gen/ca/mcgill/ecse321/petadoptionapp/model/User.java;764574017/1;/ca.mcgill.ecse321.petadoptionapp.model/src-gen/ca/mcgill/ecse321/petadoptionapp/model/Response.java;195035059/1;/ca.mcgill.ecse321.petadoptionapp.model/src-gen/ca/mcgill/ecse321/petadoptionapp/model/PetShelter.java;3678506819/1;/ca.mcgill.ecse321.petadoptionapp.model/src-gen/ca/mcgill/ecse321/petadoptionapp/model/Address.java;1506313411/1;/ca.mcgill.ecse321.petadoptionapp.model/src-gen/ca/mcgill/ecse321/petadoptionapp/model/PetProfile.java;3026722513/1;/ca.mcgill.ecse321.petadoptionapp.model/src-gen/ca/mcgill/ecse321/petadoptionapp/model/RegularUser.java;2123289640/1;/ca.mcgill.ecse321.petadoptionapp.model/src-gen/ca/mcgill/ecse321/petadoptionapp/model/AdoptionApplication.java;3556737175/1;/ca.mcgill.ecse321.petadoptionapp.model/src-gen/ca/mcgill/ecse321/petadoptionapp/model/Donation.java;3338313313/1;/ca.mcgill.ecse321.petadoptionapp.model/src-gen/ca/mcgill/ecse321/petadoptionapp/model/Question.java;3810185577/1;/ca.mcgill.ecse321.petadoptionapp.model/src-gen/ca/mcgill/ecse321/petadoptionapp/model/ApplicationStatus.java;4243365735/1;/ca.mcgill.ecse321.petadoptionapp.model/src-gen/ca/mcgill/ecse321/petadoptionapp/model/Gender.java;3105977939/1;"/>
+        <details xmi:id="_V0bMwEeNEeqAvcqXqVSLjA" key="AssociatedSourceCode" value="/ca.mcgill.ecse321.petadoptionapp.model/src-gen/ca/mcgill/ecse321/petadoptionapp/model/User.java;764574017/1;/ca.mcgill.ecse321.petadoptionapp.model/src-gen/ca/mcgill/ecse321/petadoptionapp/model/Response.java;195035059/1;/ca.mcgill.ecse321.petadoptionapp.model/src-gen/ca/mcgill/ecse321/petadoptionapp/model/PetShelter.java;3678506819/1;/ca.mcgill.ecse321.petadoptionapp.model/src-gen/ca/mcgill/ecse321/petadoptionapp/model/Address.java;1506313411/1;/ca.mcgill.ecse321.petadoptionapp.model/src-gen/ca/mcgill/ecse321/petadoptionapp/model/PetProfile.java;3026722513/1;/ca.mcgill.ecse321.petadoptionapp.model/src-gen/ca/mcgill/ecse321/petadoptionapp/model/RegularUser.java;2123289640/1;/ca.mcgill.ecse321.petadoptionapp.model/src-gen/ca/mcgill/ecse321/petadoptionapp/model/AdoptionApplication.java;4212588652/1;/ca.mcgill.ecse321.petadoptionapp.model/src-gen/ca/mcgill/ecse321/petadoptionapp/model/Donation.java;3338313313/1;/ca.mcgill.ecse321.petadoptionapp.model/src-gen/ca/mcgill/ecse321/petadoptionapp/model/Question.java;3810185577/1;/ca.mcgill.ecse321.petadoptionapp.model/src-gen/ca/mcgill/ecse321/petadoptionapp/model/ApplicationStatus.java;4243365735/1;/ca.mcgill.ecse321.petadoptionapp.model/src-gen/ca/mcgill/ecse321/petadoptionapp/model/Gender.java;3105977939/1;"/>
       </contents>
       <contents xmi:type="ecore:EAnnotation" xmi:id="_tsEz0EeMEeqRBs9ncHX28A" source="preferences">
         <contents xmi:type="ecore:EAnnotation" xmi:id="_tsFa4EeMEeqRBs9ncHX28A" source="com.yattasolutions.codegen.reverse">
@@ -197,10 +197,6 @@
                 <ownedAttribute xmi:id="_rOfeMEgoEeqpre3mhzO5EQ" name="id" visibility="public">
                   <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
                 </ownedAttribute>
-                <ownedAttribute xmi:id="_MhlU4Ug8Eeqrnpj4-HrO6w" name="gender" type="_Jk79kEg8Eeqrnpj4-HrO6w" association="_Mhkt0Eg8Eeqrnpj4-HrO6w">
-                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Mhl78Eg8Eeqrnpj4-HrO6w"/>
-                  <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_MhmjAEg8Eeqrnpj4-HrO6w" value="*"/>
-                </ownedAttribute>
               </packagedElement>
               <packagedElement xmi:type="uml:Class" xmi:id="_DlDc0EeOEeqAvcqXqVSLjA" name="RegularUser">
                 <generalization xmi:id="_Ii4owEeOEeqAvcqXqVSLjA" general="_SEZQsEeNEeqAvcqXqVSLjA"/>
@@ -230,10 +226,6 @@
                 </ownedAttribute>
                 <ownedAttribute xmi:id="_DR_ScEg0EeqRDfv_QXtm_A" name="applicationDescription" visibility="public">
                   <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-                </ownedAttribute>
-                <ownedAttribute xmi:id="_CnV5UUg8Eeqrnpj4-HrO6w" name="applicationStatus" type="_zsXHwEg7Eeqrnpj4-HrO6w" association="_CnS2AEg8Eeqrnpj4-HrO6w">
-                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_CnY8oEg8Eeqrnpj4-HrO6w" value="1"/>
-                  <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_CnZjsEg8Eeqrnpj4-HrO6w" value="1"/>
                 </ownedAttribute>
               </packagedElement>
               <packagedElement xmi:type="uml:Class" xmi:id="_rWfxoEeOEeqAvcqXqVSLjA" name="Donation">
@@ -273,27 +265,6 @@
                 <ownedAttribute xmi:id="_4wC-sEgoEeqpre3mhzO5EQ" name="id" visibility="public">
                   <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
                 </ownedAttribute>
-              </packagedElement>
-              <packagedElement xmi:type="uml:Enumeration" xmi:id="_zsXHwEg7Eeqrnpj4-HrO6w" name="ApplicationStatus">
-                <ownedLiteral xmi:id="_2ONZcEg7Eeqrnpj4-HrO6w" name="accepted"/>
-                <ownedLiteral xmi:id="_4hrQ4Eg7Eeqrnpj4-HrO6w" name="rejected"/>
-                <ownedLiteral xmi:id="_6hfMgEg7Eeqrnpj4-HrO6w" name="underReview"/>
-              </packagedElement>
-              <packagedElement xmi:type="uml:Association" xmi:id="_CnS2AEg8Eeqrnpj4-HrO6w" name="" memberEnd="_CnTdEEg8Eeqrnpj4-HrO6w _CnV5UUg8Eeqrnpj4-HrO6w">
-                <ownedEnd xmi:id="_CnTdEEg8Eeqrnpj4-HrO6w" name="adoptionApplication" type="_WDwFYEeREeqAvcqXqVSLjA" association="_CnS2AEg8Eeqrnpj4-HrO6w">
-                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_CnUrMEg8Eeqrnpj4-HrO6w" value="1"/>
-                  <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_CnV5UEg8Eeqrnpj4-HrO6w" value="1"/>
-                </ownedEnd>
-              </packagedElement>
-              <packagedElement xmi:type="uml:Enumeration" xmi:id="_Jk79kEg8Eeqrnpj4-HrO6w" name="Gender">
-                <ownedLiteral xmi:id="_NUYq0Eg8Eeqrnpj4-HrO6w" name="male"/>
-                <ownedLiteral xmi:id="_OQxakEg8Eeqrnpj4-HrO6w" name="female"/>
-              </packagedElement>
-              <packagedElement xmi:type="uml:Association" xmi:id="_Mhkt0Eg8Eeqrnpj4-HrO6w" name="" memberEnd="_Mhkt0Ug8Eeqrnpj4-HrO6w _MhlU4Ug8Eeqrnpj4-HrO6w">
-                <ownedEnd xmi:id="_Mhkt0Ug8Eeqrnpj4-HrO6w" name="petProfile" type="_5lIvsEeQEeqAvcqXqVSLjA" association="_Mhkt0Eg8Eeqrnpj4-HrO6w">
-                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Mhkt0kg8Eeqrnpj4-HrO6w"/>
-                  <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_MhlU4Eg8Eeqrnpj4-HrO6w" value="*"/>
-                </ownedEnd>
               </packagedElement>
             </packagedElement>
           </packagedElement>

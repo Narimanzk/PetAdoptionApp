@@ -5,7 +5,6 @@ import javax.persistence.ManyToOne;
 import java.util.Set;
 import javax.persistence.OneToMany;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 
 @Entity
 public class PetProfile{
@@ -80,15 +79,4 @@ public void setId(Integer value) {
 public Integer getId() {
     return this.id;
 }
-   private Set<Gender> gender;
-   
-   @ManyToMany
-   public Set<Gender> getGender() {
-      return this.gender;
-   }
-   
-   public void setGender(Set<Gender> genders) {
-      this.gender = genders;
-   }
-   
-   }
+}
