@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.petadoptionapp.model;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 
 @Entity
 public class Address{
@@ -43,5 +44,14 @@ public void setCountry(String value) {
 }
 public String getCountry() {
     return this.country;
+}
+private Integer id;
+
+public void setId(Integer value) {
+    this.id = value;
+}
+@Id
+public Integer getId() {
+    return this.id;
 }
 }

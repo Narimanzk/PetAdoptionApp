@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import java.util.Set;
 import javax.persistence.OneToMany;
+import javax.persistence.Id;
 
 @Entity
 public class Donation{
@@ -15,26 +16,35 @@ public void setAmount(Integer value) {
 public Integer getAmount() {
     return this.amount;
 }
-   private PetShelter petShelter;
-   
-   @ManyToOne(optional=false)
-   public PetShelter getPetShelter() {
-      return this.petShelter;
-   }
-   
-   public void setPetShelter(PetShelter petShelter) {
-      this.petShelter = petShelter;
-   }
-   
-   private Set<RegularUser> donation;
-   
-   @OneToMany(mappedBy="user" )
-   public Set<RegularUser> getDonation() {
-      return this.donation;
-   }
-   
-   public void setDonation(Set<RegularUser> donations) {
-      this.donation = donations;
-   }
-   
-   }
+private PetShelter petShelter;
+
+@ManyToOne(optional=false)
+public PetShelter getPetShelter() {
+   return this.petShelter;
+}
+
+public void setPetShelter(PetShelter petShelter) {
+   this.petShelter = petShelter;
+}
+
+private Set<RegularUser> donation;
+
+@OneToMany(mappedBy="user" )
+public Set<RegularUser> getDonation() {
+   return this.donation;
+}
+
+public void setDonation(Set<RegularUser> donations) {
+   this.donation = donations;
+}
+
+private Integer id;
+
+public void setId(Integer value) {
+    this.id = value;
+}
+@Id
+public Integer getId() {
+    return this.id;
+}
+}

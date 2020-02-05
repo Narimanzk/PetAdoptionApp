@@ -5,6 +5,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.OneToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.Id;
 
 @Entity
 public class Question{
@@ -32,26 +33,35 @@ public void setDescription(String value) {
 public String getDescription() {
     return this.description;
 }
-   private Set<Response> responses;
-   
-   @OneToMany(mappedBy="question" , cascade={CascadeType.ALL})
-   public Set<Response> getResponses() {
-      return this.responses;
-   }
-   
-   public void setResponses(Set<Response> responsess) {
-      this.responses = responsess;
-   }
-   
-   private RegularUser user;
-   
-   @ManyToOne(optional=false)
-   public RegularUser getUser() {
-      return this.user;
-   }
-   
-   public void setUser(RegularUser user) {
-      this.user = user;
-   }
-   
-   }
+private Set<Response> responses;
+
+@OneToMany(mappedBy="question" , cascade={CascadeType.ALL})
+public Set<Response> getResponses() {
+   return this.responses;
+}
+
+public void setResponses(Set<Response> responsess) {
+   this.responses = responsess;
+}
+
+private RegularUser user;
+
+@ManyToOne(optional=false)
+public RegularUser getUser() {
+   return this.user;
+}
+
+public void setUser(RegularUser user) {
+   this.user = user;
+}
+
+private Integer id;
+
+public void setId(Integer value) {
+    this.id = value;
+}
+@Id
+public Integer getId() {
+    return this.id;
+}
+}

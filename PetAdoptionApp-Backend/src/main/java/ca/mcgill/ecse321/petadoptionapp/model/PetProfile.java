@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import java.util.Set;
 import javax.persistence.OneToMany;
+import javax.persistence.Id;
 
 @Entity
 public class PetProfile{
@@ -47,26 +48,43 @@ public void setGender(Boolean value) {
 public Boolean getGender() {
     return this.gender;
 }
-   private User user;
-   
-   @ManyToOne(optional=false)
-   public User getUser() {
-      return this.user;
-   }
-   
-   public void setUser(User user) {
-      this.user = user;
-   }
-   
-   private Set<AdoptionApplication> adoptionApplication;
-   
-   @OneToMany(mappedBy="petProfile" )
-   public Set<AdoptionApplication> getAdoptionApplication() {
-      return this.adoptionApplication;
-   }
-   
-   public void setAdoptionApplication(Set<AdoptionApplication> adoptionApplications) {
-      this.adoptionApplication = adoptionApplications;
-   }
-   
-   }
+private User user;
+
+@ManyToOne(optional=false)
+public User getUser() {
+   return this.user;
+}
+
+public void setUser(User user) {
+   this.user = user;
+}
+
+private Set<AdoptionApplication> adoptionApplication;
+
+@OneToMany(mappedBy="petProfile" )
+public Set<AdoptionApplication> getAdoptionApplication() {
+   return this.adoptionApplication;
+}
+
+public void setAdoptionApplication(Set<AdoptionApplication> adoptionApplications) {
+   this.adoptionApplication = adoptionApplications;
+}
+
+private String/*No type specified!*/ var1;
+
+public void setVar1(String/*No type specified!*/ value) {
+    this.var1 = value;
+}
+public String/*No type specified!*/ getVar1() {
+    return this.var1;
+}
+private Integer id;
+
+public void setId(Integer value) {
+    this.id = value;
+}
+@Id
+public Integer getId() {
+    return this.id;
+}
+}

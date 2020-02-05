@@ -5,6 +5,7 @@ import java.util.Set;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.ManyToMany;
+import javax.persistence.Id;
 
 @Entity
 public abstract class User{
@@ -32,48 +33,57 @@ public void setEmail(String value) {
 public String getEmail() {
     return this.email;
 }
-   private Set<Response> responses;
-   
-   @OneToMany(mappedBy="user" )
-   public Set<Response> getResponses() {
-      return this.responses;
-   }
-   
-   public void setResponses(Set<Response> responsess) {
-      this.responses = responsess;
-   }
-   
-   private Address address;
-   
-   @OneToOne
-   public Address getAddress() {
-      return this.address;
-   }
-   
-   public void setAddress(Address address) {
-      this.address = address;
-   }
-   
-   private Set<PetProfile> petProfile;
-   
-   @OneToMany(mappedBy="user" )
-   public Set<PetProfile> getPetProfile() {
-      return this.petProfile;
-   }
-   
-   public void setPetProfile(Set<PetProfile> petProfiles) {
-      this.petProfile = petProfiles;
-   }
-   
-   private Set<AdoptionApplication> adoptionApplication;
-   
-   @ManyToMany(mappedBy="user" )
-   public Set<AdoptionApplication> getAdoptionApplication() {
-      return this.adoptionApplication;
-   }
-   
-   public void setAdoptionApplication(Set<AdoptionApplication> adoptionApplications) {
-      this.adoptionApplication = adoptionApplications;
-   }
-   
-   }
+private Set<Response> responses;
+
+@OneToMany(mappedBy="user" )
+public Set<Response> getResponses() {
+   return this.responses;
+}
+
+public void setResponses(Set<Response> responsess) {
+   this.responses = responsess;
+}
+
+private Address address;
+
+@OneToOne
+public Address getAddress() {
+   return this.address;
+}
+
+public void setAddress(Address address) {
+   this.address = address;
+}
+
+private Set<PetProfile> petProfile;
+
+@OneToMany(mappedBy="user" )
+public Set<PetProfile> getPetProfile() {
+   return this.petProfile;
+}
+
+public void setPetProfile(Set<PetProfile> petProfiles) {
+   this.petProfile = petProfiles;
+}
+
+private Set<AdoptionApplication> adoptionApplication;
+
+@ManyToMany(mappedBy="user" )
+public Set<AdoptionApplication> getAdoptionApplication() {
+   return this.adoptionApplication;
+}
+
+public void setAdoptionApplication(Set<AdoptionApplication> adoptionApplications) {
+   this.adoptionApplication = adoptionApplications;
+}
+
+private Integer id;
+
+public void setId(Integer value) {
+    this.id = value;
+}
+@Id
+public Integer getId() {
+    return this.id;
+}
+}

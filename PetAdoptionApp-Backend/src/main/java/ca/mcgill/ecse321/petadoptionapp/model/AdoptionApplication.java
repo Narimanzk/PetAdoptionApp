@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import java.util.Set;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.Id;
 
 @Entity
 public class AdoptionApplication{
@@ -29,4 +30,13 @@ public class AdoptionApplication{
       this.petProfile = petProfile;
    }
    
-   }
+   private Integer id;
+
+public void setId(Integer value) {
+    this.id = value;
+}
+@Id
+public Integer getId() {
+    return this.id;
+}
+}
