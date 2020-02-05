@@ -55,26 +55,26 @@ public void setAddress(Address address) {
    this.address = address;
 }
 
-private Set<PetProfile> petProfile;
+private Set<PetProfile> petProfiles;
 
 @OneToMany(mappedBy="user" )
-public Set<PetProfile> getPetProfile() {
-   return this.petProfile;
+public Set<PetProfile> getPetProfiles() {
+   return this.petProfiles;
 }
 
-public void setPetProfile(Set<PetProfile> petProfiles) {
-   this.petProfile = petProfiles;
+public void setPetProfiles(Set<PetProfile> petProfiless) {
+   this.petProfiles = petProfiless;
 }
 
-private Set<AdoptionApplication> adoptionApplication;
+private Set<AdoptionApplication> adoptionApplications;
 
 @ManyToMany(mappedBy="user" )
-public Set<AdoptionApplication> getAdoptionApplication() {
-   return this.adoptionApplication;
+public Set<AdoptionApplication> getAdoptionApplications() {
+   return this.adoptionApplications;
 }
 
-public void setAdoptionApplication(Set<AdoptionApplication> adoptionApplications) {
-   this.adoptionApplication = adoptionApplications;
+public void setAdoptionApplications(Set<AdoptionApplication> adoptionApplicationss) {
+   this.adoptionApplications = adoptionApplicationss;
 }
 
 private Integer id;

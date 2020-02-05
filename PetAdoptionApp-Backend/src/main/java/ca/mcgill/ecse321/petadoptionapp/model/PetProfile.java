@@ -40,14 +40,6 @@ public void setAge(Integer value) {
 public Integer getAge() {
     return this.age;
 }
-private Boolean gender;
-
-public void setGender(Boolean value) {
-    this.gender = value;
-}
-public Boolean getGender() {
-    return this.gender;
-}
 private User user;
 
 @ManyToOne(optional=false)
@@ -59,15 +51,15 @@ public void setUser(User user) {
    this.user = user;
 }
 
-private Set<AdoptionApplication> adoptionApplication;
+private Set<AdoptionApplication> adoptionApplications;
 
 @OneToMany(mappedBy="petProfile" )
-public Set<AdoptionApplication> getAdoptionApplication() {
-   return this.adoptionApplication;
+public Set<AdoptionApplication> getAdoptionApplications() {
+   return this.adoptionApplications;
 }
 
-public void setAdoptionApplication(Set<AdoptionApplication> adoptionApplications) {
-   this.adoptionApplication = adoptionApplications;
+public void setAdoptionApplications(Set<AdoptionApplication> adoptionApplicationss) {
+   this.adoptionApplications = adoptionApplicationss;
 }
 
 private String/*No type specified!*/ var1;

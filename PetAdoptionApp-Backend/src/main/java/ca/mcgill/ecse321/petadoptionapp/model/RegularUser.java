@@ -1,7 +1,6 @@
 package ca.mcgill.ecse321.petadoptionapp.model;
 
 import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
 import java.util.Set;
 import javax.persistence.OneToMany;
 
@@ -15,15 +14,15 @@ public void setPersonalDescription(String value) {
 public String getPersonalDescription() {
     return this.personalDescription;
 }
-   private Donation user;
+   private Set<Donation> donations;
    
-   @ManyToOne(optional=false)
-   public Donation getUser() {
-      return this.user;
+   @OneToMany(mappedBy="donatedFrom" )
+   public Set<Donation> getDonations() {
+      return this.donations;
    }
    
-   public void setUser(Donation user) {
-      this.user = user;
+   public void setDonations(Set<Donation> donationss) {
+      this.donations = donationss;
    }
    
    private Set<Question> questions;

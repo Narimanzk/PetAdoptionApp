@@ -39,4 +39,23 @@ public void setId(Integer value) {
 public Integer getId() {
     return this.id;
 }
+private String applicationDescription;
+
+public void setApplicationDescription(String value) {
+    this.applicationDescription = value;
 }
+public String getApplicationDescription() {
+    return this.applicationDescription;
+}
+   private ApplicationStatus applicationStatus;
+   
+   @ManyToOne(optional=false)
+   public ApplicationStatus getApplicationStatus() {
+      return this.applicationStatus;
+   }
+   
+   public void setApplicationStatus(ApplicationStatus applicationStatus) {
+      this.applicationStatus = applicationStatus;
+   }
+   
+   }
