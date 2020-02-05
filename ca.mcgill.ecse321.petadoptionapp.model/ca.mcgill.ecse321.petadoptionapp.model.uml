@@ -118,6 +118,9 @@
                   <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_yz9MQUePEeqAvcqXqVSLjA"/>
                   <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_yz9MQkePEeqAvcqXqVSLjA" value="*"/>
                 </ownedAttribute>
+                <ownedAttribute xmi:id="_9LnKEEgzEeqRDfv_QXtm_A" name="balance" visibility="public">
+                  <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+                </ownedAttribute>
               </packagedElement>
               <packagedElement xmi:type="uml:Class" xmi:id="_rqlyUEeOEeqAvcqXqVSLjA" name="Address">
                 <ownedAttribute xmi:id="_pAnNcEeQEeqAvcqXqVSLjA" name="street" visibility="public">
@@ -193,6 +196,9 @@
                 </ownedAttribute>
                 <ownedAttribute xmi:id="_Jro9IEgpEeqpre3mhzO5EQ" name="id" visibility="public">
                   <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+                </ownedAttribute>
+                <ownedAttribute xmi:id="_DR_ScEg0EeqRDfv_QXtm_A" name="applicationDescription" visibility="public">
+                  <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
                 </ownedAttribute>
               </packagedElement>
               <packagedElement xmi:type="uml:Class" xmi:id="_rWfxoEeOEeqAvcqXqVSLjA" name="Donation">
