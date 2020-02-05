@@ -5,6 +5,7 @@ import java.util.Set;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Entity
 public class AdoptionApplication{
@@ -49,7 +50,7 @@ public String getApplicationDescription() {
 }
    private ApplicationStatus applicationStatus;
    
-   @ManyToOne(optional=false)
+   @OneToOne(optional=false)
    public ApplicationStatus getApplicationStatus() {
       return this.applicationStatus;
    }
