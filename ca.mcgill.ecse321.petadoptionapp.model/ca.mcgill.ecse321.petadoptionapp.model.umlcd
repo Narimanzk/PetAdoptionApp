@@ -690,27 +690,6 @@
       </type>
     </attributes>
   </nodes>
-  <nodes xsi:type="com.yattasolutions.uml.diagrams.classifier:ClassifierVisual" xmi:id="_5hlz0EeNEeqAvcqXqVSLjA" containment="_uuikIEeREeqAvcqXqVSLjA" name="PetShelter" package="_b_Wv4EeLEeqcn_ys3YkpBQ" associationsOut="_y0BdsEePEeqAvcqXqVSLjA" generalizations="_Gk88cEeOEeqAvcqXqVSLjA">
-    <modelElement href="ca.mcgill.ecse321.petadoptionapp.model.uml#_5hhiYEeNEeqAvcqXqVSLjA"/>
-    <visualProperties xmi:id="_5hlz0UeNEeqAvcqXqVSLjA" position="3023.0,904.0" size="-1.0,-1.0"/>
-    <visibility xmi:id="_5hlz0keNEeqAvcqXqVSLjA" label="+"/>
-    <attributes xmi:id="_y0FIEEePEeqAvcqXqVSLjA" name="receivedDonations">
-      <modelElement href="ca.mcgill.ecse321.petadoptionapp.model.uml#_yz9MQEePEeqAvcqXqVSLjA"/>
-      <visibility xmi:id="_y0FIEUePEeqAvcqXqVSLjA" label="+"/>
-      <cardinality xmi:id="_y0FIEkePEeqAvcqXqVSLjA" label="*" max="-1"/>
-      <type xmi:id="_y0FIE0ePEeqAvcqXqVSLjA" name="Donation">
-        <modelElement href="ca.mcgill.ecse321.petadoptionapp.model.uml#_rWfxoEeOEeqAvcqXqVSLjA"/>
-      </type>
-    </attributes>
-    <attributes xmi:id="_9Lw7EEgzEeqRDfv_QXtm_A" name="balance">
-      <modelElement href="ca.mcgill.ecse321.petadoptionapp.model.uml#_9LnKEEgzEeqRDfv_QXtm_A"/>
-      <visibility xmi:id="_9Lw7EUgzEeqRDfv_QXtm_A" label="+"/>
-      <cardinality xmi:id="_9Lw7EkgzEeqRDfv_QXtm_A" label="1" max="1" min="1"/>
-      <type xmi:id="_-w0NUEgzEeqRDfv_QXtm_A" name="Integer">
-        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
-      </type>
-    </attributes>
-  </nodes>
   <nodes xsi:type="com.yattasolutions.uml.diagrams.classifier:ClassifierVisual" xmi:id="_DlED4EeOEeqAvcqXqVSLjA" containment="_yE8fQEeREeqAvcqXqVSLjA" name="RegularUser" package="_b_Wv4EeLEeqcn_ys3YkpBQ" associationsOut="_5C1wYEePEeqAvcqXqVSLjA _g0wmUEeQEeqAvcqXqVSLjA" generalizations="_Ii7sEEeOEeqAvcqXqVSLjA">
     <modelElement href="ca.mcgill.ecse321.petadoptionapp.model.uml#_DlDc0EeOEeqAvcqXqVSLjA"/>
     <visualProperties xmi:id="_DlED4UeOEeqAvcqXqVSLjA" position="10.0,1099.0" size="-1.0,-1.0"/>
@@ -764,5 +743,26 @@
     <literals xmi:id="_OQyBoEg8Eeqrnpj4-HrO6w" name="female">
       <modelElement href="ca.mcgill.ecse321.petadoptionapp.model.uml#_OQxakEg8Eeqrnpj4-HrO6w"/>
     </literals>
+  </nodes>
+  <nodes xsi:type="com.yattasolutions.uml.diagrams.classifier:ClassifierVisual" xmi:id="_5hlz0EeNEeqAvcqXqVSLjA" containment="_uuikIEeREeqAvcqXqVSLjA" name="PetShelter" package="_b_Wv4EeLEeqcn_ys3YkpBQ" associationsOut="_y0BdsEePEeqAvcqXqVSLjA" generalizations="_Gk88cEeOEeqAvcqXqVSLjA">
+    <modelElement href="ca.mcgill.ecse321.petadoptionapp.model.uml#_5hhiYEeNEeqAvcqXqVSLjA"/>
+    <visualProperties xmi:id="_5hlz0UeNEeqAvcqXqVSLjA" position="3023.0,904.0" size="-1.0,-1.0"/>
+    <visibility xmi:id="_5hlz0keNEeqAvcqXqVSLjA" label="+"/>
+    <attributes xmi:id="_y0FIEEePEeqAvcqXqVSLjA" name="receivedDonations">
+      <modelElement href="ca.mcgill.ecse321.petadoptionapp.model.uml#_yz9MQEePEeqAvcqXqVSLjA"/>
+      <visibility xmi:id="_y0FIEUePEeqAvcqXqVSLjA" label="+"/>
+      <cardinality xmi:id="_y0FIEkePEeqAvcqXqVSLjA" label="*" max="-1"/>
+      <type xmi:id="_y0FIE0ePEeqAvcqXqVSLjA" name="Donation">
+        <modelElement href="ca.mcgill.ecse321.petadoptionapp.model.uml#_rWfxoEeOEeqAvcqXqVSLjA"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_9Lw7EEgzEeqRDfv_QXtm_A" name="balance">
+      <modelElement href="ca.mcgill.ecse321.petadoptionapp.model.uml#_9LnKEEgzEeqRDfv_QXtm_A"/>
+      <visibility xmi:id="_9Lw7EUgzEeqRDfv_QXtm_A" label="+"/>
+      <cardinality xmi:id="_9Lw7EkgzEeqRDfv_QXtm_A" label="1" max="1" min="1"/>
+      <type xmi:id="_-w0NUEgzEeqRDfv_QXtm_A" name="Integer">
+        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+      </type>
+    </attributes>
   </nodes>
 </com.yattasolutions.uml.diagrams.classifier:ClassDiagram>
