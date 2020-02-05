@@ -5,7 +5,7 @@ import java.util.Set;
 import javax.persistence.OneToMany;
 
 @Entity
-public class PetShelter extends User{
+public class PetShelter extends GeneralUser{
    private Set<Donation> receivedDonations;
    
    @OneToMany(mappedBy="donatedTo" )

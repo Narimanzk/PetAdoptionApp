@@ -295,7 +295,7 @@
       <modelElement href="ca.mcgill.ecse321.petadoptionapp.model.uml#_SrUJ8UeREeqAvcqXqVSLjA"/>
       <visibility xmi:id="_SraQkUeREeqAvcqXqVSLjA" label="+"/>
       <cardinality xmi:id="_SraQkkeREeqAvcqXqVSLjA" label="1" max="1" min="1"/>
-      <type xmi:id="_SraQk0eREeqAvcqXqVSLjA" name="User">
+      <type xmi:id="_SraQk0eREeqAvcqXqVSLjA" name="GeneralUser">
         <modelElement href="ca.mcgill.ecse321.petadoptionapp.model.uml#_SEZQsEeNEeqAvcqXqVSLjA"/>
       </type>
     </attributes>
@@ -320,62 +320,6 @@
       <visibility xmi:id="_rOgFQUgoEeqpre3mhzO5EQ" label="+"/>
       <cardinality xmi:id="_rOgFQkgoEeqpre3mhzO5EQ" label="1" max="1" min="1"/>
       <type xmi:id="_r86qcEgoEeqpre3mhzO5EQ" name="Integer">
-        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
-      </type>
-    </attributes>
-  </nodes>
-  <nodes xsi:type="com.yattasolutions.uml.diagrams.classifier:ClassifierVisual" xmi:id="_rqmZYEeOEeqAvcqXqVSLjA" containment="_wOxn0EeREeqAvcqXqVSLjA" name="Address" package="_b_Wv4EeLEeqcn_ys3YkpBQ" associationsIn="_zb3rYEeQEeqAvcqXqVSLjA">
-    <modelElement href="ca.mcgill.ecse321.petadoptionapp.model.uml#_rqlyUEeOEeqAvcqXqVSLjA"/>
-    <visualProperties xmi:id="_rqmZYUeOEeqAvcqXqVSLjA" position="1312.0,872.0" size="-1.0,-1.0"/>
-    <visibility xmi:id="_rqmZYkeOEeqAvcqXqVSLjA" label="+"/>
-    <attributes xmi:id="_pAn0gEeQEeqAvcqXqVSLjA" name="street">
-      <modelElement href="ca.mcgill.ecse321.petadoptionapp.model.uml#_pAnNcEeQEeqAvcqXqVSLjA"/>
-      <visibility xmi:id="_pAn0gUeQEeqAvcqXqVSLjA" label="+"/>
-      <cardinality xmi:id="_pAn0gkeQEeqAvcqXqVSLjA" label="1" max="1" min="1"/>
-      <type xmi:id="_piYdwEeQEeqAvcqXqVSLjA" name="String">
-        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-      </type>
-    </attributes>
-    <attributes xmi:id="_qXvYcEeQEeqAvcqXqVSLjA" name="city">
-      <modelElement href="ca.mcgill.ecse321.petadoptionapp.model.uml#_qXuxYEeQEeqAvcqXqVSLjA"/>
-      <visibility xmi:id="_qXvYcUeQEeqAvcqXqVSLjA" label="+"/>
-      <cardinality xmi:id="_qXvYckeQEeqAvcqXqVSLjA" label="1" max="1" min="1"/>
-      <type xmi:id="_rPk_YEeQEeqAvcqXqVSLjA" name="String">
-        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-      </type>
-    </attributes>
-    <attributes xmi:id="_rXzuUEeQEeqAvcqXqVSLjA" name="postalCode">
-      <modelElement href="ca.mcgill.ecse321.petadoptionapp.model.uml#_rXzHQEeQEeqAvcqXqVSLjA"/>
-      <visibility xmi:id="_rXzuUUeQEeqAvcqXqVSLjA" label="+"/>
-      <cardinality xmi:id="_rXzuUkeQEeqAvcqXqVSLjA" label="1" max="1" min="1"/>
-      <type xmi:id="_sLuekEeQEeqAvcqXqVSLjA" name="String">
-        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-      </type>
-    </attributes>
-    <attributes xmi:id="_tQRr0EeQEeqAvcqXqVSLjA" name="state">
-      <modelElement href="ca.mcgill.ecse321.petadoptionapp.model.uml#_tQREwEeQEeqAvcqXqVSLjA"/>
-      <visibility xmi:id="_tQRr0UeQEeqAvcqXqVSLjA" label="+"/>
-      <cardinality xmi:id="_tQRr0keQEeqAvcqXqVSLjA" label="1" max="1" min="1"/>
-      <type xmi:id="_uTwiEEeQEeqAvcqXqVSLjA" name="String">
-        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-      </type>
-    </attributes>
-    <attributes xmi:id="_uvteQUeQEeqAvcqXqVSLjA" name="country">
-      <modelElement href="ca.mcgill.ecse321.petadoptionapp.model.uml#_uvteQEeQEeqAvcqXqVSLjA"/>
-      <visibility xmi:id="_uvteQkeQEeqAvcqXqVSLjA" label="+"/>
-      <cardinality xmi:id="_uvteQ0eQEeqAvcqXqVSLjA" label="1" max="1" min="1"/>
-      <type xmi:id="_vf92gEeQEeqAvcqXqVSLjA" name="String">
-        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-      </type>
-    </attributes>
-    <attributes xmi:id="_mSHq0EgoEeqpre3mhzO5EQ" name="id">
-      <modelElement href="ca.mcgill.ecse321.petadoptionapp.model.uml#_mSHDwEgoEeqpre3mhzO5EQ"/>
-      <stereotypes xmi:id="_GPLdUEgpEeqpre3mhzO5EQ" name="PrimaryKey">
-        <modelElement href="ca.mcgill.ecse321.petadoptionapp.model.uml#_GPK2QEgpEeqpre3mhzO5EQ"/>
-      </stereotypes>
-      <visibility xmi:id="_mSHq0UgoEeqpre3mhzO5EQ" label="+"/>
-      <cardinality xmi:id="_mSHq0kgoEeqpre3mhzO5EQ" label="1" max="1" min="1"/>
-      <type xmi:id="_nTXscEgoEeqpre3mhzO5EQ" name="Integer">
         <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
       </type>
     </attributes>
@@ -460,7 +404,7 @@
       <modelElement href="ca.mcgill.ecse321.petadoptionapp.model.uml#_ab8DEEeQEeqAvcqXqVSLjA"/>
       <visibility xmi:id="_acBioUeQEeqAvcqXqVSLjA" label="+"/>
       <cardinality xmi:id="_acBiokeQEeqAvcqXqVSLjA" label="1" max="1" min="1"/>
-      <type xmi:id="_acBio0eQEeqAvcqXqVSLjA" name="User">
+      <type xmi:id="_acBio0eQEeqAvcqXqVSLjA" name="GeneralUser">
         <modelElement href="ca.mcgill.ecse321.petadoptionapp.model.uml#_SEZQsEeNEeqAvcqXqVSLjA"/>
       </type>
     </attributes>
@@ -516,78 +460,6 @@
       </type>
     </attributes>
   </nodes>
-  <nodes xsi:type="com.yattasolutions.uml.diagrams.classifier:ClassifierVisual" xmi:id="_SEcUAEeNEeqAvcqXqVSLjA" containment="_cMapkEeNEeqAvcqXqVSLjA" name="User" package="_b_Wv4EeLEeqcn_ys3YkpBQ" abstractClass="true" associationsOut="_acAUgEeQEeqAvcqXqVSLjA _zb3rYEeQEeqAvcqXqVSLjA _SrZCcEeREeqAvcqXqVSLjA _abxOgEeREeqAvcqXqVSLjA" subclassedBy="_Gk88cEeOEeqAvcqXqVSLjA _Ii7sEEeOEeqAvcqXqVSLjA">
-    <modelElement href="ca.mcgill.ecse321.petadoptionapp.model.uml#_SEZQsEeNEeqAvcqXqVSLjA"/>
-    <visualProperties xmi:id="_SEcUAUeNEeqAvcqXqVSLjA" position="1456.0,519.0" size="-1.0,-1.0"/>
-    <visibility xmi:id="_SEcUAkeNEeqAvcqXqVSLjA" label="+"/>
-    <attributes xmi:id="_swCM4EeNEeqAvcqXqVSLjA" name="name">
-      <modelElement href="ca.mcgill.ecse321.petadoptionapp.model.uml#_sv_JkEeNEeqAvcqXqVSLjA"/>
-      <visibility xmi:id="_swCM4UeNEeqAvcqXqVSLjA" label="+"/>
-      <cardinality xmi:id="_swCM4keNEeqAvcqXqVSLjA" label="1" max="1" min="1"/>
-      <type xmi:id="_vd2eAEeNEeqAvcqXqVSLjA" name="String">
-        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-      </type>
-    </attributes>
-    <attributes xmi:id="_xCYy4EeNEeqAvcqXqVSLjA" name="phone">
-      <modelElement href="ca.mcgill.ecse321.petadoptionapp.model.uml#_xCYL0EeNEeqAvcqXqVSLjA"/>
-      <visibility xmi:id="_xCYy4UeNEeqAvcqXqVSLjA" label="+"/>
-      <cardinality xmi:id="_xCYy4keNEeqAvcqXqVSLjA" label="1" max="1" min="1"/>
-      <type xmi:id="_zUqXgEeNEeqAvcqXqVSLjA" name="String">
-        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-      </type>
-    </attributes>
-    <attributes xmi:id="_xDSKwUeNEeqAvcqXqVSLjA" name="email">
-      <modelElement href="ca.mcgill.ecse321.petadoptionapp.model.uml#_xDSKwEeNEeqAvcqXqVSLjA"/>
-      <visibility xmi:id="_xDSKwkeNEeqAvcqXqVSLjA" label="+"/>
-      <cardinality xmi:id="_xDSKw0eNEeqAvcqXqVSLjA" label="1" max="1" min="1"/>
-      <type xmi:id="_0F94oEeNEeqAvcqXqVSLjA" name="String">
-        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-      </type>
-    </attributes>
-    <attributes xmi:id="_acDX0EeQEeqAvcqXqVSLjA" name="responses">
-      <modelElement href="ca.mcgill.ecse321.petadoptionapp.model.uml#_ab8qIEeQEeqAvcqXqVSLjA"/>
-      <visibility xmi:id="_acDX0UeQEeqAvcqXqVSLjA" label="+"/>
-      <cardinality xmi:id="_acDX0keQEeqAvcqXqVSLjA" label="*" max="-1"/>
-      <type xmi:id="_acDX00eQEeqAvcqXqVSLjA" name="Response">
-        <modelElement href="ca.mcgill.ecse321.petadoptionapp.model.uml#_GW3yQEeQEeqAvcqXqVSLjA"/>
-      </type>
-    </attributes>
-    <attributes xmi:id="_zb4ScEeQEeqAvcqXqVSLjA" name="address">
-      <modelElement href="ca.mcgill.ecse321.petadoptionapp.model.uml#_zbzZ8UeQEeqAvcqXqVSLjA"/>
-      <visibility xmi:id="_zb4ScUeQEeqAvcqXqVSLjA" label="+"/>
-      <cardinality xmi:id="_zb4SckeQEeqAvcqXqVSLjA" label="0..1" max="1"/>
-      <type xmi:id="_zb4Sc0eQEeqAvcqXqVSLjA" name="Address">
-        <modelElement href="ca.mcgill.ecse321.petadoptionapp.model.uml#_rqlyUEeOEeqAvcqXqVSLjA"/>
-      </type>
-    </attributes>
-    <attributes xmi:id="_SrbesEeREeqAvcqXqVSLjA" name="petProfiles">
-      <modelElement href="ca.mcgill.ecse321.petadoptionapp.model.uml#_SrV_IUeREeqAvcqXqVSLjA"/>
-      <visibility xmi:id="_SrbesUeREeqAvcqXqVSLjA" label="+"/>
-      <cardinality xmi:id="_SrbeskeREeqAvcqXqVSLjA" label="*" max="-1"/>
-      <type xmi:id="_Srbes0eREeqAvcqXqVSLjA" name="PetProfile">
-        <modelElement href="ca.mcgill.ecse321.petadoptionapp.model.uml#_5lIvsEeQEeqAvcqXqVSLjA"/>
-      </type>
-    </attributes>
-    <attributes xmi:id="_abzDsEeREeqAvcqXqVSLjA" name="adoptionApplications">
-      <modelElement href="ca.mcgill.ecse321.petadoptionapp.model.uml#_abuyQkeREeqAvcqXqVSLjA"/>
-      <visibility xmi:id="_abzDsUeREeqAvcqXqVSLjA" label="+"/>
-      <cardinality xmi:id="_abzDskeREeqAvcqXqVSLjA" label="*" max="-1"/>
-      <type xmi:id="_abzDs0eREeqAvcqXqVSLjA" name="AdoptionApplication">
-        <modelElement href="ca.mcgill.ecse321.petadoptionapp.model.uml#_WDwFYEeREeqAvcqXqVSLjA"/>
-      </type>
-    </attributes>
-    <attributes xmi:id="_kuf78EgoEeqpre3mhzO5EQ" name="id">
-      <modelElement href="ca.mcgill.ecse321.petadoptionapp.model.uml#_kuc4oEgoEeqpre3mhzO5EQ"/>
-      <stereotypes xmi:id="_FGjoYEgpEeqpre3mhzO5EQ" name="PrimaryKey">
-        <modelElement href="ca.mcgill.ecse321.petadoptionapp.model.uml#_FGhzMEgpEeqpre3mhzO5EQ"/>
-      </stereotypes>
-      <visibility xmi:id="_kuf78UgoEeqpre3mhzO5EQ" label="+"/>
-      <cardinality xmi:id="_kuf78kgoEeqpre3mhzO5EQ" label="1" max="1" min="1"/>
-      <type xmi:id="_lnA4UEgoEeqpre3mhzO5EQ" name="Integer">
-        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
-      </type>
-    </attributes>
-  </nodes>
   <nodes xsi:type="com.yattasolutions.uml.diagrams.classifier:ClassifierVisual" xmi:id="_WDwscEeREeqAvcqXqVSLjA" containment="_yzbV4EeREeqAvcqXqVSLjA" name="AdoptionApplication" package="_b_Wv4EeLEeqcn_ys3YkpBQ" associationsIn="_abxOgEeREeqAvcqXqVSLjA _d9heAEeREeqAvcqXqVSLjA">
     <modelElement href="ca.mcgill.ecse321.petadoptionapp.model.uml#_WDwFYEeREeqAvcqXqVSLjA"/>
     <visualProperties xmi:id="_WDwscUeREeqAvcqXqVSLjA" position="1924.0,542.0" size="-1.0,-1.0"/>
@@ -596,7 +468,7 @@
       <modelElement href="ca.mcgill.ecse321.petadoptionapp.model.uml#_abuLMUeREeqAvcqXqVSLjA"/>
       <visibility xmi:id="_abycoUeREeqAvcqXqVSLjA" label="+"/>
       <cardinality xmi:id="_abycokeREeqAvcqXqVSLjA" label="*" max="-1"/>
-      <type xmi:id="_abyco0eREeqAvcqXqVSLjA" name="User">
+      <type xmi:id="_abyco0eREeqAvcqXqVSLjA" name="GeneralUser">
         <modelElement href="ca.mcgill.ecse321.petadoptionapp.model.uml#_SEZQsEeNEeqAvcqXqVSLjA"/>
       </type>
     </attributes>
@@ -674,6 +546,134 @@
       <visibility xmi:id="_9Lw7EUgzEeqRDfv_QXtm_A" label="+"/>
       <cardinality xmi:id="_9Lw7EkgzEeqRDfv_QXtm_A" label="1" max="1" min="1"/>
       <type xmi:id="_-w0NUEgzEeqRDfv_QXtm_A" name="Integer">
+        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+      </type>
+    </attributes>
+  </nodes>
+  <nodes xsi:type="com.yattasolutions.uml.diagrams.classifier:ClassifierVisual" xmi:id="_rqmZYEeOEeqAvcqXqVSLjA" containment="_wOxn0EeREeqAvcqXqVSLjA" name="Address" package="_b_Wv4EeLEeqcn_ys3YkpBQ" associationsIn="_zb3rYEeQEeqAvcqXqVSLjA">
+    <modelElement href="ca.mcgill.ecse321.petadoptionapp.model.uml#_rqlyUEeOEeqAvcqXqVSLjA"/>
+    <visualProperties xmi:id="_rqmZYUeOEeqAvcqXqVSLjA" position="1312.0,872.0" size="-1.0,-1.0"/>
+    <visibility xmi:id="_rqmZYkeOEeqAvcqXqVSLjA" label="+"/>
+    <attributes xmi:id="_pAn0gEeQEeqAvcqXqVSLjA" name="street">
+      <modelElement href="ca.mcgill.ecse321.petadoptionapp.model.uml#_pAnNcEeQEeqAvcqXqVSLjA"/>
+      <visibility xmi:id="_pAn0gUeQEeqAvcqXqVSLjA" label="+"/>
+      <cardinality xmi:id="_pAn0gkeQEeqAvcqXqVSLjA" label="1" max="1" min="1"/>
+      <type xmi:id="_piYdwEeQEeqAvcqXqVSLjA" name="String">
+        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_qXvYcEeQEeqAvcqXqVSLjA" name="city">
+      <modelElement href="ca.mcgill.ecse321.petadoptionapp.model.uml#_qXuxYEeQEeqAvcqXqVSLjA"/>
+      <visibility xmi:id="_qXvYcUeQEeqAvcqXqVSLjA" label="+"/>
+      <cardinality xmi:id="_qXvYckeQEeqAvcqXqVSLjA" label="1" max="1" min="1"/>
+      <type xmi:id="_rPk_YEeQEeqAvcqXqVSLjA" name="String">
+        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_rXzuUEeQEeqAvcqXqVSLjA" name="postalCode">
+      <modelElement href="ca.mcgill.ecse321.petadoptionapp.model.uml#_rXzHQEeQEeqAvcqXqVSLjA"/>
+      <visibility xmi:id="_rXzuUUeQEeqAvcqXqVSLjA" label="+"/>
+      <cardinality xmi:id="_rXzuUkeQEeqAvcqXqVSLjA" label="1" max="1" min="1"/>
+      <type xmi:id="_sLuekEeQEeqAvcqXqVSLjA" name="String">
+        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_tQRr0EeQEeqAvcqXqVSLjA" name="state">
+      <modelElement href="ca.mcgill.ecse321.petadoptionapp.model.uml#_tQREwEeQEeqAvcqXqVSLjA"/>
+      <visibility xmi:id="_tQRr0UeQEeqAvcqXqVSLjA" label="+"/>
+      <cardinality xmi:id="_tQRr0keQEeqAvcqXqVSLjA" label="1" max="1" min="1"/>
+      <type xmi:id="_uTwiEEeQEeqAvcqXqVSLjA" name="String">
+        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_uvteQUeQEeqAvcqXqVSLjA" name="country">
+      <modelElement href="ca.mcgill.ecse321.petadoptionapp.model.uml#_uvteQEeQEeqAvcqXqVSLjA"/>
+      <visibility xmi:id="_uvteQkeQEeqAvcqXqVSLjA" label="+"/>
+      <cardinality xmi:id="_uvteQ0eQEeqAvcqXqVSLjA" label="1" max="1" min="1"/>
+      <type xmi:id="_vf92gEeQEeqAvcqXqVSLjA" name="String">
+        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_mSHq0EgoEeqpre3mhzO5EQ" name="id">
+      <modelElement href="ca.mcgill.ecse321.petadoptionapp.model.uml#_mSHDwEgoEeqpre3mhzO5EQ"/>
+      <stereotypes xmi:id="_GPLdUEgpEeqpre3mhzO5EQ" name="PrimaryKey">
+        <modelElement href="ca.mcgill.ecse321.petadoptionapp.model.uml#_GPK2QEgpEeqpre3mhzO5EQ"/>
+      </stereotypes>
+      <visibility xmi:id="_mSHq0UgoEeqpre3mhzO5EQ" label="+"/>
+      <cardinality xmi:id="_mSHq0kgoEeqpre3mhzO5EQ" label="1" max="1" min="1"/>
+      <type xmi:id="_nTXscEgoEeqpre3mhzO5EQ" name="Integer">
+        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+      </type>
+    </attributes>
+  </nodes>
+  <nodes xsi:type="com.yattasolutions.uml.diagrams.classifier:ClassifierVisual" xmi:id="_SEcUAEeNEeqAvcqXqVSLjA" containment="_cMapkEeNEeqAvcqXqVSLjA" name="GeneralUser" package="_b_Wv4EeLEeqcn_ys3YkpBQ" associationsOut="_acAUgEeQEeqAvcqXqVSLjA _zb3rYEeQEeqAvcqXqVSLjA _SrZCcEeREeqAvcqXqVSLjA _abxOgEeREeqAvcqXqVSLjA" subclassedBy="_Gk88cEeOEeqAvcqXqVSLjA _Ii7sEEeOEeqAvcqXqVSLjA">
+    <modelElement href="ca.mcgill.ecse321.petadoptionapp.model.uml#_SEZQsEeNEeqAvcqXqVSLjA"/>
+    <visualProperties xmi:id="_SEcUAUeNEeqAvcqXqVSLjA" position="1456.0,519.0" size="-1.0,-1.0"/>
+    <visibility xmi:id="_SEcUAkeNEeqAvcqXqVSLjA" label="+"/>
+    <attributes xmi:id="_swCM4EeNEeqAvcqXqVSLjA" name="name">
+      <modelElement href="ca.mcgill.ecse321.petadoptionapp.model.uml#_sv_JkEeNEeqAvcqXqVSLjA"/>
+      <visibility xmi:id="_swCM4UeNEeqAvcqXqVSLjA" label="+"/>
+      <cardinality xmi:id="_swCM4keNEeqAvcqXqVSLjA" label="1" max="1" min="1"/>
+      <type xmi:id="_vd2eAEeNEeqAvcqXqVSLjA" name="String">
+        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_xCYy4EeNEeqAvcqXqVSLjA" name="phone">
+      <modelElement href="ca.mcgill.ecse321.petadoptionapp.model.uml#_xCYL0EeNEeqAvcqXqVSLjA"/>
+      <visibility xmi:id="_xCYy4UeNEeqAvcqXqVSLjA" label="+"/>
+      <cardinality xmi:id="_xCYy4keNEeqAvcqXqVSLjA" label="1" max="1" min="1"/>
+      <type xmi:id="_zUqXgEeNEeqAvcqXqVSLjA" name="String">
+        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_xDSKwUeNEeqAvcqXqVSLjA" name="email">
+      <modelElement href="ca.mcgill.ecse321.petadoptionapp.model.uml#_xDSKwEeNEeqAvcqXqVSLjA"/>
+      <visibility xmi:id="_xDSKwkeNEeqAvcqXqVSLjA" label="+"/>
+      <cardinality xmi:id="_xDSKw0eNEeqAvcqXqVSLjA" label="1" max="1" min="1"/>
+      <type xmi:id="_0F94oEeNEeqAvcqXqVSLjA" name="String">
+        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_acDX0EeQEeqAvcqXqVSLjA" name="responses">
+      <modelElement href="ca.mcgill.ecse321.petadoptionapp.model.uml#_ab8qIEeQEeqAvcqXqVSLjA"/>
+      <visibility xmi:id="_acDX0UeQEeqAvcqXqVSLjA" label="+"/>
+      <cardinality xmi:id="_acDX0keQEeqAvcqXqVSLjA" label="*" max="-1"/>
+      <type xmi:id="_acDX00eQEeqAvcqXqVSLjA" name="Response">
+        <modelElement href="ca.mcgill.ecse321.petadoptionapp.model.uml#_GW3yQEeQEeqAvcqXqVSLjA"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_zb4ScEeQEeqAvcqXqVSLjA" name="address">
+      <modelElement href="ca.mcgill.ecse321.petadoptionapp.model.uml#_zbzZ8UeQEeqAvcqXqVSLjA"/>
+      <visibility xmi:id="_zb4ScUeQEeqAvcqXqVSLjA" label="+"/>
+      <cardinality xmi:id="_zb4SckeQEeqAvcqXqVSLjA" label="0..1" max="1"/>
+      <type xmi:id="_zb4Sc0eQEeqAvcqXqVSLjA" name="Address">
+        <modelElement href="ca.mcgill.ecse321.petadoptionapp.model.uml#_rqlyUEeOEeqAvcqXqVSLjA"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_SrbesEeREeqAvcqXqVSLjA" name="petProfiles">
+      <modelElement href="ca.mcgill.ecse321.petadoptionapp.model.uml#_SrV_IUeREeqAvcqXqVSLjA"/>
+      <visibility xmi:id="_SrbesUeREeqAvcqXqVSLjA" label="+"/>
+      <cardinality xmi:id="_SrbeskeREeqAvcqXqVSLjA" label="*" max="-1"/>
+      <type xmi:id="_Srbes0eREeqAvcqXqVSLjA" name="PetProfile">
+        <modelElement href="ca.mcgill.ecse321.petadoptionapp.model.uml#_5lIvsEeQEeqAvcqXqVSLjA"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_abzDsEeREeqAvcqXqVSLjA" name="adoptionApplications">
+      <modelElement href="ca.mcgill.ecse321.petadoptionapp.model.uml#_abuyQkeREeqAvcqXqVSLjA"/>
+      <visibility xmi:id="_abzDsUeREeqAvcqXqVSLjA" label="+"/>
+      <cardinality xmi:id="_abzDskeREeqAvcqXqVSLjA" label="*" max="-1"/>
+      <type xmi:id="_abzDs0eREeqAvcqXqVSLjA" name="AdoptionApplication">
+        <modelElement href="ca.mcgill.ecse321.petadoptionapp.model.uml#_WDwFYEeREeqAvcqXqVSLjA"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_kuf78EgoEeqpre3mhzO5EQ" name="id">
+      <modelElement href="ca.mcgill.ecse321.petadoptionapp.model.uml#_kuc4oEgoEeqpre3mhzO5EQ"/>
+      <stereotypes xmi:id="_FGjoYEgpEeqpre3mhzO5EQ" name="PrimaryKey">
+        <modelElement href="ca.mcgill.ecse321.petadoptionapp.model.uml#_FGhzMEgpEeqpre3mhzO5EQ"/>
+      </stereotypes>
+      <visibility xmi:id="_kuf78UgoEeqpre3mhzO5EQ" label="+"/>
+      <cardinality xmi:id="_kuf78kgoEeqpre3mhzO5EQ" label="1" max="1" min="1"/>
+      <type xmi:id="_lnA4UEgoEeqpre3mhzO5EQ" name="Integer">
         <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
       </type>
     </attributes>

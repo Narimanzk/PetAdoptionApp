@@ -5,7 +5,7 @@ import java.util.Set;
 import javax.persistence.OneToMany;
 
 @Entity
-public class RegularUser extends User{
+public class RegularUser extends GeneralUser{
    private String personalDescription;
 
 public void setPersonalDescription(String value) {

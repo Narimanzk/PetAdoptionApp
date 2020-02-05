@@ -8,14 +8,14 @@ import javax.persistence.Id;
 
 @Entity
 public class AdoptionApplication{
-   private Set<User> user;
+   private Set<GeneralUser> user;
    
    @ManyToMany
-   public Set<User> getUser() {
+   public Set<GeneralUser> getUser() {
       return this.user;
    }
    
-   public void setUser(Set<User> users) {
+   public void setUser(Set<GeneralUser> users) {
       this.user = users;
    }
    

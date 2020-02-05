@@ -25,14 +25,14 @@ public void setQuestion(Question question) {
    this.question = question;
 }
 
-private User user;
+private GeneralUser user;
 
 @ManyToOne(optional=false)
-public User getUser() {
+public GeneralUser getUser() {
    return this.user;
 }
 
-public void setUser(User user) {
+public void setUser(GeneralUser user) {
    this.user = user;
 }
 

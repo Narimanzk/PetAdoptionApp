@@ -40,14 +40,14 @@ public void setAge(Integer value) {
 public Integer getAge() {
     return this.age;
 }
-private User user;
+private GeneralUser user;
 
 @ManyToOne(optional=false)
-public User getUser() {
+public GeneralUser getUser() {
    return this.user;
 }
 
-public void setUser(User user) {
+public void setUser(GeneralUser user) {
    this.user = user;
 }
 
