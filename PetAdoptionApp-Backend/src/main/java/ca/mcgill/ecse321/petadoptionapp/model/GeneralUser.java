@@ -3,6 +3,7 @@ package ca.mcgill.ecse321.petadoptionapp.model;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.DiscriminatorType;
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import java.util.Set;
 import javax.persistence.OneToMany;
@@ -90,5 +91,24 @@ public void setId(Integer value) {
 @Id
 public Integer getId() {
     return this.id;
+}
+
+private String username;
+
+public void setUsername(String value) {
+    this.username = value;
+}
+
+public String getUsername() {
+    return this.username;
+}
+
+private String password;
+
+public void setPassword(String value) {
+    this.password = value;
+}
+public String getPassword() {
+    return this.password;
 }
 }

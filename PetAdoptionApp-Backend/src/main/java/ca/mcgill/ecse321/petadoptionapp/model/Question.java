@@ -1,8 +1,11 @@
 package ca.mcgill.ecse321.petadoptionapp.model;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.util.Set;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.OneToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Id;
@@ -63,5 +66,16 @@ public void setId(Integer value) {
 @Id
 public Integer getId() {
     return this.id;
+}
+
+@Enumerated(EnumType.ORDINAL)
+@Column(name = "Threadstatus")
+private ThreadStatus threadStatus;
+
+public void setThreadStatus(ThreadStatus value) {
+  this.threadStatus = value;
+}
+public ThreadStatus getThreadStatus() {
+  return this.threadStatus;
 }
 }
