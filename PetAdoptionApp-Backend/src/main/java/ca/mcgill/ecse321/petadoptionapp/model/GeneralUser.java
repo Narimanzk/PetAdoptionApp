@@ -16,7 +16,7 @@ import javax.persistence.Id;
 
 @Entity
 @Inheritance
-@DiscriminatorColumn(name = "UserType", discriminatorType = DiscriminatorType.STRING, length = 1)
+@DiscriminatorColumn(name = "UserType", discriminatorType = DiscriminatorType.STRING)
 public class GeneralUser {
   private String name;
 
@@ -92,23 +92,22 @@ public class GeneralUser {
     this.adoptionApplications = adoptionApplicationss;
   }
 
-  private Integer id;
-
-  public void setId(Integer value) {
-    this.id = value;
-  }
-
-  @Id
-  public Integer getId() {
-    return this.id;
-  }
+//  private Integer id;
+//
+//  public void setId(Integer value) {
+//    this.id = value;
+//  }
+//
+//  public Integer getId() {
+//    return this.id;
+//  }
 
   private String username;
 
   public void setUsername(String value) {
     this.username = value;
   }
-
+  @Id
   public String getUsername() {
     return this.username;
   }
