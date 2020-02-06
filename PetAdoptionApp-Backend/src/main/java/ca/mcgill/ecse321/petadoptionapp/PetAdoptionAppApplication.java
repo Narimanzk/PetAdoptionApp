@@ -15,7 +15,6 @@ public class PetAdoptionAppApplication {
 
 	@RequestMapping("/")
 	public String greeting(){
-		return "It's working!";
+		return "Main page";
 	}
-
 }
