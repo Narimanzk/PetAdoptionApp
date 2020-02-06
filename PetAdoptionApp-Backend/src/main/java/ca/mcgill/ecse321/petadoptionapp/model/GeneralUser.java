@@ -1,6 +1,9 @@
 package ca.mcgill.ecse321.petadoptionapp.model;
 
 import javax.persistence.Entity;
+import javax.persistence.Inheritance;
+import javax.persistence.DiscriminatorType;
+import javax.persistence.DiscriminatorColumn;
 import java.util.Set;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -8,6 +11,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Id;
 
 @Entity
+@Inheritance
+@DiscriminatorColumn(name="UserType", discriminatorType=DiscriminatorType.STRING, length=1)
 public class GeneralUser{
    private String name;
 

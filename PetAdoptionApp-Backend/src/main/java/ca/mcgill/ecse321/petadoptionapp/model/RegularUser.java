@@ -1,10 +1,12 @@
 package ca.mcgill.ecse321.petadoptionapp.model;
 
 import javax.persistence.Entity;
+import javax.persistence.DiscriminatorValue;
 import java.util.Set;
 import javax.persistence.OneToMany;
 
 @Entity
+@DiscriminatorValue("RegularUser")
 public class RegularUser extends GeneralUser{
    private String personalDescription;
 
