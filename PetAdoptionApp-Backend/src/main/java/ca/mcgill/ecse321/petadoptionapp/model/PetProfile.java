@@ -24,24 +24,14 @@ public class PetProfile {
     return this.petName;
   }
 
-  private String image;
+  private String description;
 
-  public void setImage(String value) {
-    this.image = value;
+  public void setDescription(String value) {
+    this.description = value;
   }
 
-  public String getImage() {
-    return this.image;
-  }
-
-  private String reason;
-
-  public void setReason(String value) {
-    this.reason = value;
-  }
-
-  public String getReason() {
-    return this.reason;
+  public String getDescription() {
+    return this.description;
   }
 
   private Integer age;
