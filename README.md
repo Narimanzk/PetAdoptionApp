@@ -4,4 +4,4 @@ An application that allow users to create adoption posting and apply for adoptio
 
 Sprint 1- Backend system and Persistent
 We use object relational mapping to generate a database based on our domain model. The domain model is shown below.  
-
+![Domain Model](resources/Pet-Adoption-System Domain Model.png)
