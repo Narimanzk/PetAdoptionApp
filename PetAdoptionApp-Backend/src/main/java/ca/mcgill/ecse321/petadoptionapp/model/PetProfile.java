@@ -1,96 +1,123 @@
 package ca.mcgill.ecse321.petadoptionapp.model;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import java.util.Set;
 import javax.persistence.OneToMany;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 
 @Entity
-public class PetProfile{
-   private String petName;
+public class PetProfile {
+  private String petName;
 
-public void setPetName(String value) {
+  public void setPetName(String value) {
     this.petName = value;
-}
-public String getPetName() {
+  }
+
+  public String getPetName() {
     return this.petName;
-}
-private String image;
+  }
 
-public void setImage(String value) {
+  private String image;
+
+  public void setImage(String value) {
     this.image = value;
-}
-public String getImage() {
+  }
+
+  public String getImage() {
     return this.image;
-}
-private String reason;
+  }
 
-public void setReason(String value) {
+  private String reason;
+
+  public void setReason(String value) {
     this.reason = value;
-}
-public String getReason() {
+  }
+
+  public String getReason() {
     return this.reason;
-}
-private Integer age;
+  }
 
-public void setAge(Integer value) {
+  private Integer age;
+
+  public void setAge(Integer value) {
     this.age = value;
-}
-public Integer getAge() {
+  }
+
+  public Integer getAge() {
     return this.age;
-}
-private GeneralUser user;
+  }
 
-@ManyToOne(optional=false)
-public GeneralUser getUser() {
-   return this.user;
-}
+  private GeneralUser user;
 
-public void setUser(GeneralUser user) {
-   this.user = user;
-}
+  @ManyToOne(optional = false)
+  public GeneralUser getUser() {
+    return this.user;
+  }
 
-private Set<AdoptionApplication> adoptionApplications;
+  public void setUser(GeneralUser user) {
+    this.user = user;
+  }
 
-@OneToMany(mappedBy="petProfile" )
-public Set<AdoptionApplication> getAdoptionApplications() {
-   return this.adoptionApplications;
-}
+  private Set<AdoptionApplication> adoptionApplications;
 
-public void setAdoptionApplications(Set<AdoptionApplication> adoptionApplicationss) {
-   this.adoptionApplications = adoptionApplicationss;
-}
+  @OneToMany(mappedBy = "petProfile")
+  public Set<AdoptionApplication> getAdoptionApplications() {
+    return this.adoptionApplications;
+  }
 
-private Integer id;
+  public void setAdoptionApplications(Set<AdoptionApplication> adoptionApplicationss) {
+    this.adoptionApplications = adoptionApplicationss;
+  }
 
-public void setId(Integer value) {
+  private Integer id;
+
+  public void setId(Integer value) {
     this.id = value;
-}
-@Id
-public Integer getId() {
+  }
+
+  @Id
+  public Integer getId() {
     return this.id;
-}
-private String petSpecies;
+  }
 
-public void setPetSpecies(String value) {
+  private String petSpecies;
+
+  public void setPetSpecies(String value) {
     this.petSpecies = value;
-}
-public String getPetSpecies() {
+  }
+
+  public String getPetSpecies() {
     return this.petSpecies;
-}
+  }
 
-@Enumerated(EnumType.ORDINAL)
-@Column(name = "gender")
-private Gender petGender;
+  @Enumerated(EnumType.ORDINAL)
+  @Column(name = "gender")
+  private Gender petGender;
 
-public void setPetGender(Gender value) {
+  public void setPetGender(Gender value) {
     this.petGender = value;
-}
-public Gender getPetGender() {
+  }
+
+  public Gender getPetGender() {
     return this.petGender;
-}
+  }
+
+  @Lob
+  @Basic(fetch = FetchType.LAZY)
+  private byte[] profilePicture;
+
+  public void setProfilePicture(byte[] value) {
+    this.profilePicture = value;
+  }
+
+  public byte[] getProfilePicture() {
+    return this.profilePicture;
+  }
 }
