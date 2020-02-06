@@ -130,8 +130,11 @@
                   <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_abuyQ0eREeqAvcqXqVSLjA"/>
                   <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_abuyREeREeqAvcqXqVSLjA" value="*"/>
                 </ownedAttribute>
-                <ownedAttribute xmi:id="_kuc4oEgoEeqpre3mhzO5EQ" name="id" visibility="public">
-                  <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+                <ownedAttribute xmi:id="_kuc4oEgoEeqpre3mhzO5EQ" name="username" visibility="public">
+                  <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+                </ownedAttribute>
+                <ownedAttribute xmi:id="_PofAEEkbEeqKQbEaZ24RKg" name="password" visibility="public">
+                  <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
                 </ownedAttribute>
               </packagedElement>
               <packagedElement xmi:type="uml:Association" xmi:id="_ab6N4EeQEeqAvcqXqVSLjA" name="" memberEnd="_ab8DEEeQEeqAvcqXqVSLjA _ab8qIEeQEeqAvcqXqVSLjA"/>

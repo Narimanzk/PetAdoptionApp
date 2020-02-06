@@ -1,8 +1,12 @@
 package ca.mcgill.ecse321.petadoptionapp.model;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
+import javax.persistence.Lob;
 import javax.persistence.DiscriminatorType;
+import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import java.util.Set;
 import javax.persistence.OneToMany;
@@ -12,83 +16,123 @@ import javax.persistence.Id;
 
 @Entity
 @Inheritance
-@DiscriminatorColumn(name="UserType", discriminatorType=DiscriminatorType.STRING, length=1)
-public class GeneralUser{
-   private String name;
+@DiscriminatorColumn(name = "UserType", discriminatorType = DiscriminatorType.STRING, length = 1)
+public class GeneralUser {
+  private String name;
 
-public void setName(String value) {
+  public void setName(String value) {
     this.name = value;
-}
-public String getName() {
+  }
+
+  public String getName() {
     return this.name;
-}
-private String phone;
+  }
 
-public void setPhone(String value) {
+  private String phone;
+
+  public void setPhone(String value) {
     this.phone = value;
-}
-public String getPhone() {
+  }
+
+  public String getPhone() {
     return this.phone;
-}
-private String email;
+  }
 
-public void setEmail(String value) {
+  private String email;
+
+  public void setEmail(String value) {
     this.email = value;
-}
-public String getEmail() {
+  }
+
+  public String getEmail() {
     return this.email;
-}
-private Set<Response> responses;
+  }
 
-@OneToMany(mappedBy="user" )
-public Set<Response> getResponses() {
-   return this.responses;
-}
+  private Set<Response> responses;
 
-public void setResponses(Set<Response> responsess) {
-   this.responses = responsess;
-}
+  @OneToMany(mappedBy = "user")
+  public Set<Response> getResponses() {
+    return this.responses;
+  }
 
-private Address address;
+  public void setResponses(Set<Response> responsess) {
+    this.responses = responsess;
+  }
 
-@OneToOne
-public Address getAddress() {
-   return this.address;
-}
+  private Address address;
 
-public void setAddress(Address address) {
-   this.address = address;
-}
+  @OneToOne
+  public Address getAddress() {
+    return this.address;
+  }
 
-private Set<PetProfile> petProfiles;
+  public void setAddress(Address address) {
+    this.address = address;
+  }
 
-@OneToMany(mappedBy="user" )
-public Set<PetProfile> getPetProfiles() {
-   return this.petProfiles;
-}
+  private Set<PetProfile> petProfiles;
 
-public void setPetProfiles(Set<PetProfile> petProfiless) {
-   this.petProfiles = petProfiless;
-}
+  @OneToMany(mappedBy = "user")
+  public Set<PetProfile> getPetProfiles() {
+    return this.petProfiles;
+  }
 
-private Set<AdoptionApplication> adoptionApplications;
+  public void setPetProfiles(Set<PetProfile> petProfiless) {
+    this.petProfiles = petProfiless;
+  }
 
-@ManyToMany(mappedBy="user" )
-public Set<AdoptionApplication> getAdoptionApplications() {
-   return this.adoptionApplications;
-}
+  private Set<AdoptionApplication> adoptionApplications;
 
-public void setAdoptionApplications(Set<AdoptionApplication> adoptionApplicationss) {
-   this.adoptionApplications = adoptionApplicationss;
-}
+  @ManyToMany(mappedBy = "user")
+  public Set<AdoptionApplication> getAdoptionApplications() {
+    return this.adoptionApplications;
+  }
 
-private Integer id;
+  public void setAdoptionApplications(Set<AdoptionApplication> adoptionApplicationss) {
+    this.adoptionApplications = adoptionApplicationss;
+  }
 
-public void setId(Integer value) {
+  private Integer id;
+
+  public void setId(Integer value) {
     this.id = value;
-}
-@Id
-public Integer getId() {
+  }
+
+  @Id
+  public Integer getId() {
     return this.id;
-}
+  }
+
+  private String username;
+
+  public void setUsername(String value) {
+    this.username = value;
+  }
+
+  public String getUsername() {
+    return this.username;
+  }
+
+  private String password;
+
+  public void setPassword(String value) {
+    this.password = value;
+  }
+
+  public String getPassword() {
+    return this.password;
+  }
+
+  @Lob
+  @Basic(fetch = FetchType.LAZY)
+  private byte[] profilePicture;
+
+  public void setProfilePicture(byte[] value) {
+    this.profilePicture = value;
+  }
+
+  public byte[] getProfilePicture() {
+    return this.profilePicture;
+  }
+
 }
