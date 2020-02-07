@@ -236,8 +236,8 @@
               </packagedElement>
               <packagedElement xmi:type="uml:Class" xmi:id="_WDwFYEeREeqAvcqXqVSLjA" name="AdoptionApplication">
                 <ownedAttribute xmi:id="_abuLMUeREeqAvcqXqVSLjA" name="user" type="_SEZQsEeNEeqAvcqXqVSLjA" association="_abuLMEeREeqAvcqXqVSLjA">
-                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_abuyQEeREeqAvcqXqVSLjA"/>
-                  <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_abuyQUeREeqAvcqXqVSLjA" value="*"/>
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_abuyQEeREeqAvcqXqVSLjA" value="1"/>
+                  <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_abuyQUeREeqAvcqXqVSLjA" value="1"/>
                 </ownedAttribute>
                 <ownedAttribute xmi:id="_d9clgUeREeqAvcqXqVSLjA" name="petProfile" type="_5lIvsEeQEeqAvcqXqVSLjA" association="_d9clgEeREeqAvcqXqVSLjA">
                   <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_d9dMkEeREeqAvcqXqVSLjA" value="1"/>
