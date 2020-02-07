@@ -5,22 +5,20 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import ca.mcgill.ecse321.petadoptionapp.model.GeneralUser;
-import java.util.Set;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Id;
 
 @Entity
 public class AdoptionApplication {
-	private Set<GeneralUser> user;
+	private GeneralUser user;
 
-	@ManyToMany
-	public Set<GeneralUser> getUser() {
+	@ManyToOne(optional = false)
+	public GeneralUser getUser() {
 		return this.user;
 	}
 
-	public void setUser(Set<GeneralUser> users) {
-		this.user = users;
+	public void setUser(GeneralUser user) {
+		this.user = user;
 	}
 
 	private PetProfile petProfile;
@@ -59,11 +57,11 @@ public class AdoptionApplication {
 	@Column(name = "applicationStatus")
 	private ApplicationStatus applicationStatus;
 
-	public void setPetGender(ApplicationStatus value) {
+	public void setApplicationStatus(ApplicationStatus value) {
 		this.applicationStatus = value;
 	}
 
-	public ApplicationStatus getPetGender() {
+	public ApplicationStatus getApplicationStatus() {
 		return this.applicationStatus;
 	}
 }

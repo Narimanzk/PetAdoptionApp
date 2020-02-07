@@ -92,17 +92,7 @@ public class GeneralUser {
 		this.adoptionApplications = adoptionApplicationss;
 	}
 
-//  private Integer id;
-//
-//  public void setId(Integer value) {
-//    this.id = value;
-//  }
-//
-//  public Integer getId() {
-//    return this.id;
-//  }
-
-	private String username;
+  private String username;
 
 	public void setUsername(String value) {
 		this.username = value;

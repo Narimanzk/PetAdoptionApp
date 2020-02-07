@@ -11,8 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import ca.mcgill.ecse321.petadoptionapp.doa.PetProfileRespository;
-import ca.mcgill.ecse321.petadoptionapp.doa.RegularUserRepository;
+import ca.mcgill.ecse321.petadoptionapp.dao.PetProfileRespository;
+import ca.mcgill.ecse321.petadoptionapp.dao.RegularUserRepository;
 import ca.mcgill.ecse321.petadoptionapp.model.Gender;
 import ca.mcgill.ecse321.petadoptionapp.model.PetProfile;
 import ca.mcgill.ecse321.petadoptionapp.model.RegularUser;
@@ -68,7 +68,7 @@ public class TestPetAdoptionAppPersistence {
 		PetProfile pet = new PetProfile();
 		pet.setId(pet_id);
 		pet.setAge(age);
-		pet.setDescription(description);
+		//pet.setDescription(description);
 		pet.setPetGender(Gender.Female);
 		pet.setPetName(pet_name);
 		pet.setPetSpecies(petSpecies);
@@ -80,7 +80,7 @@ public class TestPetAdoptionAppPersistence {
 		pet = petProfileRespository.findPetProfileById(pet_id);
 		assertNotNull(pet);
 		assertEquals(pet_name, pet.getPetName());
-		assertEquals(description, pet.getDescription());
+		//assertEquals(description, pet.getDescription());
 		assertEquals(age, pet.getAge());
 		assertEquals(petSpecies, pet.getPetSpecies());
 		assertArrayEquals(profile_pic, pet.getProfilePicture());
@@ -134,7 +134,7 @@ public class TestPetAdoptionAppPersistence {
 		PetProfile pet = new PetProfile();
 		pet.setId(pet_id);
 		pet.setAge(age);
-		pet.setDescription(description);
+		//pet.setDescription(description);
 		pet.setPetGender(Gender.Female);
 		pet.setPetName(pet_name);
 		pet.setPetSpecies(petSpecies);
