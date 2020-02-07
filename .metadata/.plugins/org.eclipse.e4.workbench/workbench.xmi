@@ -7,7 +7,11 @@
     <persistedState key="coolBarVisible" value="true"/>
     <persistedState key="perspectiveBarVisible" value="true"/>
     <persistedState key="isRestored" value="true"/>
+    <persistedState key="workingSets" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xD;&#xA;&lt;workingSets/>"/>
+    <persistedState key="aggregateWorkingSetId"/>
+    <persistedState key="show_in_time" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xD;&#xA;&lt;show_in_time/>"/>
     <tags>topLevel</tags>
+    <tags>shellMaximized</tags>
     <children xsi:type="basic:PartSashContainer" xmi:id="_5UW78khEEeqxKfMPKZGoXw" selectedElement="_5UW780hEEeqxKfMPKZGoXw" horizontal="true">
       <children xsi:type="advanced:PerspectiveStack" xmi:id="_5UW780hEEeqxKfMPKZGoXw" elementId="org.eclipse.ui.ide.perspectivestack" containerData="7500" selectedElement="_5UW79EhEEeqxKfMPKZGoXw">
         <children xsi:type="advanced:Perspective" xmi:id="_5UW79EhEEeqxKfMPKZGoXw" elementId="com.yattasolutions.umllab.perspective" selectedElement="_5UW79UhEEeqxKfMPKZGoXw" label="UML Lab" iconURI="platform:/plugin/com.yattasolutions.umllab.ui/icons/YattaLogo_16x16.png">
@@ -151,17 +155,23 @@
       <tags>categoryTag:Help</tags>
     </sharedElements>
     <sharedElements xsi:type="advanced:Area" xmi:id="_5UW9JEhEEeqxKfMPKZGoXw" elementId="org.eclipse.ui.editorss" selectedElement="_5UW9JUhEEeqxKfMPKZGoXw">
-      <children xsi:type="basic:PartStack" xmi:id="_5UW9JUhEEeqxKfMPKZGoXw" elementId="org.eclipse.e4.primaryDataStack" selectedElement="_5UW9JkhEEeqxKfMPKZGoXw">
+      <children xsi:type="basic:PartStack" xmi:id="_5UW9JUhEEeqxKfMPKZGoXw" elementId="org.eclipse.e4.primaryDataStack" selectedElement="_jEP0IEnqEeqj1vbBc79mMw">
         <tags>org.eclipse.e4.primaryDataStack</tags>
         <tags>EditorStack</tags>
         <tags>active</tags>
-        <tags>noFocus</tags>
         <children xsi:type="basic:Part" xmi:id="_5UW9JkhEEeqxKfMPKZGoXw" elementId="org.eclipse.e4.ui.compatibility.editor" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityEditor" label="ca.mcgill.ecse321.petadoptionapp.model.umlcd" iconURI="platform:/plugin/com.yattasolutions.diagrams.classdiagram.gef/icons/UMLDiagramFile.gif" closeable="true">
           <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xD;&#xA;&lt;editor id=&quot;com.yattasolutions.diagrams.classdiagram.gef.editors.Editor&quot; name=&quot;ca.mcgill.ecse321.petadoptionapp.model.umlcd&quot; partName=&quot;ca.mcgill.ecse321.petadoptionapp.model.umlcd&quot; title=&quot;ca.mcgill.ecse321.petadoptionapp.model.umlcd&quot; tooltip=&quot;ca.mcgill.ecse321.petadoptionapp.model/ca.mcgill.ecse321.petadoptionapp.model.umlcd&quot;>&#xD;&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/ca.mcgill.ecse321.petadoptionapp.model/ca.mcgill.ecse321.petadoptionapp.model.umlcd&quot;/>&#xD;&#xA;&lt;/editor>"/>
           <tags>Editor</tags>
           <tags>removeOnHide</tags>
           <tags>com.yattasolutions.diagrams.classdiagram.gef.editors.Editor</tags>
+        </children>
+        <children xsi:type="basic:Part" xmi:id="_jEP0IEnqEeqj1vbBc79mMw" elementId="org.eclipse.e4.ui.compatibility.editor" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityEditor" label="Getting started with UML Lab" iconURI="platform:/plugin/com.yattasolutions.umllab.intro/intro/img/YattaLogo_16x16.png" closeable="true">
+          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xD;&#xA;&lt;editor id=&quot;com.yattasolutions.umllab.intro.IntroEditor&quot; name=&quot;Getting started with UML Lab&quot; partName=&quot;Getting started with UML Lab&quot; title=&quot;Getting started with UML Lab&quot; tooltip=&quot;Getting started with UML Lab&quot;>&#xD;&#xA;&lt;input factoryID=&quot;com.yattasolutions.umllab.intro.IntroEditor.factory&quot;/>&#xD;&#xA;&lt;/editor>"/>
+          <tags>Editor</tags>
+          <tags>removeOnHide</tags>
+          <tags>com.yattasolutions.umllab.intro.IntroEditor</tags>
           <tags>active</tags>
+          <tags>activeOnClose</tags>
         </children>
       </children>
     </sharedElements>
@@ -262,7 +272,7 @@
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_5UW9n0hEEeqxKfMPKZGoXw" elementId="org.eclipse.ui.workbench.file">
         <tags>Draggable</tags>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_5UW9p0hEEeqxKfMPKZGoXw" elementId="print" visible="false" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/print_edit.png" tooltip="Print" command="_5Ub4cEhEEeqxKfMPKZGoXw"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_iIq8sEnqEeqj1vbBc79mMw" elementId="print" visible="false" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/print_edit.png" tooltip="Print" command="_5Ub4cEhEEeqxKfMPKZGoXw"/>
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_5UW9rEhEEeqxKfMPKZGoXw" elementId="group.edit" toBeRendered="false">
         <tags>toolbarSeparator</tags>
@@ -290,10 +300,7 @@
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_5UW98khEEeqxKfMPKZGoXw" elementId="org.eclipse.ui.workbench.navigate">
         <tags>Draggable</tags>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_5UW9-EhEEeqxKfMPKZGoXw" elementId="org.eclipse.ui.window.pinEditor" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/pin_editor.png" tooltip="Pin Editor" type="Check" command="_5Ub4KkhEEeqxKfMPKZGoXw"/>
-      </children>
-      <children xsi:type="menu:ToolBar" xmi:id="_5UW9_EhEEeqxKfMPKZGoXw" elementId="com.yattasolutions.diagrams.classdiagram.gef.editors.Editor">
-        <tags>Draggable</tags>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_iItY8EnqEeqj1vbBc79mMw" elementId="org.eclipse.ui.window.pinEditor" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/pin_editor.png" tooltip="Pin Editor" type="Check" command="_5Ub4KkhEEeqxKfMPKZGoXw"/>
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_5UW9_khEEeqxKfMPKZGoXw" elementId="group.editor" toBeRendered="false">
         <tags>toolbarSeparator</tags>
@@ -1801,18 +1808,18 @@
     <tags>View</tags>
     <tags>categoryTag:General</tags>
   </descriptors>
-  <trimContributions xmi:id="_5Ub1pEhEEeqxKfMPKZGoXw" elementId="org.eclipse.ui.ide.application.trimcontribution.QuickAccess" contributorURI="platform:/plugin/org.eclipse.ui.ide.application" toBeRendered="false" parentId="org.eclipse.ui.main.toolbar" positionInParent="last">
-    <children xsi:type="menu:ToolControl" xmi:id="_5Ub1pUhEEeqxKfMPKZGoXw" elementId="Spacer Glue" contributorURI="platform:/plugin/org.eclipse.ui.ide.application" contributionURI="bundleclass://org.eclipse.e4.ui.workbench.renderers.swt/org.eclipse.e4.ui.workbench.renderers.swt.LayoutModifierToolControl">
+  <trimContributions xmi:id="_2r10UF9tEeO-yojH_y4TJA" elementId="org.eclipse.ui.ide.application.trimcontribution.QuickAccess" contributorURI="platform:/plugin/org.eclipse.ui.ide.application" toBeRendered="false" parentId="org.eclipse.ui.main.toolbar" positionInParent="last">
+    <children xsi:type="menu:ToolControl" xmi:id="_76uUAF9tEeO-yojH_y4TJA" elementId="Spacer Glue" contributorURI="platform:/plugin/org.eclipse.ui.ide.application" contributionURI="bundleclass://org.eclipse.e4.ui.workbench.renderers.swt/org.eclipse.e4.ui.workbench.renderers.swt.LayoutModifierToolControl">
       <tags>glue</tags>
       <tags>move_after:PerspectiveSpacer</tags>
       <tags>SHOW_RESTORE_MENU</tags>
     </children>
-    <children xsi:type="menu:ToolControl" xmi:id="_5Ub1pkhEEeqxKfMPKZGoXw" elementId="SearchField" contributorURI="platform:/plugin/org.eclipse.ui.ide.application" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.quickaccess.SearchField">
+    <children xsi:type="menu:ToolControl" xmi:id="_8tJPcF9tEeO-yojH_y4TJA" elementId="SearchField" contributorURI="platform:/plugin/org.eclipse.ui.ide.application" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.quickaccess.SearchField">
       <tags>move_after:Spacer Glue</tags>
       <tags>HIDEABLE</tags>
       <tags>SHOW_RESTORE_MENU</tags>
     </children>
-    <children xsi:type="menu:ToolControl" xmi:id="_5Ub1p0hEEeqxKfMPKZGoXw" elementId="Search-PS Glue" contributorURI="platform:/plugin/org.eclipse.ui.ide.application" contributionURI="bundleclass://org.eclipse.e4.ui.workbench.renderers.swt/org.eclipse.e4.ui.workbench.renderers.swt.LayoutModifierToolControl">
+    <children xsi:type="menu:ToolControl" xmi:id="_9LgmcF9tEeO-yojH_y4TJA" elementId="Search-PS Glue" contributorURI="platform:/plugin/org.eclipse.ui.ide.application" contributionURI="bundleclass://org.eclipse.e4.ui.workbench.renderers.swt/org.eclipse.e4.ui.workbench.renderers.swt.LayoutModifierToolControl">
       <tags>glue</tags>
       <tags>move_after:SearchField</tags>
       <tags>SHOW_RESTORE_MENU</tags>

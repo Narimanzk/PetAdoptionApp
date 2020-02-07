@@ -5,44 +5,47 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Id;
 
 @Entity
-public class Response{
-   private String text;
+public class Response {
+	private String text;
 
-public void setText(String value) {
-    this.text = value;
-}
-public String getText() {
-    return this.text;
-}
-private Question question;
+	public void setText(String value) {
+		this.text = value;
+	}
 
-@ManyToOne(optional=false)
-public Question getQuestion() {
-   return this.question;
-}
+	public String getText() {
+		return this.text;
+	}
 
-public void setQuestion(Question question) {
-   this.question = question;
-}
+	private Question question;
 
-private GeneralUser user;
+	@ManyToOne(optional = false)
+	public Question getQuestion() {
+		return this.question;
+	}
 
-@ManyToOne(optional=false)
-public GeneralUser getUser() {
-   return this.user;
-}
+	public void setQuestion(Question question) {
+		this.question = question;
+	}
 
-public void setUser(GeneralUser user) {
-   this.user = user;
-}
+	private GeneralUser user;
 
-private Integer id;
+	@ManyToOne(optional = false)
+	public GeneralUser getUser() {
+		return this.user;
+	}
 
-public void setId(Integer value) {
-    this.id = value;
-}
-@Id
-public Integer getId() {
-    return this.id;
-}
+	public void setUser(GeneralUser user) {
+		this.user = user;
+	}
+
+	private Integer id;
+
+	public void setId(Integer value) {
+		this.id = value;
+	}
+
+	@Id
+	public Integer getId() {
+		return this.id;
+	}
 }
