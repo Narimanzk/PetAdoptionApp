@@ -5,44 +5,47 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Id;
 
 @Entity
-public class Donation{
-   private Integer amount;
+public class Donation {
+	private Integer amount;
 
-public void setAmount(Integer value) {
-    this.amount = value;
-}
-public Integer getAmount() {
-    return this.amount;
-}
-private PetShelter donatedTo;
+	public void setAmount(Integer value) {
+		this.amount = value;
+	}
 
-@ManyToOne(optional=false)
-public PetShelter getDonatedTo() {
-   return this.donatedTo;
-}
+	public Integer getAmount() {
+		return this.amount;
+	}
 
-public void setDonatedTo(PetShelter donatedTo) {
-   this.donatedTo = donatedTo;
-}
+	private PetShelter donatedTo;
 
-private RegularUser donatedFrom;
+	@ManyToOne(optional = false)
+	public PetShelter getDonatedTo() {
+		return this.donatedTo;
+	}
 
-@ManyToOne(optional=false)
-public RegularUser getDonatedFrom() {
-   return this.donatedFrom;
-}
+	public void setDonatedTo(PetShelter donatedTo) {
+		this.donatedTo = donatedTo;
+	}
 
-public void setDonatedFrom(RegularUser donatedFrom) {
-   this.donatedFrom = donatedFrom;
-}
+	private RegularUser donatedFrom;
 
-private Integer id;
+	@ManyToOne(optional = false)
+	public RegularUser getDonatedFrom() {
+		return this.donatedFrom;
+	}
 
-public void setId(Integer value) {
-    this.id = value;
-}
-@Id
-public Integer getId() {
-    return this.id;
-}
+	public void setDonatedFrom(RegularUser donatedFrom) {
+		this.donatedFrom = donatedFrom;
+	}
+
+	private Integer id;
+
+	public void setId(Integer value) {
+		this.id = value;
+	}
+
+	@Id
+	public Integer getId() {
+		return this.id;
+	}
 }

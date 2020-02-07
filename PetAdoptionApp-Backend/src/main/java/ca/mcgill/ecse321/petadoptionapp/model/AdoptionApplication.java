@@ -12,58 +12,58 @@ import javax.persistence.Id;
 
 @Entity
 public class AdoptionApplication {
-  private Set<GeneralUser> user;
+	private Set<GeneralUser> user;
 
-  @ManyToMany
-  public Set<GeneralUser> getUser() {
-    return this.user;
-  }
+	@ManyToMany
+	public Set<GeneralUser> getUser() {
+		return this.user;
+	}
 
-  public void setUser(Set<GeneralUser> users) {
-    this.user = users;
-  }
+	public void setUser(Set<GeneralUser> users) {
+		this.user = users;
+	}
 
-  private PetProfile petProfile;
+	private PetProfile petProfile;
 
-  @ManyToOne(optional = false)
-  public PetProfile getPetProfile() {
-    return this.petProfile;
-  }
+	@ManyToOne(optional = false)
+	public PetProfile getPetProfile() {
+		return this.petProfile;
+	}
 
-  public void setPetProfile(PetProfile petProfile) {
-    this.petProfile = petProfile;
-  }
+	public void setPetProfile(PetProfile petProfile) {
+		this.petProfile = petProfile;
+	}
 
-  private Integer id;
+	private Integer id;
 
-  public void setId(Integer value) {
-    this.id = value;
-  }
+	public void setId(Integer value) {
+		this.id = value;
+	}
 
-  @Id
-  public Integer getId() {
-    return this.id;
-  }
+	@Id
+	public Integer getId() {
+		return this.id;
+	}
 
-  private String applicationDescription;
+	private String applicationDescription;
 
-  public void setApplicationDescription(String value) {
-    this.applicationDescription = value;
-  }
+	public void setApplicationDescription(String value) {
+		this.applicationDescription = value;
+	}
 
-  public String getApplicationDescription() {
-    return this.applicationDescription;
-  }
+	public String getApplicationDescription() {
+		return this.applicationDescription;
+	}
 
-  @Enumerated(EnumType.ORDINAL)
-  @Column(name = "applicationStatus")
-  private ApplicationStatus applicationStatus;
+	@Enumerated(EnumType.ORDINAL)
+	@Column(name = "applicationStatus")
+	private ApplicationStatus applicationStatus;
 
-  public void setPetGender(ApplicationStatus value) {
-    this.applicationStatus = value;
-  }
+	public void setPetGender(ApplicationStatus value) {
+		this.applicationStatus = value;
+	}
 
-  public ApplicationStatus getPetGender() {
-    return this.applicationStatus;
-  }
+	public ApplicationStatus getPetGender() {
+		return this.applicationStatus;
+	}
 }
