@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.petadoptionapp.dao;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -54,6 +55,7 @@ public class TestPetAdoptionAppPersistence {
 	}
 	
 	//Test PetProfile table
+	//Test persist and load functionality
 	@Test
 	public void testPersistAndReadPetProfile() {
 		int age = 3;
@@ -81,8 +83,30 @@ public class TestPetAdoptionAppPersistence {
 		assertEquals(description, pet.getDescription());
 		assertEquals(age, pet.getAge());
 		assertEquals(petSpecies, pet.getPetSpecies());
-		//assertEquals(profile_pic, pet.getProfilePicture());
+		assertArrayEquals(profile_pic, pet.getProfilePicture());
 		assertEquals(Gender.Female, pet.getPetGender());
+	}
+	
+	//Test delete functionality
+	@Test
+	public void testDeletePetProfile() {
+		PetProfile pet = createPetProfile();
+		petProfileRespository.delete(pet);
+		pet = petProfileRespository.findPetProfileById(pet.getId());
+		assertEquals(pet, null);
+	}
+	
+	//Test update functionality
+	@Test
+	public void testUpdatePetProfile() {
+		PetProfile pet = createPetProfile();
+		String new_name = "new_name";
+		int new_age = 15;
+		String description = "new_description";
+		String petSpecies = "new_species";
+		Gender gender = Gender.Male;
+		byte[] pic = "\u00e0\u004f\u00d0\u0020\u00ea\u003a\u0069\u0010\u00a2\u00d8\u0008\u0000\u002b\u0031\u0030\u009d".getBytes();
+		
 	}
 	
 	// create sample user for testing
@@ -96,5 +120,26 @@ public class TestPetAdoptionAppPersistence {
 		user.setPassword(password);
 		regularUserRepository.save(user);
 		return user;
+	}
+	
+	//create sample pet profile
+	private PetProfile createPetProfile() {
+		int age = 3;
+		int pet_id = 1;
+		String pet_name = "test_name";
+		String description = "description";
+		String petSpecies = "species";
+		byte[] profile_pic = "\u00e0\u004f\u00d0\u0020\u00ea\u003a\u0069\u0010\u00a2\u00d8\u0008\u0000\u002b\u0030\u0030\u009d".getBytes();
+		
+		PetProfile pet = new PetProfile();
+		pet.setId(pet_id);
+		pet.setAge(age);
+		pet.setDescription(description);
+		pet.setPetGender(Gender.Female);
+		pet.setPetName(pet_name);
+		pet.setPetSpecies(petSpecies);
+		pet.setUser(createUserForTesting());
+		pet.setProfilePicture(profile_pic);
+		return pet;
 	}
 }
