@@ -12,58 +12,55 @@ import javax.persistence.Id;
 
 @Entity
 public class AdoptionApplication {
-  private Set<GeneralUser> user;
-
-  @ManyToMany
-  public Set<GeneralUser> getUser() {
-    return this.user;
+  private GeneralUser user;
+  
+  @ManyToOne(optional=false)
+  public GeneralUser getUser() {
+     return this.user;
   }
-
-  public void setUser(Set<GeneralUser> users) {
-    this.user = users;
+  
+  public void setUser(GeneralUser user) {
+     this.user = user;
   }
-
+  
   private PetProfile petProfile;
-
-  @ManyToOne(optional = false)
+  
+  @ManyToOne(optional=false)
   public PetProfile getPetProfile() {
-    return this.petProfile;
+     return this.petProfile;
   }
-
+  
   public void setPetProfile(PetProfile petProfile) {
-    this.petProfile = petProfile;
+     this.petProfile = petProfile;
   }
-
+  
   private Integer id;
 
-  public void setId(Integer value) {
-    this.id = value;
-  }
+public void setId(Integer value) {
+   this.id = value;
+}
+@Id
+public Integer getId() {
+   return this.id;
+}
+private String applicationDescription;
 
-  @Id
-  public Integer getId() {
-    return this.id;
-  }
-
-  private String applicationDescription;
-
-  public void setApplicationDescription(String value) {
-    this.applicationDescription = value;
-  }
-
-  public String getApplicationDescription() {
-    return this.applicationDescription;
-  }
+public void setApplicationDescription(String value) {
+   this.applicationDescription = value;
+}
+public String getApplicationDescription() {
+   return this.applicationDescription;
+}
 
   @Enumerated(EnumType.ORDINAL)
   @Column(name = "applicationStatus")
   private ApplicationStatus applicationStatus;
 
-  public void setPetGender(ApplicationStatus value) {
+  public void setApplicationStatus(ApplicationStatus value) {
     this.applicationStatus = value;
   }
 
-  public ApplicationStatus getPetGender() {
+  public ApplicationStatus getApplicationStatus() {
     return this.applicationStatus;
   }
 }

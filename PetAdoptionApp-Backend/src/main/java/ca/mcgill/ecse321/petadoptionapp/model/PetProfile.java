@@ -16,76 +16,75 @@ import javax.persistence.Lob;
 public class PetProfile {
   private String petName;
 
-  public void setPetName(String value) {
-    this.petName = value;
-  }
+public void setPetName(String value) {
+   this.petName = value;
+}
+public String getPetName() {
+   return this.petName;
+}
+private String image;
 
-  public String getPetName() {
-    return this.petName;
-  }
+public void setImage(String value) {
+   this.image = value;
+}
+public String getImage() {
+   return this.image;
+}
+private String reason;
 
-  private String description;
+public void setReason(String value) {
+   this.reason = value;
+}
+public String getReason() {
+   return this.reason;
+}
+private Integer age;
 
-  public void setDescription(String value) {
-    this.description = value;
-  }
+public void setAge(Integer value) {
+   this.age = value;
+}
+public Integer getAge() {
+   return this.age;
+}
+private GeneralUser user;
 
-  public String getDescription() {
-    return this.description;
-  }
+@ManyToOne(optional=false)
+public GeneralUser getUser() {
+  return this.user;
+}
 
-  private Integer age;
+public void setUser(GeneralUser user) {
+  this.user = user;
+}
 
-  public void setAge(Integer value) {
-    this.age = value;
-  }
+private Set<AdoptionApplication> adoptionApplications;
 
-  public Integer getAge() {
-    return this.age;
-  }
+@OneToMany(mappedBy="petProfile" )
+public Set<AdoptionApplication> getAdoptionApplications() {
+  return this.adoptionApplications;
+}
 
-  private GeneralUser user;
+public void setAdoptionApplications(Set<AdoptionApplication> adoptionApplicationss) {
+  this.adoptionApplications = adoptionApplicationss;
+}
 
-  @ManyToOne(optional = false)
-  public GeneralUser getUser() {
-    return this.user;
-  }
+private Integer id;
 
-  public void setUser(GeneralUser user) {
-    this.user = user;
-  }
+public void setId(Integer value) {
+   this.id = value;
+}
+@Id
+public Integer getId() {
+   return this.id;
+}
+private String petSpecies;
 
-  private Set<AdoptionApplication> adoptionApplications;
-
-  @OneToMany(mappedBy = "petProfile")
-  public Set<AdoptionApplication> getAdoptionApplications() {
-    return this.adoptionApplications;
-  }
-
-  public void setAdoptionApplications(Set<AdoptionApplication> adoptionApplicationss) {
-    this.adoptionApplications = adoptionApplicationss;
-  }
-
-  private Integer id;
-
-  public void setId(Integer value) {
-    this.id = value;
-  }
-
-  @Id
-  public Integer getId() {
-    return this.id;
-  }
-
-  private String petSpecies;
-
-  public void setPetSpecies(String value) {
-    this.petSpecies = value;
-  }
-
-  public String getPetSpecies() {
-    return this.petSpecies;
-  }
+public void setPetSpecies(String value) {
+   this.petSpecies = value;
+}
+public String getPetSpecies() {
+   return this.petSpecies;
+}
 
   @Enumerated(EnumType.ORDINAL)
   @Column(name = "gender")
