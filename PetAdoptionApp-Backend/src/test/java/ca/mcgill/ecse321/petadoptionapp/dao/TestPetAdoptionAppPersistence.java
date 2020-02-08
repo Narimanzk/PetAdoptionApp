@@ -368,4 +368,33 @@ public class TestPetAdoptionAppPersistence {
 		assertEquals(userEmail, user.getEmail());
 		assertEquals(userName, user.getName());
 	}
+	
+	@Test
+	public void testDeleteGeneralUser() {
+		// PetShelter
+		GeneralUser shelter = createPetShelter();
+		String shelterUsername = shelter.getUsername();
+		generalUserRepository.save(shelter);
+		
+		shelter = null;
+		shelter = generalUserRepository.findGeneralUserByUsername(shelterUsername);
+		assertNotNull(shelter);
+		
+		generalUserRepository.delete(shelter);
+		shelter = generalUserRepository.findGeneralUserByUsername(shelterUsername);
+		assertNull(shelter);
+		
+		// PetShelter
+		GeneralUser user = createPetShelter();
+		String userUsername = user.getUsername();
+		generalUserRepository.save(user);
+				
+		user = null;
+		user = generalUserRepository.findGeneralUserByUsername(userUsername);
+		assertNotNull(user);
+		
+		generalUserRepository.delete(user);
+		user = generalUserRepository.findGeneralUserByUsername(userUsername);
+		assertNull(user);
+	}
 }
