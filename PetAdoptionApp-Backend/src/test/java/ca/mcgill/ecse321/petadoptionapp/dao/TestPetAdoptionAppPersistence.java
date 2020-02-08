@@ -131,13 +131,7 @@ public class TestPetAdoptionAppPersistence {
 		String state = "QC";
 		String postalCode = "AAA-111";
 		String country = "CA";
-		Address address = new Address();
-		address.setId(id);
-		address.setStreet(street);
-		address.setCity(city);
-		address.setState(state);
-		address.setPostalCode(postalCode);
-		address.setCountry(country);
+		Address address = createAddressForTesting();
 		addressRepository.save(address);
 
 		address = null;
@@ -150,20 +144,23 @@ public class TestPetAdoptionAppPersistence {
 		assertEquals(postalCode,address.getPostalCode());
 		assertEquals(country,address.getCountry());
 	}
+	
+	@Test
+	public void testDeleteAddress() {
+		Address address = createAddressForTesting();
+		addressRepository.delete(address);
+		address = addressRepository.findAddressById(address.getId());
+		assertEquals(address, null);
+	}
+	
 	@Test
 	public void testPersistAndLoadDonation() {
-		String shelterName = "Shelter";
-		RegularUser user = createUserForTesting();
-		PetShelter petShelter = createPetShelterForTesting();
-		petShelter.setUsername(shelterName);
-
 		Integer amount = 5;
 		Integer id = 12345;
-		Donation donation = new Donation();
-		donation.setId(id);
-		donation.setAmount(amount);
-		donation.setDonatedFrom(user);
-		donation.setDonatedTo(petShelter);
+		RegularUser user = createUserForTesting();
+		PetShelter petShelter = createPetShelterForTesting();
+		Donation donation = createDonationForTesting();
+		
 		regularUserRepository.save(user);
 		petShelterRepository.save(petShelter);
 		donationRepository.save(donation);
@@ -176,7 +173,14 @@ public class TestPetAdoptionAppPersistence {
 		assertEquals(user.getUsername(), donation.getDonatedFrom().getUsername());
 		assertEquals(petShelter.getUsername(), donation.getDonatedTo().getUsername());
 
-
+	}
+	
+	@Test
+	public void testDeleteDonation() {
+		Donation donation = createDonationForTesting();
+		donationRepository.delete(donation);
+		donation = donationRepository.findDonationById(donation.getId());
+		assertEquals(donation, null);
 	}
 
 	// create sample user for testing
@@ -203,6 +207,37 @@ public class TestPetAdoptionAppPersistence {
 		user.setPassword(password);
 		petShelterRepository.save(user);
 		return user;
+	}
+	
+	private Address createAddressForTesting() {
+		Integer id = 12345;
+		String street = "12 Sherbrooke W";
+		String city = "Montreal";
+		String state = "QC";
+		String postalCode = "AAA-111";
+		String country = "CA";
+		Address address = new Address();
+		address.setId(id);
+		address.setStreet(street);
+		address.setCity(city);
+		address.setState(state);
+		address.setPostalCode(postalCode);
+		address.setCountry(country);
+		return address;
+	}
+	
+	private Donation createDonationForTesting() {
+		Integer amount = 5;
+		Integer id = 12345;
+		RegularUser user = createUserForTesting();
+		PetShelter petShelter = createPetShelterForTesting();
+		Donation donation = new Donation();
+		donation.setId(id);
+		donation.setAmount(amount);
+		donation.setDonatedFrom(user);
+		donation.setDonatedTo(petShelter);
+		return donation;
+		
 	}
 
 	//create sample pet profile
