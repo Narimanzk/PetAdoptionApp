@@ -152,12 +152,9 @@ public class TestPetAdoptionAppPersistence {
 	}
 	@Test
 	public void testPersistAndLoadDonation() {
-		String username = "testusername";
 		String shelterName = "Shelter";
-		RegularUser user = new RegularUser();
-		user.setUsername(username);
-
-		PetShelter petShelter = new PetShelter();
+		RegularUser user = createUserForTesting();
+		PetShelter petShelter = createPetShelterForTesting();
 		petShelter.setUsername(shelterName);
 
 		Integer amount = 5;
@@ -192,6 +189,19 @@ public class TestPetAdoptionAppPersistence {
 		user.setEmail(email);
 		user.setPassword(password);
 		regularUserRepository.save(user);
+		return user;
+	}
+
+	// create sample pet shelter for testing
+	private PetShelter createPetShelterForTesting() {
+		String username = "testshelter";
+		String email = "test@testmail.com";
+		String password = "123456789";
+		PetShelter user = new PetShelter();
+		user.setUsername(username);
+		user.setEmail(email);
+		user.setPassword(password);
+		petShelterRepository.save(user);
 		return user;
 	}
 
