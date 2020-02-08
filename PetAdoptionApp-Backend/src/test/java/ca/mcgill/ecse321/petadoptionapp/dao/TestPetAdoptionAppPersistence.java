@@ -3,6 +3,7 @@ package ca.mcgill.ecse321.petadoptionapp.dao;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -16,6 +17,7 @@ import ca.mcgill.ecse321.petadoptionapp.dao.RegularUserRepository;
 import ca.mcgill.ecse321.petadoptionapp.model.Gender;
 import ca.mcgill.ecse321.petadoptionapp.model.PetProfile;
 import ca.mcgill.ecse321.petadoptionapp.model.RegularUser;
+import ca.mcgill.ecse321.petadoptionapp.model.PetShelter;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -25,6 +27,8 @@ public class TestPetAdoptionAppPersistence {
 	private RegularUserRepository regularUserRepository;
 	@Autowired
 	private PetProfileRespository petProfileRespository;
+	@Autowired
+	private PetShelterRepository petShelterRepository;
 
 	// The tear down process for every test
 	@AfterEach
@@ -32,6 +36,7 @@ public class TestPetAdoptionAppPersistence {
 		// Clear the table to avoid inconsistency
 		petProfileRespository.deleteAll();
 		regularUserRepository.deleteAll();
+		petShelterRepository.deleteAll();
 	}
 
 	
@@ -141,5 +146,83 @@ public class TestPetAdoptionAppPersistence {
 		pet.setUser(createUserForTesting());
 		pet.setProfilePicture(profile_pic);
 		return pet;
+	}
+	
+	@Test
+	public void testPersistAndLoadPetShelter() {
+		PetShelter shelter = createPetShelter();
+		String username = shelter.getUsername();
+		String password = shelter.getPassword();
+		String name = shelter.getName();
+		String phone = shelter.getPhone();
+		String email = shelter.getEmail();
+		int balance = shelter.getBalance();
+		petShelterRepository.save(shelter);
+		
+		shelter = null;
+		shelter = petShelterRepository.findPetShelterByUsername(username);
+		assertNotNull(shelter);
+		assertEquals(username, shelter.getUsername());
+		assertEquals(password, shelter.getPassword());
+		assertEquals(name, shelter.getName());
+		assertEquals(phone, shelter.getPhone());
+		assertEquals(email, shelter.getEmail());
+		assertEquals(balance, shelter.getBalance());
+	}
+	
+	@Test
+	public void testUpdatePetShelter() {
+		PetShelter shelter = createPetShelter();
+		String username = shelter.getUsername();
+		String name = shelter.getName();
+		String email = shelter.getEmail();
+		petShelterRepository.save(shelter);
+		
+		shelter = null;
+		shelter = petShelterRepository.findPetShelterByUsername(username);
+		assertNotNull(shelter);
+		String newPassword = "newpassword";
+		String newPhone = "333-333-4444";
+		int newBalance = 234;
+		shelter.setPassword(newPassword);
+		shelter.setPhone(newPhone);
+		shelter.setBalance(newBalance);
+		petShelterRepository.save(shelter);
+		
+		shelter = null;
+		shelter = petShelterRepository.findPetShelterByUsername(username);
+		assertNotNull(shelter);
+		assertEquals(newPassword, shelter.getPassword());
+		assertEquals(newPhone, shelter.getPhone());
+		assertEquals(newBalance, shelter.getBalance());
+		assertEquals(name, shelter.getName());
+		assertEquals(email, shelter.getEmail());
+		
+	}
+	
+	@Test
+	public void testDeletePetShelter() {
+		PetShelter shelter = createPetShelter();
+		String username = shelter.getUsername();
+		petShelterRepository.save(shelter);
+		
+		shelter = null;
+		shelter = petShelterRepository.findPetShelterByUsername(username);
+		assertNotNull(shelter);
+		
+		petShelterRepository.delete(shelter);
+		shelter = petShelterRepository.findPetShelterByUsername(username);
+		assertNull(shelter);
+	}
+	
+	private PetShelter createPetShelter() {
+		PetShelter shelter = new PetShelter();
+		shelter.setUsername("testshelter");
+		shelter.setPassword("testshelterpassword");
+		shelter.setName("Test Shelter");
+		shelter.setPhone("123-456-7890");
+		shelter.setEmail("testshelter@adopt.com");
+		shelter.setBalance(100);
+		return shelter;
 	}
 }
