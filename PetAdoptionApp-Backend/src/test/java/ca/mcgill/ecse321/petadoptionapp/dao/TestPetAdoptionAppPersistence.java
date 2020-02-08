@@ -26,6 +26,8 @@ import ca.mcgill.ecse321.petadoptionapp.model.Gender;
 import ca.mcgill.ecse321.petadoptionapp.model.GeneralUser;
 import ca.mcgill.ecse321.petadoptionapp.model.PetProfile;
 import ca.mcgill.ecse321.petadoptionapp.model.RegularUser;
+import ca.mcgill.ecse321.petadoptionapp.model.PetShelter;
+import ca.mcgill.ecse321.petadoptionapp.model.GeneralUser;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -40,6 +42,8 @@ public class TestPetAdoptionAppPersistence {
 	@Autowired
 	private PetShelterRepository petShelterRepository;
 	@Autowired
+	private GeneralUserRepository generalUserRepository;
+  @Autowired
 	private AddressRepository addressRepository;
 	@Autowired
 	private DonationRepository donationRepository;
@@ -55,6 +59,7 @@ public class TestPetAdoptionAppPersistence {
 		petProfileRespository.deleteAll();
 		regularUserRepository.deleteAll();
 		petShelterRepository.deleteAll();
+		generalUserRepository.deleteAll();
 	}
 
 
@@ -487,5 +492,141 @@ public class TestPetAdoptionAppPersistence {
 		shelter.setEmail("testshelter@adopt.com");
 		shelter.setBalance(100);
 		return shelter;
+	}
+	
+	@Test
+	public void testPersistAndLoadGeneralUser() {
+		// PetShelter
+		PetShelter petShelter = createPetShelter();
+		String shelterUsername = petShelter.getUsername();
+		String shelterPassword = petShelter.getPassword();
+		String shelterName = petShelter.getName();
+		String shelterPhone = petShelter.getPhone();
+		String shelterEmail = petShelter.getEmail();
+		int shelterBalance = petShelter.getBalance();
+		GeneralUser shelter = petShelter;
+		generalUserRepository.save(shelter);
+		
+		// Check the pet shelter still exists, and all the superclass attributes can be accessed
+		shelter = null;
+		shelter = generalUserRepository.findGeneralUserByUsername(shelterUsername);
+		assertNotNull(shelter);
+		assertEquals(shelterPassword, shelter.getPassword());
+		assertEquals(shelterName, shelter.getName());
+		assertEquals(shelterPhone, shelter.getPhone());
+		assertEquals(shelterEmail, shelter.getEmail());
+		
+		// Check the pet shelter specific items can still be accessed
+		petShelter = (PetShelter) shelter;
+		assertEquals(shelterBalance, petShelter.getBalance());
+		
+		// RegularUser
+		String userUsername = "testusername";
+		String userEmail = "test@testmail.com";
+		String userPassword = "123456789";
+		String userPersonalDescription = "Personal description stuff";
+		RegularUser user = new RegularUser();
+		user.setUsername(userUsername);
+		user.setEmail(userEmail);
+		user.setPassword(userPassword);
+		user.setPersonalDescription(userPersonalDescription);
+		GeneralUser genUser = user;
+		generalUserRepository.save(genUser);
+		
+		// Check the regular user still exists, and all the superclass attributes can be accessed
+		genUser = null;
+		genUser = generalUserRepository.findGeneralUserByUsername(userUsername);
+		assertNotNull(genUser);
+		assertEquals(userEmail, genUser.getEmail());
+		assertEquals(userPassword, genUser.getPassword());
+		
+		// Check the regular user specific items can still be accessed
+		user = (RegularUser) genUser;
+		assertEquals(userPersonalDescription, user.getPersonalDescription());
+	}
+	
+	@Test
+	public void testUpdateGeneralUser() {
+		// PetShelter
+		GeneralUser shelter = createPetShelter();
+		String shelterUsername = shelter.getUsername();
+		String shelterPassword = shelter.getPassword();
+		String shelterName = shelter.getName();
+		generalUserRepository.save(shelter);
+		
+		shelter = null;
+		shelter = generalUserRepository.findGeneralUserByUsername(shelterUsername);
+		assertNotNull(shelter);
+		String shelterNewEmail = "abcdefg@hijk.lmn";
+		String shelterNewPhone = "932-243-23253";
+		shelter.setEmail(shelterNewEmail);
+		shelter.setPhone(shelterNewPhone);
+		generalUserRepository.save(shelter);
+		
+		shelter = null;
+		shelter = generalUserRepository.findGeneralUserByUsername(shelterUsername);
+		assertNotNull(shelter);
+		assertEquals(shelterPassword, shelter.getPassword());
+		assertEquals(shelterName, shelter.getName());
+		assertEquals(shelterNewEmail, shelter.getEmail());
+		assertEquals(shelterNewPhone, shelter.getPhone());
+		
+		// RegularUser
+		String userUsername = "testusername";
+		String userEmail = "test@testmail.com";
+		String userName = "testname";
+		GeneralUser user = new RegularUser();
+		user.setUsername(userUsername);
+		user.setName(userName);
+		user.setEmail(userEmail);
+		user.setPassword("123456789");
+		user.setPhone("324-12425-231536");
+		generalUserRepository.save(user);
+		
+		user = null;
+		user = generalUserRepository.findGeneralUserByUsername(userUsername);
+		assertNotNull(user);
+		String userNewPassword = "newuserpassword";
+		String userNewPhone = "124-21421-5115-15";
+		user.setPassword(userNewPassword);
+		user.setPhone(userNewPhone);
+		generalUserRepository.save(user);
+		
+		user = null;
+		user = generalUserRepository.findGeneralUserByUsername(userUsername);
+		assertNotNull(user);
+		assertEquals(userNewPassword, user.getPassword());
+		assertEquals(userNewPhone, user.getPhone());
+		assertEquals(userEmail, user.getEmail());
+		assertEquals(userName, user.getName());
+	}
+	
+	@Test
+	public void testDeleteGeneralUser() {
+		// PetShelter
+		GeneralUser shelter = createPetShelter();
+		String shelterUsername = shelter.getUsername();
+		generalUserRepository.save(shelter);
+		
+		shelter = null;
+		shelter = generalUserRepository.findGeneralUserByUsername(shelterUsername);
+		assertNotNull(shelter);
+		
+		generalUserRepository.delete(shelter);
+		shelter = generalUserRepository.findGeneralUserByUsername(shelterUsername);
+		assertNull(shelter);
+		
+		// PetShelter
+		GeneralUser user = createPetShelter();
+		String userUsername = user.getUsername();
+		generalUserRepository.save(user);
+				
+		user = null;
+		user = generalUserRepository.findGeneralUserByUsername(userUsername);
+		assertNotNull(user);
+		
+		generalUserRepository.delete(user);
+		user = generalUserRepository.findGeneralUserByUsername(userUsername);
+		assertNull(user);
 	}
 }
