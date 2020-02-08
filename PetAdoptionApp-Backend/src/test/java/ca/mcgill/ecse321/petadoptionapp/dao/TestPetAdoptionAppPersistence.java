@@ -11,10 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import ca.mcgill.ecse321.petadoptionapp.doa.AddressRepository;
-import ca.mcgill.ecse321.petadoptionapp.doa.DonationRepository;
-import ca.mcgill.ecse321.petadoptionapp.doa.PetShelterRepository;
-import ca.mcgill.ecse321.petadoptionapp.doa.RegularUserRepository;
+import ca.mcgill.ecse321.petadoptionapp.dao.AddressRepository;
+import ca.mcgill.ecse321.petadoptionapp.dao.DonationRepository;
+import ca.mcgill.ecse321.petadoptionapp.dao.PetShelterRepository;
+import ca.mcgill.ecse321.petadoptionapp.dao.RegularUserRepository;
 import ca.mcgill.ecse321.petadoptionapp.model.Address;
 import ca.mcgill.ecse321.petadoptionapp.model.Donation;
 import ca.mcgill.ecse321.petadoptionapp.model.PetShelter;

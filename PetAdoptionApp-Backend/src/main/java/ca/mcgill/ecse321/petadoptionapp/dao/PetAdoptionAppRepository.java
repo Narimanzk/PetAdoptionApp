@@ -1,4 +1,4 @@
-package ca.mcgill.ecse321.petadoptionapp.doa;
+package ca.mcgill.ecse321.petadoptionapp.dao;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.List;
