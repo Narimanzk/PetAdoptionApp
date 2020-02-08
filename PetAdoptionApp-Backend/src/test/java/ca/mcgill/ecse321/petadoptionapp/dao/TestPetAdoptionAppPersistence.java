@@ -43,7 +43,7 @@ public class TestPetAdoptionAppPersistence {
 	private PetShelterRepository petShelterRepository;
 	@Autowired
 	private GeneralUserRepository generalUserRepository;
-  @Autowired
+	@Autowired
 	private AddressRepository addressRepository;
 	@Autowired
 	private DonationRepository donationRepository;
@@ -124,6 +124,7 @@ public class TestPetAdoptionAppPersistence {
 	public void testPersistAndReadPetProfile() {
 		// create a new pet profile
 		PetProfile pet = createPetProfile();
+		GeneralUser user = pet.getUser();
 
 		// query that pet profile by id
 		PetProfile pet2 = petProfileRespository.findPetProfileById(pet.getId());
@@ -134,6 +135,11 @@ public class TestPetAdoptionAppPersistence {
 		assertEquals(pet2.getPetSpecies(), pet.getPetSpecies());
 		assertArrayEquals(pet2.getProfilePicture(), pet.getProfilePicture());
 		assertEquals(pet2.getPetGender(), pet.getPetGender());
+		
+		//check if the user of this pet profile is the same
+		GeneralUser user2 = pet2.getUser();
+		assertNotNull(user2);
+		assertEquals(user.getUsername(), user2.getUsername());
 	}
 
 	/**
@@ -189,6 +195,9 @@ public class TestPetAdoptionAppPersistence {
 		assertEquals(pet.getPetSpecies(), petSpecies);
 		assertArrayEquals(pet.getProfilePicture(), profile_pic);
 		assertEquals(pet.getPetGender(), gender);
+		
+		//check if it links to new user
+		assertEquals(pet.getUser().getUsername(), "testusername");
 	}
 
 
@@ -199,12 +208,21 @@ public class TestPetAdoptionAppPersistence {
 	@Test
 	public void testPersistAndLoadAdoptionApplication() {
 		AdoptionApplication application = createAdoptionApplication(); // create a new application
+		GeneralUser user = application.getUser();
+		PetProfile pet = application.getPetProfile();
 		int id = application.getId();
 
+		//check information of application
 		AdoptionApplication application2 = adoptionApplicationRespository.findAdoptionApplicationById(id);
 		assertNotNull(application2);
 		assertEquals(application.getApplicationDescription(), application2.getApplicationDescription());
 		assertEquals(application.getApplicationStatus(), application2.getApplicationStatus());
+		
+		//check user and pet profile
+		GeneralUser user2 = application2.getUser();
+		PetProfile pet2 = application2.getPetProfile();
+		assertEquals(user.getUsername(), user2.getUsername());
+		assertEquals(pet.getId(), pet2.getId());
 	}
 
 	@Test
