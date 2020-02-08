@@ -18,6 +18,7 @@ import ca.mcgill.ecse321.petadoptionapp.dao.PetShelterRepository;
 import ca.mcgill.ecse321.petadoptionapp.model.Address;
 import ca.mcgill.ecse321.petadoptionapp.model.Donation;
 import ca.mcgill.ecse321.petadoptionapp.model.PetShelter;
+import ca.mcgill.ecse321.petadoptionapp.model.Question;
 import ca.mcgill.ecse321.petadoptionapp.dao.PetProfileRespository;
 import ca.mcgill.ecse321.petadoptionapp.dao.RegularUserRepository;
 import ca.mcgill.ecse321.petadoptionapp.dao.AdoptionApplicationRespository;
@@ -27,6 +28,7 @@ import ca.mcgill.ecse321.petadoptionapp.model.Gender;
 import ca.mcgill.ecse321.petadoptionapp.model.GeneralUser;
 import ca.mcgill.ecse321.petadoptionapp.model.PetProfile;
 import ca.mcgill.ecse321.petadoptionapp.model.RegularUser;
+import ca.mcgill.ecse321.petadoptionapp.model.ThreadStatus;
 import ca.mcgill.ecse321.petadoptionapp.model.PetShelter;
 import ca.mcgill.ecse321.petadoptionapp.model.GeneralUser;
 
@@ -653,5 +655,35 @@ public class TestPetAdoptionAppPersistence {
 		user = generalUserRepository.findGeneralUserByUsername(userUsername);
 		assertNull(user);
 	}
+	
+	
+	//Lenoy - Tests for Question Class
+	@Test
+	public void testPersistAndLoadQuestion() {
+		Integer id = 57515; 
+		String title = "Question Title";
+		String description = "Question Description";
+		ThreadStatus threadStatus = ThreadStatus.Open;
+		Question question = new Question();
+		question.setId(id);
+		question.setTitle(title);
+		question.setDescription(description);
+		question.setThreadStatus(threadStatus);
+		questionRepository.save(question);
+		
+		question = null;
+		
+		question = questionRepository.findQuestionById(id);
+		assertNotNull(question);
+		assertEquals(id, question.getId()); 
+		assertEquals(title, question.getTitle());
+		assertEquals(description, question.getDescription());
+		assertEquals(threadStatus, question.getThreadStatus());
+		
+	}	
+		
+		
+		
+	}
 
-}
+
