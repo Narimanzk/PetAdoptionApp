@@ -96,6 +96,16 @@ public class PetProfile {
 	public String getPetSpecies() {
 		return this.petSpecies;
 	}
+	
+	private String description;
+	
+	public String getDescription() {
+		return this.description;
+	}
+	
+	public void setDescription(String value) {
+		this.description = value;
+	}
 
 	@Enumerated(EnumType.ORDINAL)
 	@Column(name = "gender")
