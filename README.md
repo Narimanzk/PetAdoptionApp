@@ -7,6 +7,7 @@ Our group is creating an application that could be used by a pet shelter to mana
 We will be creating a back end that will support this whole process, as well as a front end that users will interact with. In addition, we will be creating an Android app that will users perform some (but not all) actions they can do on the web application.
 
 ## Meet the Team
+### Individual efforts
 | Name | Role | Sprint 1 Hours | Sprint 2 Hours | Sprint 3 Hours | Sprint 4 Hours |
 | ---- | ---- | --------------: | --------------: | --------------: | --------------: |
 | Le-li (Shuby) Mao | Project Lead |  30|  |  |  |
