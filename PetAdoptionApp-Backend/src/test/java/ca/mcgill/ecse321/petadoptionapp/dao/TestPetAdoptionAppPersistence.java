@@ -16,6 +16,7 @@ import ca.mcgill.ecse321.petadoptionapp.dao.RegularUserRepository;
 import ca.mcgill.ecse321.petadoptionapp.model.Gender;
 import ca.mcgill.ecse321.petadoptionapp.model.PetProfile;
 import ca.mcgill.ecse321.petadoptionapp.model.RegularUser;
+import ca.mcgill.ecse321.petadoptionapp.model.PetShelter;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -25,6 +26,8 @@ public class TestPetAdoptionAppPersistence {
 	private RegularUserRepository regularUserRepository;
 	@Autowired
 	private PetProfileRespository petProfileRespository;
+	@Autowired
+	private PetShelterRepository petShelterRepository;
 
 	// The tear down process for every test
 	@AfterEach
@@ -32,6 +35,7 @@ public class TestPetAdoptionAppPersistence {
 		// Clear the table to avoid inconsistency
 		petProfileRespository.deleteAll();
 		regularUserRepository.deleteAll();
+		petShelterRepository.deleteAll();
 	}
 
 	
@@ -141,5 +145,34 @@ public class TestPetAdoptionAppPersistence {
 		pet.setUser(createUserForTesting());
 		pet.setProfilePicture(profile_pic);
 		return pet;
+	}
+	
+	@Test
+	public void testPersistAndLoadPetShelter() {
+		String username = "testshelter";
+		String password = "testshelterpassword";
+		String name = "Test Shelter";
+		String phone = "123-456-7890";
+		String email = "testshelter@adopt.com";
+		int balance = 100;
+		
+		PetShelter shelter = new PetShelter();
+		shelter.setUsername(username);
+		shelter.setPassword(password);
+		shelter.setName(name);
+		shelter.setPhone(phone);
+		shelter.setEmail(email);
+		shelter.setBalance(balance);
+		petShelterRepository.save(shelter);
+		
+		shelter = null;
+		shelter = petShelterRepository.findPetShelterByUsername(username);
+		assertNotNull(shelter);
+		assertEquals(username, shelter.getUsername());
+		assertEquals(password, shelter.getPassword());
+		assertEquals(name, shelter.getName());
+		assertEquals(phone, shelter.getPhone());
+		assertEquals(email, shelter.getEmail());
+		assertEquals(balance, shelter.getBalance());
 	}
 }
