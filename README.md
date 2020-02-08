@@ -1,7 +1,20 @@
-# Pet-Adoption-App
+# Pet-Adoption-App (Group 5)
+Welcome to group 5's Pet Adoption App repo!
 
-An application that allow users to create adoption posting and apply for adoption. The user type includes regular user and petshelter. The regular user have the ability to post pet profile, apply for adoption and ask questions in the forum. The shelter is able to make pet posting and accept donations from the regular user. Both user type can responds to question.
+## Project Description
+Our group is creating an application that could be used by a pet shelter to manage the adoption process for its customers. Once a customer has created a profile, they are able to put a pet up for adoption, apply to adopt a pet, or ask a question on an online forum. The pet shelter is also able to put pets up for adoption, however they can also answer questions that were posted by other users. In addition, a user can choose to donate to the pet shelter.
 
-## Sprint 1- Backend system and Persistent
-We use object relational mapping to generate a database based on our domain model. The domain model is shown below.  
-![Domain Model](https://github.com/McGill-ECSE321-Winter2020/project-group-05/blob/c5783252fcde1d5148b7fede2d8c4aa41c298bc8/resources/Pet-Adoption-System%20Domain%20Model.png)
+We will be creating a back end that will support this whole process, as well as a front end that users will interact with. In addition, we will be creating an Android app that will users perform some (but not all) actions they can do on the web application.
+
+## Meet the Team
+### Individual efforts
+| Name | Role | Sprint 1 Hours | Sprint 2 Hours | Sprint 3 Hours | Sprint 4 Hours |
+| ---- | ---- | --------------: | --------------: | --------------: | --------------: |
+| Le-li (Shuby) Mao | Project Lead |  30|  |  |  |
+| Nariman (Narry) Zendehrooh | Software Developer |  |  |  |  |
+| Lenoy Christy | Software Developer |  |  |  |  |
+| Andrew Ta | Software Developer |  |  |  |  |
+| Noah Zwack | Software Developer |  |  |  |  |
+
+## Links to Documentation
+* [Sprint 1](https://github.com/McGill-ECSE321-Winter2020/project-group-05/wiki/Sprint-1)
