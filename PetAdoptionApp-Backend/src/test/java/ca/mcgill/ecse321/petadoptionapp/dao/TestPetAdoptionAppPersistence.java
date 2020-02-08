@@ -3,6 +3,7 @@ package ca.mcgill.ecse321.petadoptionapp.dao;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -197,6 +198,21 @@ public class TestPetAdoptionAppPersistence {
 		assertEquals(name, shelter.getName());
 		assertEquals(email, shelter.getEmail());
 		
+	}
+	
+	@Test
+	public void testDeletePetShelter() {
+		PetShelter shelter = createPetShelter();
+		String username = shelter.getUsername();
+		petShelterRepository.save(shelter);
+		
+		shelter = null;
+		shelter = petShelterRepository.findPetShelterByUsername(username);
+		assertNotNull(shelter);
+		
+		petShelterRepository.delete(shelter);
+		shelter = petShelterRepository.findPetShelterByUsername(username);
+		assertNull(shelter);
 	}
 	
 	private PetShelter createPetShelter() {
