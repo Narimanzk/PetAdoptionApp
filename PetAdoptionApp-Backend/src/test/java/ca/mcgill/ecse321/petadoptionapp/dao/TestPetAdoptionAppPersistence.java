@@ -12,6 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import ca.mcgill.ecse321.petadoptionapp.dao.AddressRepository;
+import ca.mcgill.ecse321.petadoptionapp.dao.DonationRepository;
+import ca.mcgill.ecse321.petadoptionapp.dao.PetShelterRepository;
+import ca.mcgill.ecse321.petadoptionapp.model.Address;
+import ca.mcgill.ecse321.petadoptionapp.model.Donation;
+import ca.mcgill.ecse321.petadoptionapp.model.PetShelter;
 import ca.mcgill.ecse321.petadoptionapp.dao.PetProfileRespository;
 import ca.mcgill.ecse321.petadoptionapp.dao.RegularUserRepository;
 import ca.mcgill.ecse321.petadoptionapp.dao.AdoptionApplicationRespository;
@@ -20,7 +26,6 @@ import ca.mcgill.ecse321.petadoptionapp.model.Gender;
 import ca.mcgill.ecse321.petadoptionapp.model.GeneralUser;
 import ca.mcgill.ecse321.petadoptionapp.model.PetProfile;
 import ca.mcgill.ecse321.petadoptionapp.model.RegularUser;
-import ca.mcgill.ecse321.petadoptionapp.model.PetShelter;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -34,16 +39,24 @@ public class TestPetAdoptionAppPersistence {
 	private AdoptionApplicationRespository adoptionApplicationRespository;
 	@Autowired
 	private PetShelterRepository petShelterRepository;
+	@Autowired
+	private AddressRepository addressRepository;
+	@Autowired
+	private DonationRepository donationRepository;
 
 	// The tear down process for every test
 	@AfterEach
 	public void clearDatabase() {
 		// Clear the table to avoid inconsistency
+
+		donationRepository.deleteAll();
+		addressRepository.deleteAll();
 		adoptionApplicationRespository.deleteAll();
 		petProfileRespository.deleteAll();
 		regularUserRepository.deleteAll();
 		petShelterRepository.deleteAll();
 	}
+
 
 	// Test RegularUser table in create and load. (C/R)
 	@Test
@@ -173,6 +186,7 @@ public class TestPetAdoptionAppPersistence {
 		assertEquals(pet.getPetGender(), gender);
 	}
 
+
 	/**
 	 * @author ANDREW TA 
 	 * perform CREATE AND READ test on AdoptionApplication table
@@ -188,6 +202,106 @@ public class TestPetAdoptionAppPersistence {
 		assertEquals(application.getApplicationStatus(), application2.getApplicationStatus());
 	}
 
+	@Test
+	public void testPersistAndLoadAddress() {
+		Integer id = 12345;
+		String street = "12 Sherbrooke W";
+		String city = "Montreal";
+		String state = "QC";
+		String postalCode = "AAA-111";
+		String country = "CA";
+		Address address = createAddress(12345, "12 Sherbrooke W", "Montreal", "QC", "AAA-111", "CA" );
+		addressRepository.save(address);
+
+		address = null;
+		address = addressRepository.findAddressById(id);
+		assertNotNull(address);
+		assertEquals(id, address.getId());
+		assertEquals(street,address.getStreet());
+		assertEquals(city,address.getCity());
+		assertEquals(state,address.getState());
+		assertEquals(postalCode,address.getPostalCode());
+		assertEquals(country,address.getCountry());
+	}
+
+	@Test
+	public void testDeleteAddress() {
+		Address address = createAddress(12345, "12 Sherbrooke W", "Montreal", "QC", "AAA-111", "CA" );
+		addressRepository.delete(address);
+		address = addressRepository.findAddressById(address.getId());
+		assertEquals(address, null);
+	}
+	@Test
+	public void testUpdateAddress() {
+		Integer id = 12345;
+		String newStreet = "22 Sherbrooke W";
+		Address address = createAddress(id, "12 Sherbrooke W", "Montreal", "QC", "AAA-111", "CA" );
+		addressRepository.save(address);
+		address = null;
+		address = addressRepository.findAddressById(id);
+		assertNotNull(address);
+		address.setStreet(newStreet);
+		addressRepository.save(address);
+		address = null;
+		address = addressRepository.findAddressById(id);
+		assertEquals(newStreet, address.getStreet());
+	}
+
+	@Test
+	public void testPersistAndLoadDonation() {
+		Integer amount = 5;
+		Integer id = 12345;
+		RegularUser user = createAndSaveRegularUser("testDon", "TestDon@test.com", "1234");
+		PetShelter petShelter = createPetShelter();
+		Donation donation = createDonation(12345, 5, user, petShelter);
+
+		regularUserRepository.save(user);
+		petShelterRepository.save(petShelter);
+		donationRepository.save(donation);
+
+		donation = null;
+		donation = donationRepository.findDonationById(id);
+		assertNotNull(donation);
+		assertEquals(id, donation.getId());
+		assertEquals(amount, donation.getAmount());
+		assertEquals(user.getUsername(), donation.getDonatedFrom().getUsername());
+		assertEquals(petShelter.getUsername(), donation.getDonatedTo().getUsername());
+
+	}
+
+	@Test
+	public void testDeleteDonation() {
+		RegularUser user = createAndSaveRegularUser("testDon", "TestDon@test.com", "1234");
+		PetShelter petShelter = createPetShelter();
+		Donation donation = createDonation(12345, 5, user, petShelter );
+		donationRepository.delete(donation);
+		donation = donationRepository.findDonationById(donation.getId());
+		assertEquals(donation, null);
+	}
+	
+	@Test
+	public void testUpdateDonation() {
+		Integer amount = 5;
+		Integer newAmount = 100;
+		Integer id = 12345;
+		RegularUser user = createAndSaveRegularUser("testDon", "TestDon@test.com", "1234");
+		RegularUser newUser = createAndSaveRegularUser("newDon", "newDon@test.com", "1234");
+		
+		PetShelter petShelter = createPetShelter();
+		Donation donation = createDonation(id, amount, user, petShelter);
+		petShelterRepository.save(petShelter);
+		donationRepository.save(donation);
+		donation = null;
+		donation = donationRepository.findDonationById(id);
+		assertNotNull(donation);
+		donation.setAmount(newAmount);
+		donation.setDonatedFrom(newUser);
+		donationRepository.save(donation);
+		donation = null;
+		donation = donationRepository.findDonationById(id);
+		assertEquals(newAmount, donation.getAmount());
+		assertEquals(newUser.getUsername(), donation.getDonatedFrom().getUsername());
+	}
 	/**
 	 * @author ANDREW TA 
 	 * perform CREATE AND DELETE test on AdoptionApplication table
@@ -229,6 +343,27 @@ public class TestPetAdoptionAppPersistence {
 		return user;
 	}
 
+	private Address createAddress(Integer id, String street, String city, String state, String postalCode, String country) {
+		Address address = new Address();
+		address.setId(id);
+		address.setStreet(street);
+		address.setCity(city);
+		address.setState(state);
+		address.setPostalCode(postalCode);
+		address.setCountry(country);
+		return address;
+	}
+
+	private Donation createDonation(Integer id, Integer amount, RegularUser from, PetShelter to) {
+		Donation donation = new Donation();
+		donation.setId(id);
+		donation.setAmount(amount);
+		donation.setDonatedFrom(from);
+		donation.setDonatedTo(to);
+		return donation;
+
+	}
+
 	/**
 	 * @author ANDREW TA create sample pet profile for testing
 	 * @return PetProfile a new petProfile
@@ -242,7 +377,6 @@ public class TestPetAdoptionAppPersistence {
 		String petSpecies = "species";
 		byte[] profile_pic = "\u00e0\u004f\u00d0\u0020\u00ea\u003a\u0069\u0010\u00a2\u00d8\u0008\u0000\u002b\u0030\u0030\u009d"
 				.getBytes();
-
 		PetProfile pet = new PetProfile();
 		pet.setId(pet_id);
 		pet.setAge(age);
@@ -256,6 +390,7 @@ public class TestPetAdoptionAppPersistence {
 		petProfileRespository.save(pet);
 		return pet;
 	}
+
 
 	/**
 	 * @author ANDREW TA create sample application for testing
@@ -276,7 +411,6 @@ public class TestPetAdoptionAppPersistence {
 
 		return application;
 	}
-
 	@Test
 	public void testPersistAndLoadPetShelter() {
 		PetShelter shelter = createPetShelter();
