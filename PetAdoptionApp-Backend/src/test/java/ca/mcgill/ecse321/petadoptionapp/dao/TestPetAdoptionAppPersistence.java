@@ -9,6 +9,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import ca.mcgill.ecse321.petadoptionapp.doa.QuestionRepository;
 import ca.mcgill.ecse321.petadoptionapp.doa.RegularUserRepository;
 import ca.mcgill.ecse321.petadoptionapp.model.RegularUser;
 
@@ -19,11 +21,14 @@ public class TestPetAdoptionAppPersistence {
   
   @Autowired
   private RegularUserRepository regularUserRepository;
+  @Autowired
+  private QuestionRepository questionRepository;
   
   //The tear down process for every test
   @AfterEach
   public void clearDatabase() {
       // Clear the table to avoid inconsistency
+	  questionRepository.deleteAll();
       regularUserRepository.deleteAll();
   }
   
@@ -43,5 +48,12 @@ public class TestPetAdoptionAppPersistence {
     assertNotNull(user);
     assertEquals(email, user.getEmail());
     assertEquals(password, user.getPassword());
+  }
+  
+  @Test
+  public void testPersistAndLoadQuestion() {
+	  String title = "title";
+	  String 
+	  
   }
 }
