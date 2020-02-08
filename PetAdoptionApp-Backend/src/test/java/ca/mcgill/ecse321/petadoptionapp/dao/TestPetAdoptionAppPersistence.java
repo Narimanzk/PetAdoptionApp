@@ -3,6 +3,7 @@ package ca.mcgill.ecse321.petadoptionapp.dao;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -35,24 +36,58 @@ public class TestPetAdoptionAppPersistence {
 	}
 
 	
-	//Test RegularUser table
+	//Test RegularUser table in create and load. (C/R)
 	@Test
 	public void testPersistAndLoadPerson() {
 		String username = "testusername";
 		String email = "test@testmail.com";
 		String password = "123456789";
-		RegularUser user = new RegularUser();
-		user.setUsername(username);
-		user.setEmail(email);
-		user.setPassword(password);
-		regularUserRepository.save(user);
-
+		//make sure user doesn't exist
+		RegularUser user = regularUserRepository.findRegularUserByUsername(username);
+		assertNull(user);
+		//
+		user = createAndSaveRegularUser(username, email, password);
 		user = null;
 		user = regularUserRepository.findRegularUserByUsername(username);
 		assertNotNull(user);
 		assertEquals(email, user.getEmail());
 		assertEquals(password, user.getPassword());
 	}
+	
+	//Test the regular table in create and update (C/U)
+	@Test
+	public void testUpdateRegularUser() {
+		String username = "testusername";
+		String email = "test@testmail.com";
+		String password = "123456789";
+		RegularUser user = createAndSaveRegularUser(username, email, password);
+		user = null;
+		user = regularUserRepository.findRegularUserByUsername(username);
+		assertNotNull(user);
+		String securepassword = "password";
+		user.setPassword(securepassword);
+		regularUserRepository.save(user);
+		user = null;
+		user = regularUserRepository.findRegularUserByUsername(username);
+		assertEquals(securepassword, user.getPassword());
+	}
+	
+	//Test the regular table in create and delete (C/D)
+		@Test
+		public void testDeleteRegularUser() {
+			String username = "testusername";
+			String email = "test@testmail.com";
+			String password = "123456789";
+			RegularUser user = createAndSaveRegularUser(username, email, password);
+			user = null;
+			user = regularUserRepository.findRegularUserByUsername(username);
+			//make sure user exist in database
+			assertNotNull(user);
+			//delete the user
+			regularUserRepository.delete(user);
+			user = regularUserRepository.findRegularUserByUsername(username);
+			assertNull(user);
+		}
 	
 	//Test PetProfile table
 	//Test persist and load functionality
@@ -72,7 +107,7 @@ public class TestPetAdoptionAppPersistence {
 		pet.setPetGender(Gender.Female);
 		pet.setPetName(pet_name);
 		pet.setPetSpecies(petSpecies);
-		pet.setUser(createUserForTesting());
+		pet.setUser(createAndSaveRegularUser("testusername","test@gmail.com","admin"));
 		pet.setProfilePicture(profile_pic);
 		
 		petProfileRespository.save(pet);
@@ -110,10 +145,7 @@ public class TestPetAdoptionAppPersistence {
 	}
 	
 	// create sample user for testing
-	private RegularUser createUserForTesting() {
-		String username = "testusername";
-		String email = "test@testmail.com";
-		String password = "123456789";
+	private RegularUser createAndSaveRegularUser(String username,String email, String password) {
 		RegularUser user = new RegularUser();
 		user.setUsername(username);
 		user.setEmail(email);
@@ -124,6 +156,7 @@ public class TestPetAdoptionAppPersistence {
 	
 	//create sample pet profile
 	private PetProfile createPetProfile() {
+		
 		int age = 3;
 		int pet_id = 1;
 		String pet_name = "test_name";
@@ -138,7 +171,7 @@ public class TestPetAdoptionAppPersistence {
 		pet.setPetGender(Gender.Female);
 		pet.setPetName(pet_name);
 		pet.setPetSpecies(petSpecies);
-		pet.setUser(createUserForTesting());
+		pet.setUser(createAndSaveRegularUser("testusername","test@gmail.com","admin"));
 		pet.setProfilePicture(profile_pic);
 		return pet;
 	}
