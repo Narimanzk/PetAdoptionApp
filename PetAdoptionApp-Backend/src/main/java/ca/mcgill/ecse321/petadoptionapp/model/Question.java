@@ -12,78 +12,78 @@ import javax.persistence.Id;
 
 @Entity
 public class Question {
-  private String status;
+	private String status;
 
-  public void setStatus(String value) {
-    this.status = value;
-  }
+	public void setStatus(String value) {
+		this.status = value;
+	}
 
-  public String getStatus() {
-    return this.status;
-  }
+	public String getStatus() {
+		return this.status;
+	}
 
-  private String title;
+	private String title;
 
-  public void setTitle(String value) {
-    this.title = value;
-  }
+	public void setTitle(String value) {
+		this.title = value;
+	}
 
-  public String getTitle() {
-    return this.title;
-  }
+	public String getTitle() {
+		return this.title;
+	}
 
-  private String description;
+	private String description;
 
-  public void setDescription(String value) {
-    this.description = value;
-  }
+	public void setDescription(String value) {
+		this.description = value;
+	}
 
-  public String getDescription() {
-    return this.description;
-  }
+	public String getDescription() {
+		return this.description;
+	}
 
-  private Set<Response> responses;
+	private Set<Response> responses;
 
-  @OneToMany(mappedBy = "question", cascade = {CascadeType.ALL})
-  public Set<Response> getResponses() {
-    return this.responses;
-  }
+	@OneToMany(mappedBy = "question", cascade = { CascadeType.ALL })
+	public Set<Response> getResponses() {
+		return this.responses;
+	}
 
-  public void setResponses(Set<Response> responsess) {
-    this.responses = responsess;
-  }
+	public void setResponses(Set<Response> responsess) {
+		this.responses = responsess;
+	}
 
-  private RegularUser user;
+	private RegularUser user;
 
-  @ManyToOne(optional = false)
-  public RegularUser getUser() {
-    return this.user;
-  }
+	@ManyToOne(optional = false)
+	public RegularUser getUser() {
+		return this.user;
+	}
 
-  public void setUser(RegularUser user) {
-    this.user = user;
-  }
+	public void setUser(RegularUser user) {
+		this.user = user;
+	}
 
-  private Integer id;
+	private Integer id;
 
-  public void setId(Integer value) {
-    this.id = value;
-  }
+	public void setId(Integer value) {
+		this.id = value;
+	}
 
-  @Id
-  public Integer getId() {
-    return this.id;
-  }
+	@Id
+	public Integer getId() {
+		return this.id;
+	}
 
-  @Enumerated(EnumType.ORDINAL)
-  @Column(name = "Threadstatus")
-  private ThreadStatus threadStatus;
+	@Enumerated(EnumType.ORDINAL)
+	@Column(name = "Threadstatus")
+	private ThreadStatus threadStatus;
 
-  public void setThreadStatus(ThreadStatus value) {
-    this.threadStatus = value;
-  }
+	public void setThreadStatus(ThreadStatus value) {
+		this.threadStatus = value;
+	}
 
-  public ThreadStatus getThreadStatus() {
-    return this.threadStatus;
-  }
+	public ThreadStatus getThreadStatus() {
+		return this.threadStatus;
+	}
 }
