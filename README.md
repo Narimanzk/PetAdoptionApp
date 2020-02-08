@@ -8,8 +8,8 @@ We will be creating a back end that will support this whole process, as well as 
 
 ## Meet the Team
 | Name | Role | Sprint 1 Hours | Sprint 2 Hours | Sprint 3 Hours | Sprint 4 Hours |
-| ---- | ---- | -------------- | -------------- | -------------- | -------------- |
-| Le-li (Shuby) Mao | Project Lead |  |  |  |  |
+| ---- | ---- | --------------: | --------------: | --------------: | --------------: |
+| Le-li (Shuby) Mao | Project Lead |  30 hour|  |  |  |
 | Nariman (Narry) Zendehrooh | Software Developer |  |  |  |  |
 | Lenoy Christy | Software Developer |  |  |  |  |
 | Andrew Ta | Software Developer |  |  |  |  |
