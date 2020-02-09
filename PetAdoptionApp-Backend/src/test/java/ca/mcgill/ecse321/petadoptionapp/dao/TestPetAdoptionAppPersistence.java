@@ -23,6 +23,7 @@ import ca.mcgill.ecse321.petadoptionapp.dao.PetProfileRespository;
 import ca.mcgill.ecse321.petadoptionapp.dao.RegularUserRepository;
 import ca.mcgill.ecse321.petadoptionapp.dao.AdoptionApplicationRespository;
 import ca.mcgill.ecse321.petadoptionapp.dao.QuestionRepository;
+import ca.mcgill.ecse321.petadoptionapp.dao.ResponseRepository;
 import ca.mcgill.ecse321.petadoptionapp.model.AdoptionApplication;
 import ca.mcgill.ecse321.petadoptionapp.model.Gender;
 import ca.mcgill.ecse321.petadoptionapp.model.GeneralUser;
@@ -31,6 +32,7 @@ import ca.mcgill.ecse321.petadoptionapp.model.RegularUser;
 import ca.mcgill.ecse321.petadoptionapp.model.ThreadStatus;
 import ca.mcgill.ecse321.petadoptionapp.model.PetShelter;
 import ca.mcgill.ecse321.petadoptionapp.model.GeneralUser;
+import ca.mcgill.ecse321.petadoptionapp.model.Response;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -55,6 +57,9 @@ public class TestPetAdoptionAppPersistence {
 	private DonationRepository donationRepository;
 	@Autowired
 	private QuestionRepository questionRepository;
+	@Autowired
+	private ResponseRepository responseRepository;
+
 
 	// The tear down process for every test
 	@AfterEach
@@ -755,10 +760,131 @@ public class TestPetAdoptionAppPersistence {
 		assertEquals(newQuestionDescription, question.getDescription());
 		assertEquals(newThreadStatus, question.getThreadStatus());
 		
-		
-		
-		
 	}
+	
+	//Lenoy - Tests for Response Class
+		@Test
+		public void testPersistAndLoadResponse() {
+			Integer id = 57515; 
+			Integer questionID = 57516;
+			String text = "Response";
+			String questionTitle = "Question Title";
+			String questionDescription = "Question Description";
+			ThreadStatus questionThreadStatus = ThreadStatus.Open;
+			String username = "testusername";
+			String email = "test@testmail.com";
+			String password = "123456789";
+			RegularUser user = createAndSaveRegularUser(username, email, password);
+			Question question = new Question();
+			question.setId(questionID);
+			question.setTitle(questionTitle);
+			question.setDescription(questionDescription);
+			question.setThreadStatus(questionThreadStatus);
+			question.setUser(user);
+			questionRepository.save(question);
+			Response response = new Response();
+			response.setId(id);
+			response.setText(text);
+			response.setQuestion(question);
+			response.setUser(user);
+			responseRepository.save(response);
+			
+			
+			
+			response = null;
+			
+			response = responseRepository.findResponseById(id);
+			assertNotNull(response);
+			assertEquals(response.getQuestion().getTitle(), questionTitle);
+			assertEquals(response.getUser().getUsername(), username);
+			assertEquals(id, response.getId()); 
+			assertEquals(text, response.getText());
+			
+		}	
+	
+		
+		@Test 
+		public void testDeleteResponse() {
+			Integer id = 57515; 
+			Integer questionID = 57516;
+			String text = "Response";
+			String questionTitle = "Question Title";
+			String questionDescription = "Question Description";
+			ThreadStatus questionThreadStatus = ThreadStatus.Open;
+			String username = "testusername";
+			String email = "test@testmail.com";
+			String password = "123456789";
+			RegularUser user = createAndSaveRegularUser(username, email, password);
+			Question question = new Question();
+			question.setId(questionID);
+			question.setTitle(questionTitle);
+			question.setDescription(questionDescription);
+			question.setThreadStatus(questionThreadStatus);
+			question.setUser(user);
+			questionRepository.save(question);
+			Response response = new Response();
+			response.setId(id);
+			response.setText(text);
+			response.setQuestion(question);
+			response.setUser(user);
+			responseRepository.save(response);
+			
+			response = null; 
+			
+			response = responseRepository.findResponseById(id); 
+			assertNotNull(response);
+			
+			responseRepository.delete(response);
+			response = responseRepository.findResponseById(id);
+			assertNull(response);
+			
+		}
+		@Test
+		public void testUpdateResponse() {
+			Integer id = 57515; 
+			Integer questionID = 57516;
+			String text = "Response";
+			String questionTitle = "Question Title";
+			String questionDescription = "Question Description";
+			ThreadStatus questionThreadStatus = ThreadStatus.Open;
+			String username = "testusername";
+			String email = "test@testmail.com";
+			String password = "123456789";
+			RegularUser user = createAndSaveRegularUser(username, email, password);
+			Question question = new Question();
+			question.setId(questionID);
+			question.setTitle(questionTitle);
+			question.setDescription(questionDescription);
+			question.setThreadStatus(questionThreadStatus);
+			question.setUser(user);
+			questionRepository.save(question);
+			Response response = new Response();
+			response.setId(id);
+			response.setText(text);
+			response.setQuestion(question);
+			response.setUser(user);
+			responseRepository.save(response);
+			
+			response = null; 
+			
+			response = responseRepository.findResponseById(id);
+			assertNotNull(response);
+			
+			String newResponseText = "New Response";
+			response.setText(newResponseText);
+			responseRepository.save(response);
+			
+			response = null; 
+			
+			response = responseRepository.findResponseById(id);
+			assertNotNull(response);
+			assertEquals(response.getQuestion().getTitle(), questionTitle);
+			assertEquals(response.getUser().getUsername(), username);
+			assertEquals(id, response.getId()); 
+			assertEquals(newResponseText, response.getText());
+			
+			
+		}
 	
 		
 		
