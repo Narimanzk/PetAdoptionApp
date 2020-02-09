@@ -664,23 +664,102 @@ public class TestPetAdoptionAppPersistence {
 		String title = "Question Title";
 		String description = "Question Description";
 		ThreadStatus threadStatus = ThreadStatus.Open;
+		String username = "testusername";
+		String email = "test@testmail.com";
+		String password = "123456789";
+		RegularUser user = createAndSaveRegularUser(username, email, password);
 		Question question = new Question();
 		question.setId(id);
 		question.setTitle(title);
 		question.setDescription(description);
 		question.setThreadStatus(threadStatus);
+		question.setUser(user);
 		questionRepository.save(question);
 		
 		question = null;
 		
 		question = questionRepository.findQuestionById(id);
 		assertNotNull(question);
+		assertNotNull(question.getUser());
 		assertEquals(id, question.getId()); 
 		assertEquals(title, question.getTitle());
 		assertEquals(description, question.getDescription());
 		assertEquals(threadStatus, question.getThreadStatus());
 		
 	}	
+	
+	@Test 
+	public void testDeleteQuestion() {
+		Integer id = 57515; 
+		String title = "Question Title";
+		String description = "Question Description";
+		ThreadStatus threadStatus = ThreadStatus.Open;
+		String username = "testusername";
+		String email = "test@testmail.com";
+		String password = "123456789";
+		RegularUser user = createAndSaveRegularUser(username, email, password);
+		Question question = new Question();
+		question.setId(id);
+		question.setTitle(title);
+		question.setDescription(description);
+		question.setThreadStatus(threadStatus);
+		question.setUser(user);
+		questionRepository.save(question);
+		
+		question = null; 
+		
+		question = questionRepository.findQuestionById(id); 
+		assertNotNull(question);
+		
+		questionRepository.delete(question);
+		question = questionRepository.findQuestionById(id);
+		assertNull(question);
+		
+	}
+	
+	public void testUpdateQuestion() {
+		Integer id = 57515; 
+		String title = "Question Title";
+		String description = "Question Description";
+		ThreadStatus threadStatus = ThreadStatus.Open;
+		String username = "testusername";
+		String email = "test@testmail.com";
+		String password = "123456789";
+		RegularUser user = createAndSaveRegularUser(username, email, password);
+		Question question = new Question();
+		question.setId(id);
+		question.setTitle(title);
+		question.setDescription(description);
+		question.setThreadStatus(threadStatus);
+		question.setUser(user);
+		questionRepository.save(question);
+		
+		question = null; 
+		
+		question = questionRepository.findQuestionById(id);
+		assertNotNull(question);
+		
+		String newQuestionDescription = "New Question Description";
+		ThreadStatus newThreadStatus = ThreadStatus.Closed;
+		question.setDescription(newQuestionDescription);
+		question.setThreadStatus(newThreadStatus);
+		questionRepository.save(question);
+		
+		question = null; 
+		
+		question = questionRepository.findQuestionById(id);
+		assertNotNull(question);
+		assertNotNull(question.getUser());
+		assertEquals(id, question.getId()); 
+		assertEquals(title, question.getTitle());
+		assertEquals(newQuestionDescription, question.getDescription());
+		assertEquals(newThreadStatus, question.getThreadStatus());
+		
+		
+		
+		
+	}
+	
 		
 		
 		
