@@ -11,7 +11,7 @@ We will be creating a back end that will support this whole process, as well as 
 | Name | Role | Sprint 1 Hours | Sprint 2 Hours | Sprint 3 Hours | Sprint 4 Hours |
 | ---- | ---- | --------------: | --------------: | --------------: | --------------: |
 | Le-li (Shuby) Mao | Project Lead |  30|  |  |  |
-| Nariman (Narry) Zendehrooh | Software Developer |  |  |  |  |
+| Nariman (Narry) Zendehrooh | Software Developer |  30|  |  |  |
 | Lenoy Christy | Software Developer |  |  |  |  |
 | Andrew Ta | Software Developer |  |  |  |  |
 | Noah Zwack | Software Developer |  |  |  |  |
