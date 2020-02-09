@@ -13,7 +13,7 @@ We will be creating a back end that will support this whole process, as well as 
 | Le-li (Shuby) Mao | Project Lead | 30 |  |  |  |
 | Nariman (Narry) Zendehrooh | Software Developer | 30 |  |  |  |
 | Lenoy Christy | Software Developer |  |  |  |  |
-| Andrew Ta | Software Developer |  |  |  |  |
+| Andrew Ta | Software Developer | 30 |  |  |  |
 | Noah Zwack | Software Developer | 20 |  |  |  |
 
 ## Links to Documentation
