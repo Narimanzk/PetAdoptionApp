@@ -24,16 +24,6 @@ public class PetProfile {
 		return this.petName;
 	}
 
-	private String image;
-
-	public void setImage(String value) {
-		this.image = value;
-	}
-
-	public String getImage() {
-		return this.image;
-	}
-
 	private String reason;
 
 	public void setReason(String value) {
