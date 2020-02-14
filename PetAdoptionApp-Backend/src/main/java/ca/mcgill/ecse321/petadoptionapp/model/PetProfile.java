@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.ManyToOne;
 import java.util.Set;
 import javax.persistence.OneToMany;
@@ -30,6 +32,7 @@ public class PetProfile {
 		this.reason = value;
 	}
 
+	@Lob
 	public String getReason() {
 		return this.reason;
 	}
@@ -73,6 +76,7 @@ public class PetProfile {
 	}
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Integer getId() {
 		return this.id;
 	}
