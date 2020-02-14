@@ -4,6 +4,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import ca.mcgill.ecse321.petadoptionapp.model.GeneralUser;
 import javax.persistence.ManyToOne;
 import javax.persistence.Id;
@@ -39,6 +41,7 @@ public class AdoptionApplication {
 	}
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Integer getId() {
 		return this.id;
 	}

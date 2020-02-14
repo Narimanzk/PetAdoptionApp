@@ -3,6 +3,8 @@ package ca.mcgill.ecse321.petadoptionapp.model;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -37,7 +39,7 @@ public class Question {
 	public void setDescription(String value) {
 		this.description = value;
 	}
-
+	@Column(columnDefinition = "TEXT")
 	public String getDescription() {
 		return this.description;
 	}
@@ -71,6 +73,7 @@ public class Question {
 	}
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Integer getId() {
 		return this.id;
 	}
