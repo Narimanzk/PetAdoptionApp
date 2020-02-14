@@ -18,8 +18,10 @@ public class RegularUser extends GeneralUser {
 	public void setPersonalDescription(String value) {
 		this.personalDescription = value;
 	}
-	@Lob
-	//@Basic(fetch = FetchType.EAGER)
+	// @Basic(fetch = FetchType.LAZY)
+	//	@Lob
+	//	@Basic(fetch = FetchType.EAGER)
+	@Column(columnDefinition = "TEXT")
 	public String getPersonalDescription() {
 		return this.personalDescription;
 	}

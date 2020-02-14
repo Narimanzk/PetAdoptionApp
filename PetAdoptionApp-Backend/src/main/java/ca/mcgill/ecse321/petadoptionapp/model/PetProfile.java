@@ -32,7 +32,7 @@ public class PetProfile {
 		this.reason = value;
 	}
 
-	@Lob
+	@Column(columnDefinition = "TEXT")
 	public String getReason() {
 		return this.reason;
 	}

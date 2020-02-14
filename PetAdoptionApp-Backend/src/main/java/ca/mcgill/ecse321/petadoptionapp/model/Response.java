@@ -1,6 +1,9 @@
 package ca.mcgill.ecse321.petadoptionapp.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.ManyToOne;
 import javax.persistence.Id;
 
@@ -11,7 +14,7 @@ public class Response {
 	public void setText(String value) {
 		this.text = value;
 	}
-
+	@Column(columnDefinition = "TEXT")
 	public String getText() {
 		return this.text;
 	}
@@ -45,6 +48,7 @@ public class Response {
 	}
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Integer getId() {
 		return this.id;
 	}

@@ -963,7 +963,6 @@ public class TestPetAdoptionAppPersistence {
 	private PetProfile createPetProfile() {
 
 		int age = 3;
-		int pet_id = 1;
 		String pet_name = "test_name";
 		String description = "description";
 		String petSpecies = "species";
@@ -971,7 +970,7 @@ public class TestPetAdoptionAppPersistence {
 				.getBytes();
 		String reason = "reason";
 		PetProfile pet = new PetProfile();
-		pet.setId(pet_id);
+		//pet.setId(pet_id);
 		pet.setAge(age);
 		pet.setDescription(description);
 		pet.setPetGender(Gender.Female);
@@ -980,7 +979,7 @@ public class TestPetAdoptionAppPersistence {
 		pet.setUser(createAndSaveRegularUser("testusername", "test@gmail.com", "admin"));
 		pet.setProfilePicture(profile_pic);
 		pet.setReason(reason);
-		petProfileRespository.save(pet);
+		pet = petProfileRespository.save(pet);
 		return pet;
 	}
 
