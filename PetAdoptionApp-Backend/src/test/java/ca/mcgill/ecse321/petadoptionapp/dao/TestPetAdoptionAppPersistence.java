@@ -963,14 +963,15 @@ public class TestPetAdoptionAppPersistence {
 	private PetProfile createPetProfile() {
 
 		int age = 3;
-		//int pet_id = 1;
+		int pet_id = 1;
 		String pet_name = "test_name";
 		String description = "description";
 		String petSpecies = "species";
 		byte[] profile_pic = "\u00e0\u004f\u00d0\u0020\u00ea\u003a\u0069\u0010\u00a2\u00d8\u0008\u0000\u002b\u0030\u0030\u009d"
 				.getBytes();
+		String reason = "reason";
 		PetProfile pet = new PetProfile();
-		//pet.setId(pet_id);
+		pet.setId(pet_id);
 		pet.setAge(age);
 		pet.setDescription(description);
 		pet.setPetGender(Gender.Female);
@@ -978,6 +979,7 @@ public class TestPetAdoptionAppPersistence {
 		pet.setPetSpecies(petSpecies);
 		pet.setUser(createAndSaveRegularUser("testusername", "test@gmail.com", "admin"));
 		pet.setProfilePicture(profile_pic);
+		pet.setReason(reason);
 		petProfileRespository.save(pet);
 		return pet;
 	}
