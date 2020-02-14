@@ -20,6 +20,7 @@ import ca.mcgill.ecse321.petadoptionapp.dao.RegularUserRepository;
 import ca.mcgill.ecse321.petadoptionapp.dao.ResponseRepository;
 
 import ca.mcgill.ecse321.petadoptionapp.model.PetProfile;
+import ca.mcgill.ecse321.petadoptionapp.model.PetShelter;
 import ca.mcgill.ecse321.petadoptionapp.model.Question;
 import ca.mcgill.ecse321.petadoptionapp.model.RegularUser;
 import ca.mcgill.ecse321.petadoptionapp.model.Response;
@@ -61,7 +62,7 @@ public class PetAdoptionAppService {
 	}
 	
 	@Transactional
-	public Donation createDonation(int amount) {
+	public Donation createDonation(Integer amount) {
 		Donation donation = new Donation();
 		donation.setAmount(amount);
 		donationRepository.save(donation);
@@ -79,7 +80,7 @@ public class PetAdoptionAppService {
 	}
 	
 	@Transactional
-	public List<Donation> getDonationsMadeByRegularUser(RegularUser user){
+	public List<Donation> getDonationsMadeByRegularUser(RegularUser user) {
 		List<Donation> donationsMadeByRegularUser = new ArrayList<>();
 		for(Donation d : donationRepository.findByRegularUser(user)) {
 			donationsMadeByRegularUser.add(d);
@@ -87,6 +88,14 @@ public class PetAdoptionAppService {
 		return donationsMadeByRegularUser;
 	}
 	
+	@Transactional
+	public List<Donation> getDonationsForPetShelter(PetShelter shelter) {
+		List<Donation> donationsForPetShelter = new ArrayList<>();
+		for(Donation d: donationRepository.findByPetShelter(shelter)) {
+			donationsForPetShelter.add(d);
+		}
+		return donationsForPetShelter;
+	}
 	@Transactional
 	public Response createResponse(String text) {
 		Response response = new Response();
