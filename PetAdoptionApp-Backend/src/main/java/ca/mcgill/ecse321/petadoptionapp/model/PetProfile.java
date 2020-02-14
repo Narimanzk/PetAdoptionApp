@@ -26,14 +26,13 @@ public class PetProfile {
 		return this.petName;
 	}
 
-	@Lob
-	@Column(columnDefinition="TEXT")
 	private String reason;
 
 	public void setReason(String value) {
 		this.reason = value;
 	}
 
+	@Lob
 	public String getReason() {
 		return this.reason;
 	}
