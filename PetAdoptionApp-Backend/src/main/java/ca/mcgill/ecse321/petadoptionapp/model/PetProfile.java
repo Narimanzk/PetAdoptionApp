@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.ManyToOne;
 import java.util.Set;
 import javax.persistence.OneToMany;
@@ -24,16 +26,8 @@ public class PetProfile {
 		return this.petName;
 	}
 
-	private String image;
-
-	public void setImage(String value) {
-		this.image = value;
-	}
-
-	public String getImage() {
-		return this.image;
-	}
-
+	@Lob
+	@Column(columnDefinition="TEXT")
 	private String reason;
 
 	public void setReason(String value) {
@@ -83,6 +77,7 @@ public class PetProfile {
 	}
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Integer getId() {
 		return this.id;
 	}
