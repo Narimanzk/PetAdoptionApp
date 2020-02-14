@@ -1,7 +1,9 @@
 package ca.mcgill.ecse321.petadoptionapp.model;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Lob;
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import java.util.Set;
@@ -17,6 +19,7 @@ public class RegularUser extends GeneralUser {
 		this.personalDescription = value;
 	}
 	@Lob
+	//@Basic(fetch = FetchType.EAGER)
 	public String getPersonalDescription() {
 		return this.personalDescription;
 	}
