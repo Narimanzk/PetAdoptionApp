@@ -18,14 +18,15 @@ import ca.mcgill.ecse321.petadoptionapp.dao.PetShelterRepository;
 import ca.mcgill.ecse321.petadoptionapp.dao.QuestionRepository;
 import ca.mcgill.ecse321.petadoptionapp.dao.RegularUserRepository;
 import ca.mcgill.ecse321.petadoptionapp.dao.ResponseRepository;
-
+import ca.mcgill.ecse321.petadoptionapp.model.Gender;
+import ca.mcgill.ecse321.petadoptionapp.model.GeneralUser;
 import ca.mcgill.ecse321.petadoptionapp.model.PetProfile;
+import ca.mcgill.ecse321.petadoptionapp.model.RegularUser;
 import ca.mcgill.ecse321.petadoptionapp.model.PetShelter;
 import ca.mcgill.ecse321.petadoptionapp.model.Question;
-import ca.mcgill.ecse321.petadoptionapp.model.RegularUser;
 import ca.mcgill.ecse321.petadoptionapp.model.Response;
 import ca.mcgill.ecse321.petadoptionapp.model.Donation;
-import ca.mcgill.ecse321.petadoptionapp.model.GeneralUser;
+
 @Service
 public class PetAdoptionAppService {
 	@Autowired
@@ -47,13 +48,49 @@ public class PetAdoptionAppService {
 	@Autowired
 	private ResponseRepository responseRepository;
 	
+	
+	  @Transactional
+	  public RegularUser createRegularuser(String username,String password,String email) {
+	    RegularUser user = new RegularUser();
+	    user.setUsername(username);
+	    user.setEmail(email);
+	    user.setPassword(password);
+	    regularUserRepository.save(user);
+	    return user;
+	  }
+	  
+	  @Transactional
+	  public RegularUser getRegularUser(String username) {
+	    RegularUser user = regularUserRepository.findRegularUserByUsername(username);
+	    return user;
+	  }
+	  
+	  @Transactional
+	  public List<RegularUser> getAllPersons() {
+	      return null;
+	      //toList(regularUserRepository.findAll());
+	  }
+	
 	@Transactional
-	public PetProfile getPetProfile() {
-		return null;
+	public PetProfile getPetProfile(int id) {
+		return petProfileRespository.findPetProfileById(id);
 	}
 	
-	@Transactional PetProfile createPetProfile() {
-		return null;
+	@Transactional 
+	PetProfile createPetProfile(String name, int age, Gender petGender, String description, String species, 
+			byte[] profile, String reason, GeneralUser user) {
+		PetProfile pet = new PetProfile();
+		pet.setAge(age);
+		pet.setPetName(name);
+		pet.setPetGender(petGender);
+		pet.setPetSpecies(species);
+		pet.setProfilePicture(profile);
+		pet.setReason(reason);
+		pet.setUser(user);
+		pet.setDescription(description);
+		petProfileRespository.save(pet);
+		return pet;
+		
 	}
 	
 	@Transactional 
