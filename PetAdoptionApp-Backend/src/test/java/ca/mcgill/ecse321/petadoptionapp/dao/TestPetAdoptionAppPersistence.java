@@ -939,17 +939,15 @@ public class TestPetAdoptionAppPersistence {
 	 * @return AdoptionApplication a new application
 	 */
 	private AdoptionApplication createAdoptionApplication() {
-		int id = 1;
 		String description = "description";
 		PetProfile pet = createPetProfile();
 		GeneralUser user = createAndSaveRegularUser("test", "test@gmail.com", "test");
 
 		AdoptionApplication application = new AdoptionApplication();
-		application.setId(id);
 		application.setApplicationDescription(description);
 		application.setPetProfile(pet);
 		application.setUser(user);
-		adoptionApplicationRespository.save(application);
+		application = adoptionApplicationRespository.save(application);
 
 		return application;
 	}
