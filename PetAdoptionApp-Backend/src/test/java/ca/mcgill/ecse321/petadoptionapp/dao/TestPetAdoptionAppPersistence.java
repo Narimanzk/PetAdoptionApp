@@ -248,17 +248,22 @@ public class TestPetAdoptionAppPersistence {
 	////////////////////////////////////////////////////////////////////////////////////////////
 	// Address Test Starts
 	////////////////////////////////////////////////////////////////////////////////////////////
-
+	
+	/**
+	 * perform CREATE and READ test on Address table
+	 * 
+	 * @author Narry
+	 */
 	@Test
 	public void testPersistAndLoadAddress() {
-		Integer id = 12345;
 		String street = "12 Sherbrooke W";
 		String city = "Montreal";
 		String state = "QC";
 		String postalCode = "AAA-111";
 		String country = "CA";
-		Address address = createAddress(12345, "12 Sherbrooke W", "Montreal", "QC", "AAA-111", "CA");
+		Address address = createAddress("12 Sherbrooke W", "Montreal", "QC", "AAA-111", "CA");
 		addressRepository.save(address);
+		Integer id = address.getId();
 
 		address = null;
 		address = addressRepository.findAddressById(id);
@@ -272,25 +277,29 @@ public class TestPetAdoptionAppPersistence {
 	}
 
 	/**
+	 * perform CREATE and DELETE test on Address table
 	 * 
+	 * @author Narry
 	 */
 	@Test
 	public void testDeleteAddress() {
-		Address address = createAddress(12345, "12 Sherbrooke W", "Montreal", "QC", "AAA-111", "CA");
+		Address address = createAddress("12 Sherbrooke W", "Montreal", "QC", "AAA-111", "CA");
 		addressRepository.delete(address);
 		address = addressRepository.findAddressById(address.getId());
 		assertEquals(address, null);
 	}
 
 	/**
+	 * Perform CREATE and UPDATE test on Address table.
 	 * 
+	 * @author Narry
 	 */
 	@Test
 	public void testUpdateAddress() {
-		Integer id = 12345;
 		String newStreet = "22 Sherbrooke W";
-		Address address = createAddress(id, "12 Sherbrooke W", "Montreal", "QC", "AAA-111", "CA");
+		Address address = createAddress("12 Sherbrooke W", "Montreal", "QC", "AAA-111", "CA");
 		addressRepository.save(address);
+		Integer id = address.getId();
 		address = null;
 		address = addressRepository.findAddressById(id);
 		assertNotNull(address);
@@ -310,19 +319,20 @@ public class TestPetAdoptionAppPersistence {
 	////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * perform CREATE and READ test on Donation table
 	 * 
+	 * @author Narry
 	 */
 	@Test
 	public void testPersistAndLoadDonation() {
 		Integer amount = 5;
-		Integer id = 12345;
 		RegularUser user = createAndSaveRegularUser("testDon", "TestDon@test.com", "1234");
 		PetShelter petShelter = createPetShelter();
-		Donation donation = createDonation(12345, 5, user, petShelter);
-
+		Donation donation = createDonation(5, user, petShelter);
 		regularUserRepository.save(user);
 		petShelterRepository.save(petShelter);
 		donationRepository.save(donation);
+		Integer id = donation.getId();
 
 		donation = null;
 		donation = donationRepository.findDonationById(id);
@@ -335,33 +345,37 @@ public class TestPetAdoptionAppPersistence {
 	}
 
 	/**
+	 * perform CREATE and DELETE test on Donation table
 	 * 
+	 * @author Narry
 	 */
 	@Test
 	public void testDeleteDonation() {
 		RegularUser user = createAndSaveRegularUser("testDon", "TestDon@test.com", "1234");
 		PetShelter petShelter = createPetShelter();
-		Donation donation = createDonation(12345, 5, user, petShelter);
+		Donation donation = createDonation(5, user, petShelter);
 		donationRepository.delete(donation);
 		donation = donationRepository.findDonationById(donation.getId());
 		assertEquals(donation, null);
 	}
 
 	/**
+	 * Perform CREATE and UPDATE test on Donation table.
 	 * 
+	 * @author Narry
 	 */
 	@Test
 	public void testUpdateDonation() {
 		Integer amount = 5;
 		Integer newAmount = 100;
-		Integer id = 12345;
 		RegularUser user = createAndSaveRegularUser("testDon", "TestDon@test.com", "1234");
 		RegularUser newUser = createAndSaveRegularUser("newDon", "newDon@test.com", "1234");
-
 		PetShelter petShelter = createPetShelter();
-		Donation donation = createDonation(id, amount, user, petShelter);
+		Donation donation = createDonation(amount, user, petShelter);
 		petShelterRepository.save(petShelter);
 		donationRepository.save(donation);
+		Integer id = donation.getId();
+		
 		donation = null;
 		donation = donationRepository.findDonationById(id);
 		assertNotNull(donation);
@@ -916,15 +930,15 @@ public class TestPetAdoptionAppPersistence {
 	////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Helper method to create sample donation for testing
 	 * @param id
 	 * @param amount
 	 * @param from
 	 * @param to
 	 * @return a sample donation for testing
 	 */
-	private Donation createDonation(Integer id, Integer amount, RegularUser from, PetShelter to) {
+	private Donation createDonation(Integer amount, RegularUser from, PetShelter to) {
 		Donation donation = new Donation();
-		donation.setId(id);
 		donation.setAmount(amount);
 		donation.setDonatedFrom(from);
 		donation.setDonatedTo(to);
@@ -1014,7 +1028,8 @@ public class TestPetAdoptionAppPersistence {
 	}
 
 	/**
-	 * @param id
+	 *Helper method to create sample address for testing
+	 *
 	 * @param street
 	 * @param city
 	 * @param state
@@ -1022,10 +1037,9 @@ public class TestPetAdoptionAppPersistence {
 	 * @param country
 	 * @return A sample address for testing
 	 */
-	private Address createAddress(Integer id, String street, String city, String state, String postalCode,
+	private Address createAddress(String street, String city, String state, String postalCode,
 			String country) {
 		Address address = new Address();
-		address.setId(id);
 		address.setStreet(street);
 		address.setCity(city);
 		address.setState(state);
