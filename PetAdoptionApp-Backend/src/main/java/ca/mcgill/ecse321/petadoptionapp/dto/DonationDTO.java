@@ -28,6 +28,10 @@ public class DonationDTO {
 		return donatedFrom;
 	}
 	
+	public void setAmount(Integer amount) {
+		this.amount = amount;
+	}
+	
 	public void setShelter(PetShelterDTO shelter) {
 		this.donatedTo = shelter;
 	}
