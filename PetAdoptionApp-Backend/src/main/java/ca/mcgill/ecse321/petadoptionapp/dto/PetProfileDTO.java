@@ -1,9 +1,8 @@
 package ca.mcgill.ecse321.petadoptionapp.dto;
 
-import ca.mcgill.ecse321.petadoptionapp.model.Gender;
-import ca.mcgill.ecse321.petadoptionapp.model.GeneralUser;
+import ca.mcgill.ecse321.petadoptionapp.model.Gender;///This should have it's own DTO object TODO
 
-public class PetApplicationDTO {
+public class PetProfileDTO {
 	private String name;
 	private String description;
 	private int age;
@@ -12,8 +11,8 @@ public class PetApplicationDTO {
 	private byte[] profile_pic;
 	private String species;
 	
-	public PetApplicationDTO(String name, int age, Gender petGender, String description, String species, 
-			byte[] profile, String reason, GeneralUser user) {
+	public PetProfileDTO(String name, int age, Gender petGender, String description, String species, 
+			byte[] profile, String reason, GeneralUserDTO user) {
 		this.name = name;
 		this.description  = description;
 		this.age = age;
