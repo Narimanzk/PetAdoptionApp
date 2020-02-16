@@ -51,7 +51,7 @@ public class AdoptionApplication {
 	public void setApplicationDescription(String value) {
 		this.applicationDescription = value;
 	}
-
+	@Column(columnDefinition = "TEXT")
 	public String getApplicationDescription() {
 		return this.applicationDescription;
 	}

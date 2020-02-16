@@ -6,7 +6,6 @@ import javax.persistence.Inheritance;
 import javax.persistence.Lob;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Basic;
-import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import java.util.Set;
 import javax.persistence.OneToMany;
