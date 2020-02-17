@@ -1,42 +1,55 @@
 package ca.mcgill.ecse321.petadoptionapp.dto;
 
 public class DonationDTO {
-	
-	private Integer amount;
+	private int amount;
 	private PetShelterDTO donatedTo;
 	private RegularUserDTO donatedFrom;
-	
+
+
 	public DonationDTO() {
-		
+
 	}
-	
-	public DonationDTO(Integer amount, PetShelterDTO shelter, RegularUserDTO user) {
+
+
+	public DonationDTO(int amount, PetShelterDTO donatedTo, RegularUserDTO donatedFrom) {
 		this.amount = amount;
-		this.donatedTo = shelter;
-		this.donatedFrom = user;
+		this.donatedTo = donatedTo;
+		this.donatedFrom = donatedFrom;
 	}
-	
-	public Integer getAmount() {
+
+
+
+	public int getAmount() {
 		return amount;
 	}
-	
-	public PetShelterDTO getShelter() {
-		return donatedTo;
-	}
-	
-	public RegularUserDTO getUser() {
-		return donatedFrom;
-	}
-	
-	public void setAmount(Integer amount) {
+
+
+	public void setAmount(int amount) {
 		this.amount = amount;
 	}
-	
-	public void setShelter(PetShelterDTO shelter) {
-		this.donatedTo = shelter;
+
+
+	public PetShelterDTO getDonatedTo() {
+		return donatedTo;
 	}
-	
-	public void setUser(RegularUserDTO user) {
-		this.donatedFrom = user;
+
+
+	public void setDonatedTo(PetShelterDTO donatedTo) {
+		this.donatedTo = donatedTo;
 	}
+
+
+	public RegularUserDTO getDonatedFrom() {
+		return donatedFrom;
+	}
+
+
+	public void setDonatedFrom(RegularUserDTO donatedFrom) {
+		this.donatedFrom = donatedFrom;
+	}
+
+
+
+
+
 }

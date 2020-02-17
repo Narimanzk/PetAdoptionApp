@@ -700,7 +700,7 @@ public class TestPetAdoptionAppPersistence {
 	//Lenoy - Tests for Question Class
 	@Test
 	public void testPersistAndLoadQuestion() {
-		Integer id = 57515; 
+		 
 		String title = "Question Title";
 		String description = "Question Description";
 		ThreadStatus threadStatus = ThreadStatus.Open;
@@ -709,12 +709,12 @@ public class TestPetAdoptionAppPersistence {
 		String password = "123456789";
 		RegularUser user = createAndSaveRegularUser(username, email, password);
 		Question question = new Question();
-		question.setId(id);
 		question.setTitle(title);
 		question.setDescription(description);
 		question.setThreadStatus(threadStatus);
 		question.setUser(user);
 		questionRepository.save(question);
+		Integer id = question.getId();
 		
 		question = null;
 		
@@ -729,8 +729,7 @@ public class TestPetAdoptionAppPersistence {
 	}	
 	
 	@Test 
-	public void testDeleteQuestion() {
-		Integer id = 57515; 
+	public void testDeleteQuestion() { 
 		String title = "Question Title";
 		String description = "Question Description";
 		ThreadStatus threadStatus = ThreadStatus.Open;
@@ -739,12 +738,13 @@ public class TestPetAdoptionAppPersistence {
 		String password = "123456789";
 		RegularUser user = createAndSaveRegularUser(username, email, password);
 		Question question = new Question();
-		question.setId(id);
 		question.setTitle(title);
 		question.setDescription(description);
 		question.setThreadStatus(threadStatus);
 		question.setUser(user);
 		questionRepository.save(question);
+		Integer id = question.getId();
+		
 		
 		question = null; 
 		
@@ -758,7 +758,6 @@ public class TestPetAdoptionAppPersistence {
 	}
 	
 	public void testUpdateQuestion() {
-		Integer id = 57515; 
 		String title = "Question Title";
 		String description = "Question Description";
 		ThreadStatus threadStatus = ThreadStatus.Open;
@@ -767,12 +766,12 @@ public class TestPetAdoptionAppPersistence {
 		String password = "123456789";
 		RegularUser user = createAndSaveRegularUser(username, email, password);
 		Question question = new Question();
-		question.setId(id);
 		question.setTitle(title);
 		question.setDescription(description);
 		question.setThreadStatus(threadStatus);
 		question.setUser(user);
 		questionRepository.save(question);
+		Integer id = question.getId();
 		
 		question = null; 
 		
@@ -800,8 +799,6 @@ public class TestPetAdoptionAppPersistence {
 	//Lenoy - Tests for Response Class
 		@Test
 		public void testPersistAndLoadResponse() {
-			Integer id = 57515; 
-			Integer questionID = 57516;
 			String text = "Response";
 			String questionTitle = "Question Title";
 			String questionDescription = "Question Description";
@@ -811,18 +808,17 @@ public class TestPetAdoptionAppPersistence {
 			String password = "123456789";
 			RegularUser user = createAndSaveRegularUser(username, email, password);
 			Question question = new Question();
-			question.setId(questionID);
 			question.setTitle(questionTitle);
 			question.setDescription(questionDescription);
 			question.setThreadStatus(questionThreadStatus);
 			question.setUser(user);
 			questionRepository.save(question);
 			Response response = new Response();
-			response.setId(id);
 			response.setText(text);
 			response.setQuestion(question);
 			response.setUser(user);
 			responseRepository.save(response);
+			Integer id = response.getId();
 			
 			
 			
@@ -839,9 +835,7 @@ public class TestPetAdoptionAppPersistence {
 	
 		
 		@Test 
-		public void testDeleteResponse() {
-			Integer id = 57515; 
-			Integer questionID = 57516;
+		public void testDeleteResponse() { 
 			String text = "Response";
 			String questionTitle = "Question Title";
 			String questionDescription = "Question Description";
@@ -851,18 +845,17 @@ public class TestPetAdoptionAppPersistence {
 			String password = "123456789";
 			RegularUser user = createAndSaveRegularUser(username, email, password);
 			Question question = new Question();
-			question.setId(questionID);
 			question.setTitle(questionTitle);
 			question.setDescription(questionDescription);
 			question.setThreadStatus(questionThreadStatus);
 			question.setUser(user);
 			questionRepository.save(question);
 			Response response = new Response();
-			response.setId(id);
 			response.setText(text);
 			response.setQuestion(question);
 			response.setUser(user);
 			responseRepository.save(response);
+			Integer id = response.getId();
 			
 			response = null; 
 			
@@ -876,8 +869,6 @@ public class TestPetAdoptionAppPersistence {
 		}
 		@Test
 		public void testUpdateResponse() {
-			Integer id = 57515; 
-			Integer questionID = 57516;
 			String text = "Response";
 			String questionTitle = "Question Title";
 			String questionDescription = "Question Description";
@@ -887,18 +878,17 @@ public class TestPetAdoptionAppPersistence {
 			String password = "123456789";
 			RegularUser user = createAndSaveRegularUser(username, email, password);
 			Question question = new Question();
-			question.setId(questionID);
 			question.setTitle(questionTitle);
 			question.setDescription(questionDescription);
 			question.setThreadStatus(questionThreadStatus);
 			question.setUser(user);
 			questionRepository.save(question);
 			Response response = new Response();
-			response.setId(id);
 			response.setText(text);
 			response.setQuestion(question);
 			response.setUser(user);
 			responseRepository.save(response);
+			Integer id = response.getId();
 			
 			response = null; 
 			
