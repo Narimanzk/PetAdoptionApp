@@ -14,5 +14,5 @@ public interface ResponseRepository extends CrudRepository <Response, Integer> {
 	
 	List<Response> findByQuestion(Question question);
 	
-	List<Response> findByGeneralUser(GeneralUser user);
+	List<Response> findByUser(GeneralUser user);
 }

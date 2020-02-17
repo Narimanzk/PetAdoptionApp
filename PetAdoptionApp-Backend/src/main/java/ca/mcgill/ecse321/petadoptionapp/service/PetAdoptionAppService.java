@@ -119,7 +119,7 @@ public class PetAdoptionAppService {
 	@Transactional
 	public List<Donation> getDonationsMadeByRegularUser(RegularUser user) {
 		List<Donation> donationsMadeByRegularUser = new ArrayList<>();
-		for(Donation d : donationRepository.findByRegularUser(user)) {
+		for(Donation d : donationRepository.findByDonatedFrom(user)) {
 			donationsMadeByRegularUser.add(d);
 		}
 		return donationsMadeByRegularUser;
@@ -128,7 +128,7 @@ public class PetAdoptionAppService {
 	@Transactional
 	public List<Donation> getDonationsForPetShelter(PetShelter shelter) {
 		List<Donation> donationsForPetShelter = new ArrayList<>();
-		for(Donation d: donationRepository.findByPetShelter(shelter)) {
+		for(Donation d: donationRepository.findByDonatedTo(shelter)) {
 			donationsForPetShelter.add(d);
 		}
 		return donationsForPetShelter;
@@ -163,7 +163,7 @@ public class PetAdoptionAppService {
 	@Transactional
 	public List<Response> getResponsesForGeneralUser(GeneralUser user) {
 		List<Response> responsesForGeneralUser = new ArrayList<>();
-		for(Response r : responseRepository.findByGeneralUser(user)) {
+		for(Response r : responseRepository.findByUser(user)) {
 			responsesForGeneralUser.add(r);
 		}
 		return responsesForGeneralUser;

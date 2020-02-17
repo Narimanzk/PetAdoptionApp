@@ -11,7 +11,7 @@ import ca.mcgill.ecse321.petadoptionapp.model.RegularUser;
 public interface DonationRepository extends CrudRepository<Donation, Integer>{
     Donation findDonationById(Integer id);
     
-    List<Donation> findByRegularUser(RegularUser user);
+    List<Donation> findByDonatedFrom(RegularUser user);
     
-    List<Donation> findByPetShelter(PetShelter shelter);
+    List<Donation> findByDonatedTo(PetShelter shelter);
 }
