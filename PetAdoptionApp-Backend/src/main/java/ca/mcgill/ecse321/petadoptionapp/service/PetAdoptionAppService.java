@@ -22,6 +22,10 @@ import ca.mcgill.ecse321.petadoptionapp.model.Gender;
 import ca.mcgill.ecse321.petadoptionapp.model.GeneralUser;
 import ca.mcgill.ecse321.petadoptionapp.model.PetProfile;
 import ca.mcgill.ecse321.petadoptionapp.model.RegularUser;
+import ca.mcgill.ecse321.petadoptionapp.model.PetShelter;
+import ca.mcgill.ecse321.petadoptionapp.model.Question;
+import ca.mcgill.ecse321.petadoptionapp.model.Response;
+import ca.mcgill.ecse321.petadoptionapp.model.Donation;
 
 @Service
 public class PetAdoptionAppService {
@@ -92,6 +96,77 @@ public class PetAdoptionAppService {
 	@Transactional 
 	public List<PetProfile> getAllPetProfile(){
 		return toList(petProfileRespository.findAll());
+	}
+	
+	@Transactional
+	public Donation createDonation(Integer amount) {
+		Donation donation = new Donation();
+		donation.setAmount(amount);
+		donationRepository.save(donation);
+		return donation;
+	}
+	
+	@Transactional
+	public Donation getDonation(int id) {
+		return donationRepository.findDonationById(id);
+	}
+	
+	@Transactional
+	public List<Donation> getAllDonations() {
+		return toList(donationRepository.findAll());
+	}
+	
+	@Transactional
+	public List<Donation> getDonationsMadeByRegularUser(RegularUser user) {
+		List<Donation> donationsMadeByRegularUser = new ArrayList<>();
+		for(Donation d : donationRepository.findByDonatedFrom(user)) {
+			donationsMadeByRegularUser.add(d);
+		}
+		return donationsMadeByRegularUser;
+	}
+	
+	@Transactional
+	public List<Donation> getDonationsForPetShelter(PetShelter shelter) {
+		List<Donation> donationsForPetShelter = new ArrayList<>();
+		for(Donation d: donationRepository.findByDonatedTo(shelter)) {
+			donationsForPetShelter.add(d);
+		}
+		return donationsForPetShelter;
+	}
+	@Transactional
+	public Response createResponse(String text) {
+		Response response = new Response();
+		response.setText(text);
+		responseRepository.save(response);
+		return response;
+	}
+	
+	@Transactional
+	public Response getResponse(int id) {
+		return responseRepository.findResponseById(id);
+	}
+	
+	@Transactional
+	public List<Response> getAllResponses() {
+		return toList(responseRepository.findAll());
+	}
+	
+	@Transactional
+	public List<Response> getResponsesForQuestion(Question question) {
+		List<Response> responsesForQuestion = new ArrayList<>();
+		for(Response r : responseRepository.findByQuestion(question)) {
+			responsesForQuestion.add(r);
+		}
+		return responsesForQuestion;
+	}
+	
+	@Transactional
+	public List<Response> getResponsesForGeneralUser(GeneralUser user) {
+		List<Response> responsesForGeneralUser = new ArrayList<>();
+		for(Response r : responseRepository.findByUser(user)) {
+			responsesForGeneralUser.add(r);
+		}
+		return responsesForGeneralUser;
 	}
 	
 	private <T> List<T> toList(Iterable<T> iterable){
