@@ -3,20 +3,27 @@ package ca.mcgill.ecse321.petadoptionapp.dto;
 public class AdoptionApplicationDTO {
 	private Integer id;
 	private String applicationDescription;
-	private GeneralUserDTO user;
-	private PetProfileDTO petProfile;
 	private ApplicationStatusDTO applicationStatus;
+	private RegularUserDTO user;
+	private PetProfileDTO petProfile;
 
 	public AdoptionApplicationDTO() {
 
 	}
 
-	public AdoptionApplicationDTO(int id, String description, GeneralUserDTO user, PetProfileDTO petProfile, ApplicationStatusDTO applicationStatus) {
+	public AdoptionApplicationDTO(int id, String description, ApplicationStatusDTO applicationStatus) {
 		this.id = id;
 		this.applicationDescription = description;
+		this.applicationStatus = applicationStatus;
+	}
+	
+	public AdoptionApplicationDTO(int id, String description, ApplicationStatusDTO applicationStatus,
+			RegularUserDTO user, PetProfileDTO petProfile) {
+		this.id = id;
+		this.applicationDescription = description;
+		this.applicationStatus = applicationStatus;
 		this.user = user;
 		this.petProfile = petProfile;
-		this.applicationStatus = applicationStatus;
 	}
 
 	public Integer getId() {
@@ -27,11 +34,11 @@ public class AdoptionApplicationDTO {
 		return this.applicationDescription;
 	}
 
-	public GeneralUserDTO getUser() {
+	public RegularUserDTO getUser() {
 		return this.user;
 	}
 
-	public void setUser(GeneralUserDTO user) {
+	public void setUser(RegularUserDTO user) {
 		this.user = user;
 	}
 
