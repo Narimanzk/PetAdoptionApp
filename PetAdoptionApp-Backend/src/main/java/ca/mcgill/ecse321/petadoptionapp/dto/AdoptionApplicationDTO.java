@@ -6,24 +6,19 @@ public class AdoptionApplicationDTO {
 	private ApplicationStatusDTO applicationStatus;
 	private RegularUserDTO user;
 	private PetProfileDTO petProfile;
-
-	public AdoptionApplicationDTO() {
-
-	}
-
-	public AdoptionApplicationDTO(int id, String description, ApplicationStatusDTO applicationStatus) {
-		this.id = id;
-		this.applicationDescription = description;
-		this.applicationStatus = applicationStatus;
-	}
 	
-	public AdoptionApplicationDTO(int id, String description, ApplicationStatusDTO applicationStatus,
-			RegularUserDTO user, PetProfileDTO petProfile) {
+	/**
+	 * call this constructor when an owner of adopter wants to see all applications
+	 * set reference later (depends on user's role)
+	 * @param id
+	 * @param description
+	 * @param applicationStatus
+	 * @param user
+	 */
+	public AdoptionApplicationDTO(Integer id, String description, ApplicationStatusDTO applicationStatus) {
 		this.id = id;
 		this.applicationDescription = description;
 		this.applicationStatus = applicationStatus;
-		this.user = user;
-		this.petProfile = petProfile;
 	}
 
 	public Integer getId() {

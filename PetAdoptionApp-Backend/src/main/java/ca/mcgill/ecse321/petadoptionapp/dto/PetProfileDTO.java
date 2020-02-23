@@ -1,8 +1,11 @@
 package ca.mcgill.ecse321.petadoptionapp.dto;
 
-import ca.mcgill.ecse321.petadoptionapp.model.Gender;///This should have it's own DTO object TODO
+import java.util.List;
+
+import ca.mcgill.ecse321.petadoptionapp.model.Gender;
 
 public class PetProfileDTO {
+	private Integer id;
 	private String name;
 	private String description;
 	private int age;
@@ -11,9 +14,22 @@ public class PetProfileDTO {
 	private byte[] profile_pic;
 	private String species;
 	private RegularUserDTO user;
+	private List<AdoptionApplicationDTO> applications;
 	
-	public PetProfileDTO(String name, int age, Gender petGender, String description, String species, 
+	/**
+	 * call this constructor when needs to look up every pet profile
+	 * @param name
+	 * @param age
+	 * @param petGender
+	 * @param description
+	 * @param species
+	 * @param profile
+	 * @param reason
+	 * @param user
+	 */
+	public PetProfileDTO(Integer id, String name, int age, Gender petGender, String description, String species, 
 			byte[] profile, String reason) {
+		this.id = id;
 		this.name = name;
 		this.description  = description;
 		this.age = age;
@@ -23,18 +39,9 @@ public class PetProfileDTO {
 		this.species = species;
 	}
 	
-	public PetProfileDTO(String name, int age, Gender petGender, String description, String species, 
-			byte[] profile, String reason, RegularUserDTO user) {
-		this.name = name;
-		this.description  = description;
-		this.age = age;
-		this.gender = petGender;
-		this.reason = reason;
-		this.profile_pic = profile;
-		this.species = species;
-		this.user = user;
+	public Integer getId() {
+		return this.id;
 	}
-	
 	
 	public String getName() {
 		return this.name;
@@ -70,5 +77,13 @@ public class PetProfileDTO {
 	
 	public void setUser(RegularUserDTO user) {
 		this.user = user;
+	}
+	
+	public List<AdoptionApplicationDTO> getApplications(){
+		return this.applications;
+	}
+	
+	public void setApplications(List<AdoptionApplicationDTO> apps) {
+		this.applications = apps;
 	}
 }

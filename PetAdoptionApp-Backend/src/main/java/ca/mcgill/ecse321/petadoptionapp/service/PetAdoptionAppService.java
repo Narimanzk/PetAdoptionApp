@@ -47,37 +47,36 @@ public class PetAdoptionAppService {
 	private QuestionRepository questionRepository;
 	@Autowired
 	private ResponseRepository responseRepository;
-	
-	
-	  @Transactional
-	  public RegularUser createRegularuser(String username,String password,String email) {
-	    RegularUser user = new RegularUser();
-	    user.setUsername(username);
-	    user.setEmail(email);
-	    user.setPassword(password);
-	    regularUserRepository.save(user);
-	    return user;
-	  }
-	  
-	  @Transactional
-	  public RegularUser getRegularUser(String username) {
-	    RegularUser user = regularUserRepository.findRegularUserByUsername(username);
-	    return user;
-	  }
-	  
-	  @Transactional
-	  public List<RegularUser> getAllPersons() {
-	      return null;
-	      //toList(regularUserRepository.findAll());
-	  }
-	
+
+	@Transactional
+	public RegularUser createRegularuser(String username, String password, String email) {
+		RegularUser user = new RegularUser();
+		user.setUsername(username);
+		user.setEmail(email);
+		user.setPassword(password);
+		regularUserRepository.save(user);
+		return user;
+	}
+
+	@Transactional
+	public RegularUser getRegularUser(String username) {
+		RegularUser user = regularUserRepository.findRegularUserByUsername(username);
+		return user;
+	}
+
+	@Transactional
+	public List<RegularUser> getAllPersons() {
+		return null;
+		// toList(regularUserRepository.findAll());
+	}
+
 	@Transactional
 	public PetProfile getPetProfile(int id) {
 		return petProfileRespository.findPetProfileById(id);
 	}
-	
-	@Transactional 
-	PetProfile createPetProfile(String name, int age, Gender petGender, String description, String species, 
+
+	@Transactional
+	PetProfile createPetProfile(String name, int age, Gender petGender, String description, String species,
 			byte[] profile, String reason, GeneralUser user) {
 		PetProfile pet = new PetProfile();
 		pet.setAge(age);
@@ -90,14 +89,14 @@ public class PetAdoptionAppService {
 		pet.setDescription(description);
 		petProfileRespository.save(pet);
 		return pet;
-		
+
 	}
-	
-	@Transactional 
-	public List<PetProfile> getAllPetProfile(){
+
+	@Transactional
+	public List<PetProfile> getAllPetProfile() {
 		return toList(petProfileRespository.findAll());
 	}
-	
+
 	@Transactional
 	public Donation createDonation(Integer amount) {
 		Donation donation = new Donation();
@@ -105,34 +104,35 @@ public class PetAdoptionAppService {
 		donationRepository.save(donation);
 		return donation;
 	}
-	
+
 	@Transactional
 	public Donation getDonation(int id) {
 		return donationRepository.findDonationById(id);
 	}
-	
+
 	@Transactional
 	public List<Donation> getAllDonations() {
 		return toList(donationRepository.findAll());
 	}
-	
+
 	@Transactional
 	public List<Donation> getDonationsMadeByRegularUser(RegularUser user) {
 		List<Donation> donationsMadeByRegularUser = new ArrayList<>();
-		for(Donation d : donationRepository.findByDonatedFrom(user)) {
+		for (Donation d : donationRepository.findByDonatedFrom(user)) {
 			donationsMadeByRegularUser.add(d);
 		}
 		return donationsMadeByRegularUser;
 	}
-	
+
 	@Transactional
 	public List<Donation> getDonationsForPetShelter(PetShelter shelter) {
 		List<Donation> donationsForPetShelter = new ArrayList<>();
-		for(Donation d: donationRepository.findByDonatedTo(shelter)) {
+		for (Donation d : donationRepository.findByDonatedTo(shelter)) {
 			donationsForPetShelter.add(d);
 		}
 		return donationsForPetShelter;
 	}
+
 	@Transactional
 	public Response createResponse(String text) {
 		Response response = new Response();
@@ -140,36 +140,36 @@ public class PetAdoptionAppService {
 		responseRepository.save(response);
 		return response;
 	}
-	
+
 	@Transactional
 	public Response getResponse(int id) {
 		return responseRepository.findResponseById(id);
 	}
-	
+
 	@Transactional
 	public List<Response> getAllResponses() {
 		return toList(responseRepository.findAll());
 	}
-	
+
 	@Transactional
 	public List<Response> getResponsesForQuestion(Question question) {
 		List<Response> responsesForQuestion = new ArrayList<>();
-		for(Response r : responseRepository.findByQuestion(question)) {
+		for (Response r : responseRepository.findByQuestion(question)) {
 			responsesForQuestion.add(r);
 		}
 		return responsesForQuestion;
 	}
-	
+
 	@Transactional
 	public List<Response> getResponsesForGeneralUser(GeneralUser user) {
 		List<Response> responsesForGeneralUser = new ArrayList<>();
-		for(Response r : responseRepository.findByUser(user)) {
+		for (Response r : responseRepository.findByUser(user)) {
 			responsesForGeneralUser.add(r);
 		}
 		return responsesForGeneralUser;
 	}
-	
-	private <T> List<T> toList(Iterable<T> iterable){
+
+	private <T> List<T> toList(Iterable<T> iterable) {
 		List<T> resultList = new ArrayList<T>();
 		for (T t : iterable) {
 			resultList.add(t);
