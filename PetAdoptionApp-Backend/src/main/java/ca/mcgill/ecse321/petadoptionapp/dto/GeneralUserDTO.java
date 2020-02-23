@@ -1,6 +1,6 @@
 package ca.mcgill.ecse321.petadoptionapp.dto;
 
-import java.util.Set;
+import java.util.List;
 
 public class GeneralUserDTO {
 	private String username;
@@ -9,23 +9,28 @@ public class GeneralUserDTO {
 	private byte[] profilePicture;
 	private String email;
 	private String phone;
+	private Integer balance;
+	private String description;
 	private AddressDTO address;
-	private Set<ResponseDTO> responses;
-	private Set<PetProfileDTO> petProfiles;
-	private Set<AdoptionApplicationDTO> adoptionApplications;
-	
+	private List<ResponseDTO> responses;
+	private List<PetProfileDTO> petProfiles;
+	private List<AdoptionApplicationDTO> adoptionApplications;
+	private List<DonationDTO> donationAccepted;
+	private List<DonationDTO> donationGiven;
+
 	public GeneralUserDTO() {
-		
+
 	}
-	
-	public GeneralUserDTO(String username, String password, String name, byte[] profilePicture,
-			String email, String phone) {
+
+	public GeneralUserDTO(String username, String password, String name, byte[] profilePicture, String email,
+			String phone, Integer balance) {
 		this.username = username;
 		this.password = password;
 		this.name = name;
 		this.profilePicture = profilePicture;
 		this.email = email;
 		this.phone = phone;
+		this.balance = balance;
 	}
 
 	public String getUsername() {
@@ -76,6 +81,14 @@ public class GeneralUserDTO {
 		this.phone = phone;
 	}
 
+	public Integer getBalance() {
+		return balance;
+	}
+
+	public void setBalance(Integer balance) {
+		this.balance = balance;
+	}
+
 	public AddressDTO getAddress() {
 		return address;
 	}
@@ -84,29 +97,44 @@ public class GeneralUserDTO {
 		this.address = address;
 	}
 
-	public Set<ResponseDTO> getResponses() {
+	public List<ResponseDTO> getResponses() {
 		return responses;
 	}
 
-	public void setResponses(Set<ResponseDTO> responses) {
+	public void setResponses(List<ResponseDTO> responses) {
 		this.responses = responses;
 	}
 
-	public Set<PetProfileDTO> getPetProfiles() {
+	public List<PetProfileDTO> getPetProfiles() {
 		return petProfiles;
 	}
 
-	public void setPetProfiles(Set<PetProfileDTO> petProfiles) {
+	public void setPetProfiles(List<PetProfileDTO> petProfiles) {
 		this.petProfiles = petProfiles;
 	}
 
-	public Set<AdoptionApplicationDTO> getAdoptionApplications() {
+	public List<AdoptionApplicationDTO> getAdoptionApplications() {
 		return adoptionApplications;
 	}
 
-	public void setAdoptionApplications(Set<AdoptionApplicationDTO> adoptionApplications) {
+	public void setAdoptionApplications(List<AdoptionApplicationDTO> adoptionApplications) {
 		this.adoptionApplications = adoptionApplications;
 	}
-	
-	
+
+	public List<DonationDTO> getDonationAccepted() {
+		return donationAccepted;
+	}
+
+	public void setDonationAccepted(List<DonationDTO> donationAccepted) {
+		this.donationAccepted = donationAccepted;
+	}
+
+	public List<DonationDTO> getDonationGiven() {
+		return donationGiven;
+	}
+
+	public void setDonationGiven(List<DonationDTO> donationGiven) {
+		this.donationGiven = donationGiven;
+	}
+
 }

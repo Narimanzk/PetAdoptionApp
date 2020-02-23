@@ -389,7 +389,7 @@ public class TestPetAdoptionAppPersistence {
 		user.setUsername(userUsername);
 		user.setEmail(userEmail);
 		user.setPassword(userPassword);
-		user.setPersonalDescription(userPersonalDescription);
+		user.setDescription(userPersonalDescription);
 		GeneralUser genUser = user;
 		generalUserRepository.save(genUser);
 
@@ -400,7 +400,7 @@ public class TestPetAdoptionAppPersistence {
 		assertNotNull(genUser);
 		assertEquals(userEmail, genUser.getEmail());
 		assertEquals(userPassword, genUser.getPassword());
-		assertEquals(userPersonalDescription, user.getPersonalDescription());
+		assertEquals(userPersonalDescription, user.getDescription());
 	}
 
 	/**
