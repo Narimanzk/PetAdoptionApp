@@ -50,26 +50,27 @@ public class PetAdoptionAppService {
 	@Autowired
 	private ResponseRepository responseRepository;
 
-	@Transactional
-	public RegularUser createRegularuser(String username, String password, String email) {
-		RegularUser user = new RegularUser();
-		user.setUsername(username);
-		user.setEmail(email);
-		user.setPassword(password);
-		regularUserRepository.save(user);
-		return user;
-	}
-
-	@Transactional
-	public RegularUser getRegularUser(String username) {
-		RegularUser user = regularUserRepository.findRegularUserByUsername(username);
-		return user;
-	}
-
-	@Transactional
-	public List<RegularUser> getAllPersons() {
-		return toList(regularUserRepository.findAll());
-	}
+	  @Transactional
+	  public RegularUser createRegularuser(String username,String password,String email,String name) {
+	    RegularUser user = new RegularUser();
+	    user.setUsername(username);
+	    user.setName(name);
+	    user.setEmail(email);
+	    user.setPassword(password);
+	    regularUserRepository.save(user);
+	    return user;
+	  }
+	  
+	  @Transactional
+	  public RegularUser getRegularUser(String username) {
+	    RegularUser user = regularUserRepository.findRegularUserByUsername(username);
+	    return user;
+	  }
+	  
+	  @Transactional
+	  public List<RegularUser> getAllRegularUser() {
+	      return toList(regularUserRepository.findAll());
+	  }
 
 	/**
 	 * get all pet profiles of an user
