@@ -27,6 +27,7 @@ import ca.mcgill.ecse321.petadoptionapp.model.Question;
 import ca.mcgill.ecse321.petadoptionapp.model.Response;
 import ca.mcgill.ecse321.petadoptionapp.model.AdoptionApplication;
 import ca.mcgill.ecse321.petadoptionapp.model.ApplicationStatus;
+import ca.mcgill.ecse321.petadoptionapp.model.Address;
 import ca.mcgill.ecse321.petadoptionapp.model.Donation;
 
 @Service
@@ -122,7 +123,6 @@ public class PetAdoptionAppService {
 	public List<PetProfile> getAllPetProfile() {
 		return toList(petProfileRespository.findAll());
 	}
-	
 	/**
 	 * create an application
 	 * @param description
@@ -170,11 +170,12 @@ public class PetAdoptionAppService {
 		}
 		return applications;
 	}
-
 	@Transactional
-	public Donation createDonation(Integer amount) {
+	public Donation createDonation(Integer amount, PetShelter shelter, RegularUser user) {
 		Donation donation = new Donation();
 		donation.setAmount(amount);
+		donation.setDonatedTo(shelter);
+		donation.setDonatedFrom(user);
 		donationRepository.save(donation);
 		return donation;
 	}
@@ -206,11 +207,12 @@ public class PetAdoptionAppService {
 		}
 		return donationsForPetShelter;
 	}
-
 	@Transactional
-	public Response createResponse(String text) {
+	public Response createResponse(String text, Question question, GeneralUser author) {
 		Response response = new Response();
 		response.setText(text);
+		response.setQuestion(question);
+		response.setUser(author);
 		responseRepository.save(response);
 		return response;
 	}
@@ -243,7 +245,41 @@ public class PetAdoptionAppService {
 		return responsesForGeneralUser;
 	}
 
-	private <T> List<T> toList(Iterable<T> iterable) {
+	//~~~GENERAL USER~~~
+	@Transactional
+	public GeneralUser getGeneralUser(String username) {
+		return generalUserRepository.findGeneralUserByUsername(username);
+	}
+	
+	@Transactional
+	public List<GeneralUser> getAllGeneralUsers() {
+		return toList(generalUserRepository.findAll());
+	}
+	
+	//~~~PET SHELTER~~~
+	@Transactional
+	public PetShelter createPetShelter(String username, String password, String name, String email) {
+		PetShelter shelter = new PetShelter();
+		shelter.setUsername(username);
+		shelter.setPassword(password);
+		shelter.setName(name);
+		shelter.setEmail(email);
+		shelter.setBalance(0);
+		petShelterRepository.save(shelter);
+		return shelter;
+	}
+	
+	@Transactional
+	public PetShelter getPetShelter(String username) {
+		return petShelterRepository.findPetShelterByUsername(username);
+	}
+	
+	@Transactional
+	public List<PetShelter> getAllPetShelters() {
+		return toList(petShelterRepository.findAll());
+	}
+	
+	private <T> List<T> toList(Iterable<T> iterable){
 		List<T> resultList = new ArrayList<T>();
 		for (T t : iterable) {
 			resultList.add(t);
