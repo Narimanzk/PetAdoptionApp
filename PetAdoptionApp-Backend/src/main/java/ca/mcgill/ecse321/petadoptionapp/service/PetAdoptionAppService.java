@@ -25,6 +25,8 @@ import ca.mcgill.ecse321.petadoptionapp.model.RegularUser;
 import ca.mcgill.ecse321.petadoptionapp.model.PetShelter;
 import ca.mcgill.ecse321.petadoptionapp.model.Question;
 import ca.mcgill.ecse321.petadoptionapp.model.Response;
+import ca.mcgill.ecse321.petadoptionapp.model.AdoptionApplication;
+import ca.mcgill.ecse321.petadoptionapp.model.ApplicationStatus;
 import ca.mcgill.ecse321.petadoptionapp.model.Donation;
 
 @Service
@@ -70,13 +72,34 @@ public class PetAdoptionAppService {
 		// toList(regularUserRepository.findAll());
 	}
 
+	/**
+	 * get all pet profiles of an user
+	 * @param user
+	 * @return
+	 */
 	@Transactional
-	public PetProfile getPetProfile(int id) {
-		return petProfileRespository.findPetProfileById(id);
+	public List<PetProfile> getPetProfileByUser(GeneralUser user) {
+		List<PetProfile> profiles = new ArrayList<>();
+		for (PetProfile p : petProfileRespository.findByUser(user)) {
+			profiles.add(p);
+		}
+		return profiles;
 	}
 
+	/**
+	 * create a new pet profile
+	 * @param name
+	 * @param age
+	 * @param petGender
+	 * @param description
+	 * @param species
+	 * @param profile
+	 * @param reason
+	 * @param user
+	 * @return
+	 */
 	@Transactional
-	PetProfile createPetProfile(String name, int age, Gender petGender, String description, String species,
+	public PetProfile createPetProfile(String name, int age, Gender petGender, String description, String species,
 			byte[] profile, String reason, GeneralUser user) {
 		PetProfile pet = new PetProfile();
 		pet.setAge(age);
@@ -89,12 +112,63 @@ public class PetAdoptionAppService {
 		pet.setDescription(description);
 		petProfileRespository.save(pet);
 		return pet;
-
 	}
 
+	/**
+	 * get all pet profiles
+	 * @return
+	 */
 	@Transactional
 	public List<PetProfile> getAllPetProfile() {
 		return toList(petProfileRespository.findAll());
+	}
+	
+	/**
+	 * create an application
+	 * @param description
+	 * @param status
+	 * @param user
+	 * @param profile
+	 * @return
+	 */
+	@Transactional
+	public AdoptionApplication createAdoptionApplication(String description, ApplicationStatus status, GeneralUser user,
+			PetProfile profile) {
+		AdoptionApplication application = new AdoptionApplication();
+		application.setApplicationDescription(description);
+		application.setApplicationStatus(status);
+		application.setPetProfile(profile);
+		application.setUser(user);
+		adoptionApplicationRespository.save(application);
+		return application;
+	}
+	
+	/**
+	 * get all application of an adopter
+	 * @param user
+	 * @return
+	 */
+	@Transactional
+	public List<AdoptionApplication> getApplicationByUser(GeneralUser user){
+		List<AdoptionApplication> applications = new ArrayList<>();
+		for (AdoptionApplication app : adoptionApplicationRespository.findByUser(user)) {
+			applications.add(app);
+		}
+		return applications;
+	}
+	
+	/**
+	 * get all application of a pet profile
+	 * @param profile
+	 * @return
+	 */
+	@Transactional
+	public List<AdoptionApplication> getApplicationByPetProfile(PetProfile profile){
+		List<AdoptionApplication> applications = new ArrayList<>();
+		for (AdoptionApplication app : adoptionApplicationRespository.findByPetProfile(profile)) {
+			applications.add(app);
+		}
+		return applications;
 	}
 
 	@Transactional
