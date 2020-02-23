@@ -11,6 +11,12 @@ public class DonationDTO {
 	}
 
 
+	public DonationDTO(int amount) {
+		super();
+		this.amount = amount;
+	}
+
+
 	public DonationDTO(int amount, PetShelterDTO donatedTo, RegularUserDTO donatedFrom) {
 		this.amount = amount;
 		this.donatedTo = donatedTo;
