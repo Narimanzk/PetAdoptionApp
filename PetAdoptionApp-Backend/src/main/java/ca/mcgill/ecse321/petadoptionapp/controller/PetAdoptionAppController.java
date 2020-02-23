@@ -30,12 +30,12 @@ public class PetAdoptionAppController {
 
 	@GetMapping(value = { "/user", "/users" })
 	public List<RegularUserDTO> getAllUsers() {
-		return service.getAllPersons().stream().map(p -> convertToRegularUserDto(p)).collect(Collectors.toList());
+		return service.getAllRegularUser().stream().map(p -> convertToRegularUserDto(p)).collect(Collectors.toList());
 	}
 	
 	@PostMapping(value = { "/user"}, consumes = "application/json", produces = "application/json")
 	public RegularUserDTO createPetProfile(@RequestBody RegularUserDTO userDto){
-		RegularUser user = service.createRegularuser(userDto.getName(), userDto.getPassword(), userDto.getEmail());
+		RegularUser user = service.createRegularuser(userDto.getUsername(), userDto.getPassword(), userDto.getEmail(),userDto.getName());
 		return convertToRegularUserDto(user);
 	}
 	
