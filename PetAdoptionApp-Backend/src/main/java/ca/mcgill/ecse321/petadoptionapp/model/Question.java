@@ -55,14 +55,14 @@ public class Question {
 		this.responses = responsess;
 	}
 
-	private RegularUser user;
+	private GeneralUser user;
 
 	@ManyToOne(optional = false)
-	public RegularUser getUser() {
+	public GeneralUser getUser() {
 		return this.user;
 	}
 
-	public void setUser(RegularUser user) {
+	public void setUser(GeneralUser user) {
 		this.user = user;
 	}
 

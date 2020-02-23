@@ -4,7 +4,7 @@ public class AdoptionApplicationDTO {
 	private Integer id;
 	private String applicationDescription;
 	private ApplicationStatusDTO applicationStatus;
-	private RegularUserDTO user;
+	private GeneralUserDTO user;
 	private PetProfileDTO petProfile;
 	
 	/**
@@ -29,11 +29,11 @@ public class AdoptionApplicationDTO {
 		return this.applicationDescription;
 	}
 
-	public RegularUserDTO getUser() {
+	public GeneralUserDTO getUser() {
 		return this.user;
 	}
 
-	public void setUser(RegularUserDTO user) {
+	public void setUser(GeneralUserDTO user) {
 		this.user = user;
 	}
 

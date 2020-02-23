@@ -14,13 +14,10 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import ca.mcgill.ecse321.petadoptionapp.dao.AddressRepository;
 import ca.mcgill.ecse321.petadoptionapp.dao.DonationRepository;
-import ca.mcgill.ecse321.petadoptionapp.dao.PetShelterRepository;
 import ca.mcgill.ecse321.petadoptionapp.model.Address;
 import ca.mcgill.ecse321.petadoptionapp.model.Donation;
-import ca.mcgill.ecse321.petadoptionapp.model.PetShelter;
 import ca.mcgill.ecse321.petadoptionapp.model.Question;
 import ca.mcgill.ecse321.petadoptionapp.dao.PetProfileRespository;
-import ca.mcgill.ecse321.petadoptionapp.dao.RegularUserRepository;
 import ca.mcgill.ecse321.petadoptionapp.dao.AdoptionApplicationRespository;
 import ca.mcgill.ecse321.petadoptionapp.dao.QuestionRepository;
 import ca.mcgill.ecse321.petadoptionapp.dao.ResponseRepository;
@@ -28,9 +25,7 @@ import ca.mcgill.ecse321.petadoptionapp.model.AdoptionApplication;
 import ca.mcgill.ecse321.petadoptionapp.model.Gender;
 import ca.mcgill.ecse321.petadoptionapp.model.GeneralUser;
 import ca.mcgill.ecse321.petadoptionapp.model.PetProfile;
-import ca.mcgill.ecse321.petadoptionapp.model.RegularUser;
 import ca.mcgill.ecse321.petadoptionapp.model.ThreadStatus;
-import ca.mcgill.ecse321.petadoptionapp.model.PetShelter;
 import ca.mcgill.ecse321.petadoptionapp.model.GeneralUser;
 import ca.mcgill.ecse321.petadoptionapp.model.Response;
 
@@ -38,17 +33,11 @@ import ca.mcgill.ecse321.petadoptionapp.model.Response;
 @SpringBootTest
 public class TestPetAdoptionAppPersistence {
   
-  
-  
 
-	@Autowired
-	private RegularUserRepository regularUserRepository;
 	@Autowired
 	private PetProfileRespository petProfileRespository;
 	@Autowired
 	private AdoptionApplicationRespository adoptionApplicationRespository;
-	@Autowired
-	private PetShelterRepository petShelterRepository;
 	@Autowired
 	private GeneralUserRepository generalUserRepository;
 	@Autowired
@@ -72,83 +61,8 @@ public class TestPetAdoptionAppPersistence {
 		addressRepository.deleteAll();
 		adoptionApplicationRespository.deleteAll();
 		petProfileRespository.deleteAll();
-		regularUserRepository.deleteAll();
-		petShelterRepository.deleteAll();
 		generalUserRepository.deleteAll();
 	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////
-	// RegularUser Test Starts
-	////////////////////////////////////////////////////////////////////////////////////////////
-	
-	/**
-	 * Test RegularUser table in create and load. (C/R)
-	 * 
-	 * @author Shuby Mao
-	 */
-	@Test
-	public void testPersistAndLoadRegularUser() {
-		String username = "testusername";
-		String email = "test@testmail.com";
-		String password = "123456789";
-		// make sure user doesn't exist
-		RegularUser user = regularUserRepository.findRegularUserByUsername(username);
-		assertNull(user);
-		//
-		user = createAndSaveRegularUser(username, email, password);
-		user = null;
-		user = regularUserRepository.findRegularUserByUsername(username);
-		assertNotNull(user);
-		assertEquals(email, user.getEmail());
-		assertEquals(password, user.getPassword());
-	}
-
-	/**
-	 * Test the regular table in create and update (C/U)
-	 * 
-	 * @author Shuby Mao
-	 */
-	@Test
-	public void testUpdateRegularUser() {
-		String username = "testusername";
-		String email = "test@testmail.com";
-		String password = "123456789";
-		RegularUser user = createAndSaveRegularUser(username, email, password);
-		user = null;
-		user = regularUserRepository.findRegularUserByUsername(username);
-		assertNotNull(user);
-		String securepassword = "password";
-		user.setPassword(securepassword);
-		regularUserRepository.save(user);
-		user = null;
-		user = regularUserRepository.findRegularUserByUsername(username);
-		assertEquals(securepassword, user.getPassword());
-	}
-
-	/**
-	 * Test the regular table in create and delete (C/D)
-	 * 
-	 * @author Shuby Mao
-	 */
-	@Test
-	public void testDeleteRegularUser() {
-		String username = "testusername";
-		String email = "test@testmail.com";
-		String password = "123456789";
-		RegularUser user = createAndSaveRegularUser(username, email, password);
-		user = null;
-		user = regularUserRepository.findRegularUserByUsername(username);
-		// make sure user exist in database
-		assertNotNull(user);
-		// delete the user
-		regularUserRepository.delete(user);
-		user = regularUserRepository.findRegularUserByUsername(username);
-		assertNull(user);
-	}
-	
-	////////////////////////////////////////////////////////////////////////////////////////////
-	// RegularUser Test Ends
-	////////////////////////////////////////////////////////////////////////////////////////////
 	
 	////////////////////////////////////////////////////////////////////////////////////////////
 	// PetProfile Test Starts
@@ -222,7 +136,7 @@ public class TestPetAdoptionAppPersistence {
 		pet.setPetGender(gender);
 		pet.setPetName(pet_name);
 		pet.setPetSpecies(petSpecies);
-		pet.setUser(createAndSaveRegularUser("testusername", "test@gmail.com", "admin"));
+		pet.setUser(createAndSaveGeneralUser("testusername", "test@gmail.com", "admin"));
 		pet.setProfilePicture(profile_pic);
 		petProfileRespository.save(pet);
 
@@ -326,11 +240,11 @@ public class TestPetAdoptionAppPersistence {
 	@Test
 	public void testPersistAndLoadDonation() {
 		Integer amount = 5;
-		RegularUser user = createAndSaveRegularUser("testDon", "TestDon@test.com", "1234");
-		PetShelter petShelter = createPetShelter();
+		GeneralUser user = createAndSaveGeneralUser("testDon", "TestDon@test.com", "1234");
+		GeneralUser petShelter = createAndSaveGeneralUser("testRec", "testRec@test.com", "1234");
 		Donation donation = createDonation(5, user, petShelter);
-		regularUserRepository.save(user);
-		petShelterRepository.save(petShelter);
+		generalUserRepository.save(user);
+		generalUserRepository.save(petShelter);
 		donationRepository.save(donation);
 		Integer id = donation.getId();
 
@@ -351,8 +265,8 @@ public class TestPetAdoptionAppPersistence {
 	 */
 	@Test
 	public void testDeleteDonation() {
-		RegularUser user = createAndSaveRegularUser("testDon", "TestDon@test.com", "1234");
-		PetShelter petShelter = createPetShelter();
+		GeneralUser user = createAndSaveGeneralUser("testDon", "TestDon@test.com", "1234");
+		GeneralUser petShelter = createAndSaveGeneralUser("testRec", "testRec@test.com", "1234");
 		Donation donation = createDonation(5, user, petShelter);
 		donationRepository.delete(donation);
 		donation = donationRepository.findDonationById(donation.getId());
@@ -368,11 +282,11 @@ public class TestPetAdoptionAppPersistence {
 	public void testUpdateDonation() {
 		Integer amount = 5;
 		Integer newAmount = 100;
-		RegularUser user = createAndSaveRegularUser("testDon", "TestDon@test.com", "1234");
-		RegularUser newUser = createAndSaveRegularUser("newDon", "newDon@test.com", "1234");
-		PetShelter petShelter = createPetShelter();
+		GeneralUser user = createAndSaveGeneralUser("testDon", "TestDon@test.com", "1234");
+		GeneralUser newUser = createAndSaveGeneralUser("newDon", "newDon@test.com", "1234");
+		GeneralUser petShelter = createAndSaveGeneralUser("testRec", "testRec@test.com", "1234");
 		Donation donation = createDonation(amount, user, petShelter);
-		petShelterRepository.save(petShelter);
+		generalUserRepository.save(petShelter);
 		donationRepository.save(donation);
 		Integer id = donation.getId();
 		
@@ -459,90 +373,6 @@ public class TestPetAdoptionAppPersistence {
 	////////////////////////////////////////////////////////////////////////////////////////////
 
 	////////////////////////////////////////////////////////////////////////////////////////////
-	// PetShelter Test Starts
-	////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * 
-	 */
-	@Test
-	public void testPersistAndLoadPetShelter() {
-		PetShelter shelter = createPetShelter();
-		String username = shelter.getUsername();
-		String password = shelter.getPassword();
-		String name = shelter.getName();
-		String phone = shelter.getPhone();
-		String email = shelter.getEmail();
-		int balance = shelter.getBalance();
-		petShelterRepository.save(shelter);
-
-		shelter = null;
-		shelter = petShelterRepository.findPetShelterByUsername(username);
-		assertNotNull(shelter);
-		assertEquals(username, shelter.getUsername());
-		assertEquals(password, shelter.getPassword());
-		assertEquals(name, shelter.getName());
-		assertEquals(phone, shelter.getPhone());
-		assertEquals(email, shelter.getEmail());
-		assertEquals(balance, shelter.getBalance());
-	}
-
-	/**
-	 * 
-	 */
-	@Test
-	public void testUpdatePetShelter() {
-		PetShelter shelter = createPetShelter();
-		String username = shelter.getUsername();
-		String name = shelter.getName();
-		String email = shelter.getEmail();
-		petShelterRepository.save(shelter);
-
-		shelter = null;
-		shelter = petShelterRepository.findPetShelterByUsername(username);
-		assertNotNull(shelter);
-		String newPassword = "newpassword";
-		String newPhone = "333-333-4444";
-		int newBalance = 234;
-		shelter.setPassword(newPassword);
-		shelter.setPhone(newPhone);
-		shelter.setBalance(newBalance);
-		petShelterRepository.save(shelter);
-
-		shelter = null;
-		shelter = petShelterRepository.findPetShelterByUsername(username);
-		assertNotNull(shelter);
-		assertEquals(newPassword, shelter.getPassword());
-		assertEquals(newPhone, shelter.getPhone());
-		assertEquals(newBalance, shelter.getBalance());
-		assertEquals(name, shelter.getName());
-		assertEquals(email, shelter.getEmail());
-
-	}
-
-	/**
-	 * 
-	 */
-	@Test
-	public void testDeletePetShelter() {
-		PetShelter shelter = createPetShelter();
-		String username = shelter.getUsername();
-		petShelterRepository.save(shelter);
-
-		shelter = null;
-		shelter = petShelterRepository.findPetShelterByUsername(username);
-		assertNotNull(shelter);
-
-		petShelterRepository.delete(shelter);
-		shelter = petShelterRepository.findPetShelterByUsername(username);
-		assertNull(shelter);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////
-	// PetShelter Test Ends
-	////////////////////////////////////////////////////////////////////////////////////////////
-
-	////////////////////////////////////////////////////////////////////////////////////////////
 	// General User Test Starts
 	////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -551,37 +381,11 @@ public class TestPetAdoptionAppPersistence {
 	 */
 	@Test
 	public void testPersistAndLoadGeneralUser() {
-		// PetShelter
-		PetShelter petShelter = createPetShelter();
-		String shelterUsername = petShelter.getUsername();
-		String shelterPassword = petShelter.getPassword();
-		String shelterName = petShelter.getName();
-		String shelterPhone = petShelter.getPhone();
-		String shelterEmail = petShelter.getEmail();
-		int shelterBalance = petShelter.getBalance();
-		GeneralUser shelter = petShelter;
-		generalUserRepository.save(shelter);
-
-		// Check the pet shelter still exists, and all the superclass attributes can be
-		// accessed
-		shelter = null;
-		shelter = generalUserRepository.findGeneralUserByUsername(shelterUsername);
-		assertNotNull(shelter);
-		assertEquals(shelterPassword, shelter.getPassword());
-		assertEquals(shelterName, shelter.getName());
-		assertEquals(shelterPhone, shelter.getPhone());
-		assertEquals(shelterEmail, shelter.getEmail());
-
-		// Check the pet shelter specific items can still be accessed
-		petShelter = (PetShelter) shelter;
-		assertEquals(shelterBalance, petShelter.getBalance());
-
-		// RegularUser
 		String userUsername = "testusername";
 		String userEmail = "test@testmail.com";
 		String userPassword = "123456789";
 		String userPersonalDescription = "Personal description stuff";
-		RegularUser user = new RegularUser();
+		GeneralUser user = new GeneralUser();
 		user.setUsername(userUsername);
 		user.setEmail(userEmail);
 		user.setPassword(userPassword);
@@ -596,9 +400,6 @@ public class TestPetAdoptionAppPersistence {
 		assertNotNull(genUser);
 		assertEquals(userEmail, genUser.getEmail());
 		assertEquals(userPassword, genUser.getPassword());
-
-		// Check the regular user specific items can still be accessed
-		user = (RegularUser) genUser;
 		assertEquals(userPersonalDescription, user.getPersonalDescription());
 	}
 
@@ -607,35 +408,10 @@ public class TestPetAdoptionAppPersistence {
 	 */
 	@Test
 	public void testUpdateGeneralUser() {
-		// PetShelter
-		GeneralUser shelter = createPetShelter();
-		String shelterUsername = shelter.getUsername();
-		String shelterPassword = shelter.getPassword();
-		String shelterName = shelter.getName();
-		generalUserRepository.save(shelter);
-
-		shelter = null;
-		shelter = generalUserRepository.findGeneralUserByUsername(shelterUsername);
-		assertNotNull(shelter);
-		String shelterNewEmail = "abcdefg@hijk.lmn";
-		String shelterNewPhone = "932-243-23253";
-		shelter.setEmail(shelterNewEmail);
-		shelter.setPhone(shelterNewPhone);
-		generalUserRepository.save(shelter);
-
-		shelter = null;
-		shelter = generalUserRepository.findGeneralUserByUsername(shelterUsername);
-		assertNotNull(shelter);
-		assertEquals(shelterPassword, shelter.getPassword());
-		assertEquals(shelterName, shelter.getName());
-		assertEquals(shelterNewEmail, shelter.getEmail());
-		assertEquals(shelterNewPhone, shelter.getPhone());
-
-		// RegularUser
 		String userUsername = "testusername";
 		String userEmail = "test@testmail.com";
 		String userName = "testname";
-		GeneralUser user = new RegularUser();
+		GeneralUser user = new GeneralUser();
 		user.setUsername(userUsername);
 		user.setName(userName);
 		user.setEmail(userEmail);
@@ -667,30 +443,17 @@ public class TestPetAdoptionAppPersistence {
 	@Test
 	public void testDeleteGeneralUser() {
 		// PetShelter
-		GeneralUser shelter = createPetShelter();
-		String shelterUsername = shelter.getUsername();
-		generalUserRepository.save(shelter);
+		GeneralUser petShelter = createAndSaveGeneralUser("testRec", "testRec@test.com", "1234");
+		String shelterUsername = petShelter.getUsername();
+		generalUserRepository.save(petShelter);
 
-		shelter = null;
-		shelter = generalUserRepository.findGeneralUserByUsername(shelterUsername);
-		assertNotNull(shelter);
+		petShelter = null;
+		petShelter = generalUserRepository.findGeneralUserByUsername(shelterUsername);
+		assertNotNull(petShelter);
 
-		generalUserRepository.delete(shelter);
-		shelter = generalUserRepository.findGeneralUserByUsername(shelterUsername);
-		assertNull(shelter);
-
-		// PetShelter
-		GeneralUser user = createPetShelter();
-		String userUsername = user.getUsername();
-		generalUserRepository.save(user);
-
-		user = null;
-		user = generalUserRepository.findGeneralUserByUsername(userUsername);
-		assertNotNull(user);
-
-		generalUserRepository.delete(user);
-		user = generalUserRepository.findGeneralUserByUsername(userUsername);
-		assertNull(user);
+		generalUserRepository.delete(petShelter);
+		petShelter = generalUserRepository.findGeneralUserByUsername(shelterUsername);
+		assertNull(petShelter);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////
@@ -707,7 +470,7 @@ public class TestPetAdoptionAppPersistence {
 		String username = "testusername";
 		String email = "test@testmail.com";
 		String password = "123456789";
-		RegularUser user = createAndSaveRegularUser(username, email, password);
+		GeneralUser user = createAndSaveGeneralUser(username, email, password);
 		Question question = new Question();
 		question.setTitle(title);
 		question.setDescription(description);
@@ -736,7 +499,7 @@ public class TestPetAdoptionAppPersistence {
 		String username = "testusername";
 		String email = "test@testmail.com";
 		String password = "123456789";
-		RegularUser user = createAndSaveRegularUser(username, email, password);
+		GeneralUser user = createAndSaveGeneralUser(username, email, password);
 		Question question = new Question();
 		question.setTitle(title);
 		question.setDescription(description);
@@ -764,7 +527,7 @@ public class TestPetAdoptionAppPersistence {
 		String username = "testusername";
 		String email = "test@testmail.com";
 		String password = "123456789";
-		RegularUser user = createAndSaveRegularUser(username, email, password);
+		GeneralUser user = createAndSaveGeneralUser(username, email, password);
 		Question question = new Question();
 		question.setTitle(title);
 		question.setDescription(description);
@@ -806,7 +569,7 @@ public class TestPetAdoptionAppPersistence {
 			String username = "testusername";
 			String email = "test@testmail.com";
 			String password = "123456789";
-			RegularUser user = createAndSaveRegularUser(username, email, password);
+			GeneralUser user = createAndSaveGeneralUser(username, email, password);
 			Question question = new Question();
 			question.setTitle(questionTitle);
 			question.setDescription(questionDescription);
@@ -843,7 +606,7 @@ public class TestPetAdoptionAppPersistence {
 			String username = "testusername";
 			String email = "test@testmail.com";
 			String password = "123456789";
-			RegularUser user = createAndSaveRegularUser(username, email, password);
+			GeneralUser user = createAndSaveGeneralUser(username, email, password);
 			Question question = new Question();
 			question.setTitle(questionTitle);
 			question.setDescription(questionDescription);
@@ -876,7 +639,7 @@ public class TestPetAdoptionAppPersistence {
 			String username = "testusername";
 			String email = "test@testmail.com";
 			String password = "123456789";
-			RegularUser user = createAndSaveRegularUser(username, email, password);
+			GeneralUser user = createAndSaveGeneralUser(username, email, password);
 			Question question = new Question();
 			question.setTitle(questionTitle);
 			question.setDescription(questionDescription);
@@ -927,7 +690,7 @@ public class TestPetAdoptionAppPersistence {
 	 * @param to
 	 * @return a sample donation for testing
 	 */
-	private Donation createDonation(Integer amount, RegularUser from, PetShelter to) {
+	private Donation createDonation(Integer amount, GeneralUser from, GeneralUser to) {
 		Donation donation = new Donation();
 		donation.setAmount(amount);
 		donation.setDonatedFrom(from);
@@ -945,7 +708,7 @@ public class TestPetAdoptionAppPersistence {
 	private AdoptionApplication createAdoptionApplication() {
 		String description = "description";
 		PetProfile pet = createPetProfile();
-		GeneralUser user = createAndSaveRegularUser("test", "test@gmail.com", "test");
+		GeneralUser user = createAndSaveGeneralUser("test", "test@gmail.com", "test");
 
 		AdoptionApplication application = new AdoptionApplication();
 		application.setApplicationDescription(description);
@@ -978,25 +741,11 @@ public class TestPetAdoptionAppPersistence {
 		pet.setPetGender(Gender.Female);
 		pet.setPetName(pet_name);
 		pet.setPetSpecies(petSpecies);
-		pet.setUser(createAndSaveRegularUser("testusername", "test@gmail.com", "admin"));
+		pet.setUser(createAndSaveGeneralUser("testusername", "test@gmail.com", "admin"));
 		pet.setProfilePicture(profile_pic);
 		pet.setReason(reason);
 		pet = petProfileRespository.save(pet);
 		return pet;
-	}
-
-	/**
-	 * @return a sample pet shelter for testing
-	 */
-	private PetShelter createPetShelter() {
-		PetShelter shelter = new PetShelter();
-		shelter.setUsername("testshelter");
-		shelter.setPassword("testshelterpassword");
-		shelter.setName("Test Shelter");
-		shelter.setPhone("123-456-7890");
-		shelter.setEmail("testshelter@adopt.com");
-		shelter.setBalance(100);
-		return shelter;
 	}
 
 	/**
@@ -1008,12 +757,12 @@ public class TestPetAdoptionAppPersistence {
 	 * @param password
 	 * @return a sample regular user
 	 */
-	private RegularUser createAndSaveRegularUser(String username, String email, String password) {
-		RegularUser user = new RegularUser();
+	private GeneralUser createAndSaveGeneralUser(String username, String email, String password) {
+		GeneralUser user = new GeneralUser();
 		user.setUsername(username);
 		user.setEmail(email);
 		user.setPassword(password);
-		regularUserRepository.save(user);
+		generalUserRepository.save(user);
 		return user;
 	}
 

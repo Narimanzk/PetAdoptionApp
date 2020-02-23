@@ -6,6 +6,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.Lob;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import java.util.Set;
 import javax.persistence.OneToMany;
@@ -14,8 +15,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Id;
 
 @Entity
-@Inheritance
-@DiscriminatorColumn(name = "UserType", discriminatorType = DiscriminatorType.STRING)
 public class GeneralUser {
 	private String name;
 
@@ -122,6 +121,59 @@ public class GeneralUser {
 
 	public byte[] getProfilePicture() {
 		return this.profilePicture;
+	}
+	
+	private String personalDescription;
+
+	public void setPersonalDescription(String value) {
+		this.personalDescription = value;
+	}
+
+	@Column(columnDefinition = "TEXT")
+	public String getPersonalDescription() {
+		return this.personalDescription;
+	}
+
+	private Set<Donation> donationsGiven;
+
+	@OneToMany(mappedBy = "donatedFrom")
+	public Set<Donation> getDonationsGiven() {
+		return this.donationsGiven;
+	}
+
+	public void setDonationsGiven(Set<Donation> donations) {
+		this.donationsGiven = donations;
+	}
+
+	private Set<Donation> donationsAccepted;
+
+	@OneToMany(mappedBy = "donatedTo")
+	public Set<Donation> getDonationsAccepted() {
+		return this.donationsAccepted;
+	}
+
+	public void setDonationsAccepted(Set<Donation> donations) {
+		this.donationsAccepted = donations;
+	}
+	
+	private Set<Question> questions;
+
+	@OneToMany(mappedBy = "user")
+	public Set<Question> getQuestions() {
+		return this.questions;
+	}
+
+	public void setQuestions(Set<Question> questionss) {
+		this.questions = questionss;
+	}
+	private Integer balance;
+
+	public void setBalance(Integer value) {
+		this.balance = value;
+	}
+
+	public Integer getBalance() {
+		return this.balance;
 	}
 
 }
