@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,13 +27,24 @@ public class PetAdoptionAppController {
 	@Autowired
 	private PetAdoptionAppService service;
 
-	@GetMapping(value = { "/petprofiles", "/petprofile/" })
+	@GetMapping(value = { "/user", "/users" })
+	public List<RegularUserDTO> getAllUsers() {
+		return service.getAllPersons().stream().map(p -> convertToRegularUserDto(p)).collect(Collectors.toList());
+	}
+	
+	@PostMapping(value = { "/user"}, consumes = "application/json", produces = "application/json")
+	public RegularUserDTO createPetProfile(@RequestBody RegularUserDTO userDto){
+		RegularUser user = service.createRegularuser(userDto.getName(), userDto.getPassword(), userDto.getEmail());
+		return convertToRegularUserDto(user);
+	}
+	
+	@GetMapping(value = { "/petprofiles", "/petprofile" })
 	public List<PetProfileDTO> getAllPetProfiles() {
 		return service.getAllPetProfile().stream().map(p -> convertToPetProfileDto(p)).collect(Collectors.toList());
 	}
 
 	@PostMapping(value = { "/{username}/petprofile"}, consumes = "application/json", produces = "application/json")
-	public PetProfileDTO createPetProfile(@RequestParam("username") String username, @RequestBody PetProfileDTO pet){
+	public PetProfileDTO createPetProfile(@PathVariable("username") String username, @RequestBody PetProfileDTO pet){
 		GeneralUser user = service.getRegularUser(username);
 		PetProfile petProfile = service.createPetProfile(pet.getName(), pet.getAge(), pet.getGender(), pet.getDescription(), 
 				pet.getSpecies(), pet.getProfilePic(), pet.getReason(), user);
@@ -40,7 +52,7 @@ public class PetAdoptionAppController {
 	}
 	
 	@GetMapping(value = {"/{username}/petprofile"})
-	public List<PetProfileDTO> getPetProfileByUser(@RequestParam("username") String username){
+	public List<PetProfileDTO> getPetProfileByUser(@PathVariable("username") String username){
 		GeneralUser user = service.getRegularUser(username);
 		return service.getPetProfileByUser(user).stream().map(p -> convertToPetProfileDto(p)).collect(Collectors.toList());
 	}
@@ -53,6 +65,7 @@ public class PetAdoptionAppController {
 	}
 
 	private RegularUserDTO convertToRegularUserDto(GeneralUser user) {
-		return null;
+		RegularUserDTO new_user = new RegularUserDTO(user.getName(), user.getEmail(), user.getPassword());
+		return new_user;
 	}
 }

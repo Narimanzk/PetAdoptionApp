@@ -16,6 +16,9 @@ public class PetProfileDTO {
 	private RegularUserDTO user;
 	private List<AdoptionApplicationDTO> applications;
 	
+	public PetProfileDTO() {
+		
+	}
 	/**
 	 * call this constructor when needs to look up every pet profile
 	 * @param name

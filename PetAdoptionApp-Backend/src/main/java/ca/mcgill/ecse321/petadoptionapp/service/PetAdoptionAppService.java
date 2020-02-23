@@ -68,8 +68,7 @@ public class PetAdoptionAppService {
 
 	@Transactional
 	public List<RegularUser> getAllPersons() {
-		return null;
-		// toList(regularUserRepository.findAll());
+		return toList(regularUserRepository.findAll());
 	}
 
 	/**
