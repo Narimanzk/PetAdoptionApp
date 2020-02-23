@@ -13,7 +13,7 @@ public class PetProfileDTO {
 	private String reason;
 	private byte[] profile_pic;
 	private String species;
-	private RegularUserDTO user;
+	private GeneralUserDTO user;
 	private List<AdoptionApplicationDTO> applications;
 	
 	public PetProfileDTO() {
@@ -74,11 +74,11 @@ public class PetProfileDTO {
 		return this.species;
 	}
 	
-	public RegularUserDTO getUser() {
+	public GeneralUserDTO getUser() {
 		return this.user;
 	}
 	
-	public void setUser(RegularUserDTO user) {
+	public void setUser(GeneralUserDTO user) {
 		this.user = user;
 	}
 	

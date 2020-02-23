@@ -18,25 +18,25 @@ public class Donation {
 		return this.amount;
 	}
 
-	private PetShelter donatedTo;
+	private GeneralUser donatedTo;
 
 	@ManyToOne(optional = false)
-	public PetShelter getDonatedTo() {
+	public GeneralUser getDonatedTo() {
 		return this.donatedTo;
 	}
 
-	public void setDonatedTo(PetShelter donatedTo) {
+	public void setDonatedTo(GeneralUser donatedTo) {
 		this.donatedTo = donatedTo;
 	}
 
-	private RegularUser donatedFrom;
+	private GeneralUser donatedFrom;
 
 	@ManyToOne(optional = false)
-	public RegularUser getDonatedFrom() {
+	public GeneralUser getDonatedFrom() {
 		return this.donatedFrom;
 	}
 
-	public void setDonatedFrom(RegularUser donatedFrom) {
+	public void setDonatedFrom(GeneralUser donatedFrom) {
 		this.donatedFrom = donatedFrom;
 	}
 

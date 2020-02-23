@@ -14,15 +14,11 @@ import ca.mcgill.ecse321.petadoptionapp.dao.AdoptionApplicationRespository;
 import ca.mcgill.ecse321.petadoptionapp.dao.DonationRepository;
 import ca.mcgill.ecse321.petadoptionapp.dao.GeneralUserRepository;
 import ca.mcgill.ecse321.petadoptionapp.dao.PetProfileRespository;
-import ca.mcgill.ecse321.petadoptionapp.dao.PetShelterRepository;
 import ca.mcgill.ecse321.petadoptionapp.dao.QuestionRepository;
-import ca.mcgill.ecse321.petadoptionapp.dao.RegularUserRepository;
 import ca.mcgill.ecse321.petadoptionapp.dao.ResponseRepository;
 import ca.mcgill.ecse321.petadoptionapp.model.Gender;
 import ca.mcgill.ecse321.petadoptionapp.model.GeneralUser;
 import ca.mcgill.ecse321.petadoptionapp.model.PetProfile;
-import ca.mcgill.ecse321.petadoptionapp.model.RegularUser;
-import ca.mcgill.ecse321.petadoptionapp.model.PetShelter;
 import ca.mcgill.ecse321.petadoptionapp.model.Question;
 import ca.mcgill.ecse321.petadoptionapp.model.Response;
 import ca.mcgill.ecse321.petadoptionapp.model.AdoptionApplication;
@@ -33,13 +29,9 @@ import ca.mcgill.ecse321.petadoptionapp.model.Donation;
 @Service
 public class PetAdoptionAppService {
 	@Autowired
-	private RegularUserRepository regularUserRepository;
-	@Autowired
 	private PetProfileRespository petProfileRespository;
 	@Autowired
 	private AdoptionApplicationRespository adoptionApplicationRespository;
-	@Autowired
-	private PetShelterRepository petShelterRepository;
 	@Autowired
 	private GeneralUserRepository generalUserRepository;
 	@Autowired
@@ -50,28 +42,6 @@ public class PetAdoptionAppService {
 	private QuestionRepository questionRepository;
 	@Autowired
 	private ResponseRepository responseRepository;
-
-	  @Transactional
-	  public RegularUser createRegularuser(String username,String password,String email,String name) {
-	    RegularUser user = new RegularUser();
-	    user.setUsername(username);
-	    user.setName(name);
-	    user.setEmail(email);
-	    user.setPassword(password);
-	    regularUserRepository.save(user);
-	    return user;
-	  }
-	  
-	  @Transactional
-	  public RegularUser getRegularUser(String username) {
-	    RegularUser user = regularUserRepository.findRegularUserByUsername(username);
-	    return user;
-	  }
-	  
-	  @Transactional
-	  public List<RegularUser> getAllRegularUser() {
-	      return toList(regularUserRepository.findAll());
-	  }
 
 	/**
 	 * get all pet profiles of an user
@@ -171,7 +141,7 @@ public class PetAdoptionAppService {
 		return applications;
 	}
 	@Transactional
-	public Donation createDonation(Integer amount, PetShelter shelter, RegularUser user) {
+	public Donation createDonation(Integer amount, GeneralUser shelter, GeneralUser user) {
 		Donation donation = new Donation();
 		donation.setAmount(amount);
 		donation.setDonatedTo(shelter);
@@ -191,7 +161,7 @@ public class PetAdoptionAppService {
 	}
 
 	@Transactional
-	public List<Donation> getDonationsMadeByRegularUser(RegularUser user) {
+	public List<Donation> getDonationsMadeByRegularUser(GeneralUser user) {
 		List<Donation> donationsMadeByRegularUser = new ArrayList<>();
 		for (Donation d : donationRepository.findByDonatedFrom(user)) {
 			donationsMadeByRegularUser.add(d);
@@ -200,7 +170,7 @@ public class PetAdoptionAppService {
 	}
 
 	@Transactional
-	public List<Donation> getDonationsForPetShelter(PetShelter shelter) {
+	public List<Donation> getDonationsForPetShelter(GeneralUser shelter) {
 		List<Donation> donationsForPetShelter = new ArrayList<>();
 		for (Donation d : donationRepository.findByDonatedTo(shelter)) {
 			donationsForPetShelter.add(d);
@@ -254,29 +224,6 @@ public class PetAdoptionAppService {
 	@Transactional
 	public List<GeneralUser> getAllGeneralUsers() {
 		return toList(generalUserRepository.findAll());
-	}
-	
-	//~~~PET SHELTER~~~
-	@Transactional
-	public PetShelter createPetShelter(String username, String password, String name, String email) {
-		PetShelter shelter = new PetShelter();
-		shelter.setUsername(username);
-		shelter.setPassword(password);
-		shelter.setName(name);
-		shelter.setEmail(email);
-		shelter.setBalance(0);
-		petShelterRepository.save(shelter);
-		return shelter;
-	}
-	
-	@Transactional
-	public PetShelter getPetShelter(String username) {
-		return petShelterRepository.findPetShelterByUsername(username);
-	}
-	
-	@Transactional
-	public List<PetShelter> getAllPetShelters() {
-		return toList(petShelterRepository.findAll());
 	}
 	
 	private <T> List<T> toList(Iterable<T> iterable){
