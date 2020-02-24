@@ -21,6 +21,7 @@ import ca.mcgill.ecse321.petadoptionapp.model.GeneralUser;
 import ca.mcgill.ecse321.petadoptionapp.model.PetProfile;
 import ca.mcgill.ecse321.petadoptionapp.model.Question;
 import ca.mcgill.ecse321.petadoptionapp.model.Response;
+import ca.mcgill.ecse321.petadoptionapp.model.UserType;
 import ca.mcgill.ecse321.petadoptionapp.model.AdoptionApplication;
 import ca.mcgill.ecse321.petadoptionapp.model.ApplicationStatus;
 import ca.mcgill.ecse321.petadoptionapp.model.Address;
@@ -140,6 +141,7 @@ public class PetAdoptionAppService {
 		}
 		return applications;
 	}
+	
 	@Transactional
 	public Donation createDonation(Integer amount, GeneralUser shelter, GeneralUser user) {
 		Donation donation = new Donation();
@@ -161,22 +163,23 @@ public class PetAdoptionAppService {
 	}
 
 	@Transactional
-	public List<Donation> getDonationsMadeByRegularUser(GeneralUser user) {
-		List<Donation> donationsMadeByRegularUser = new ArrayList<>();
-		for (Donation d : donationRepository.findByDonatedFrom(user)) {
-			donationsMadeByRegularUser.add(d);
+	public List<Donation> getDonationsMadeByGeneralUser(GeneralUser generalUser) {
+		List<Donation> donationsMadeByGeneralUser = new ArrayList<>();
+		for (Donation d : donationRepository.findByDonatedFrom(generalUser)) {
+			donationsMadeByGeneralUser.add(d);
 		}
-		return donationsMadeByRegularUser;
+		return donationsMadeByGeneralUser;
 	}
 
 	@Transactional
-	public List<Donation> getDonationsForPetShelter(GeneralUser shelter) {
-		List<Donation> donationsForPetShelter = new ArrayList<>();
-		for (Donation d : donationRepository.findByDonatedTo(shelter)) {
-			donationsForPetShelter.add(d);
+	public List<Donation> getDonationsForGeneralUser(GeneralUser generalUser) {
+		List<Donation> donationsForGeneralUser = new ArrayList<>();
+		for (Donation d : donationRepository.findByDonatedTo(generalUser)) {
+			donationsForGeneralUser.add(d);
 		}
-		return donationsForPetShelter;
+		return donationsForGeneralUser;
 	}
+	
 	@Transactional
 	public Response createResponse(String text, Question question, GeneralUser author) {
 		Response response = new Response();
@@ -215,17 +218,83 @@ public class PetAdoptionAppService {
 		return responsesForGeneralUser;
 	}
 
-	//~~~GENERAL USER~~~
+	//~~~~~~~~~~ GENERAL USER SERVICES ~~~~~~~~~~~~
+	
+	/**
+	 * Create a new general user.
+	 * @param username
+	 * @param userType
+	 * @param email
+	 * @param password
+	 * @param name
+	 * @return A newly created general user object.
+	 */
+	@Transactional
+	public GeneralUser createGeneralUser(String username, UserType userType, String email, String password, String name) {
+		GeneralUser user = new GeneralUser();
+		user.setUsername(username);
+		user.setUserType(userType);
+		user.setEmail(email);
+		user.setPassword(password);
+		user.setName(name);
+		generalUserRepository.save(user);
+		return user;
+	}
+	
+	/**
+	 * Update the general user information.
+	 * @param username
+	 * @param email
+	 * @param password
+	 * @param profilePicture
+	 * @param description
+	 * @return the updated general user.
+	 */
+	@Transactional
+	public GeneralUser updateGeneralUser(String username, String email, String password, byte[] profilePicture, String description) {
+		GeneralUser user = generalUserRepository.findGeneralUserByUsername(username);
+		if(email!=null)user.setEmail(email);
+		if(password!=null)user.setPassword(password);
+		if(profilePicture!=null)user.setProfilePicture(profilePicture);
+		if(description!=null)user.setDescription(description);
+		generalUserRepository.save(user);
+		return user;
+	}
+	
+	/**
+	 * Delete the user given. 
+	 * @param username
+	 */
+	@Transactional
+	public void deleteGeneralUser(String username) {
+		generalUserRepository.deleteById(username);
+	}
+	
+	/**
+	 * @param username
+	 * @return general user with the given username
+	 */
 	@Transactional
 	public GeneralUser getGeneralUser(String username) {
 		return generalUserRepository.findGeneralUserByUsername(username);
 	}
 	
+	/**
+	 * @return All general user in a list.
+	 */
 	@Transactional
 	public List<GeneralUser> getAllGeneralUsers() {
 		return toList(generalUserRepository.findAll());
 	}
 	
+	
+	// ~~~~~~~~~~ Helper methods ~~~~~~~~~~
+	
+	/**
+	 * @param <T>
+	 * @param iterable
+	 * @return list made from the iterable given.
+	 */
 	private <T> List<T> toList(Iterable<T> iterable){
 		List<T> resultList = new ArrayList<T>();
 		for (T t : iterable) {
