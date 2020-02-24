@@ -3,7 +3,7 @@ package ca.mcgill.ecse321.petadoptionapp.dto;
 public class DonationDTO {
 	private int amount;
 	private PetShelterDTO donatedTo;
-	private RegularUserDTO donatedFrom;
+	private GeneralUserDTO donatedFrom;
 
 
 	public DonationDTO() {
@@ -11,13 +11,13 @@ public class DonationDTO {
 	}
 
 
+
 	public DonationDTO(int amount) {
 		super();
 		this.amount = amount;
 	}
 
-
-	public DonationDTO(int amount, PetShelterDTO donatedTo, RegularUserDTO donatedFrom) {
+	public DonationDTO(int amount, PetShelterDTO donatedTo, GeneralUserDTO donatedFrom) {
 		this.amount = amount;
 		this.donatedTo = donatedTo;
 		this.donatedFrom = donatedFrom;
@@ -45,12 +45,12 @@ public class DonationDTO {
 	}
 
 
-	public RegularUserDTO getDonatedFrom() {
+	public GeneralUserDTO getDonatedFrom() {
 		return donatedFrom;
 	}
 
 
-	public void setDonatedFrom(RegularUserDTO donatedFrom) {
+	public void setDonatedFrom(GeneralUserDTO donatedFrom) {
 		this.donatedFrom = donatedFrom;
 	}
 
