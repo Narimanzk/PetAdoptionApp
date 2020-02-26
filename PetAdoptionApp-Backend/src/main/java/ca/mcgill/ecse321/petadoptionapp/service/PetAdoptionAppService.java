@@ -287,6 +287,76 @@ public class PetAdoptionAppService {
 		return toList(generalUserRepository.findAll());
 	}
 	
+	//~~~~~~~~~~ ADDRESS SERVICES ~~~~~~~~~~~~
+	
+	/**
+	 * Create a new address
+	 * @param street
+	 * @param city
+	 * @param state
+	 * @param postalCode
+	 * @param country
+	 * @return a newly created Address object
+	 */
+	@Transactional
+	public Address createAddress(String street, String city, String state, String postalCode, String country) {
+		Address address = new Address();
+		address.setStreet(street);
+		address.setCity(city);
+		address.setState(state);
+		address.setPostalCode(postalCode);
+		address.setCountry(country);
+		addressRepository.save(address);
+		return address;
+	}
+	
+	/**
+	 * update existed address information
+	 * @param id
+	 * @param street
+	 * @param city
+	 * @param state
+	 * @param postalCode
+	 * @param country
+	 * @return The updated address object
+	 */
+	@Transactional
+	public Address updateAddress(Integer id, String street, String city, String state, String postalCode, String country) {
+		Address address = addressRepository.findAddressById(id);
+		if(street!=null)address.setStreet(street);
+		if(city!=null)address.setCity(city);
+		if(state!=null)address.setState(state);
+		if(postalCode!=null)address.setPostalCode(postalCode);
+		if(country!=null)address.setCountry(country);
+		addressRepository.save(address);
+		return address;
+	}
+	
+	/**
+	 * Delete the given address. 
+	 * @param id
+	 */
+	@Transactional
+	public void deleteAddress(Integer id) {
+		addressRepository.deleteById(id);
+	}
+	
+	/**
+	 * @param user
+	 * @return Address belong to the given user
+	 */
+	@Transactional
+	public Address getAddressByUser(GeneralUser user) {
+		return addressRepository.findAddressByUser(user);
+	}
+	
+	/**
+	 * @return All Addresses in a list.
+	 */
+	@Transactional
+	public List<Address> getAllAddresses() {
+		return toList(addressRepository.findAll());
+	}
 	
 	// ~~~~~~~~~~ Helper methods ~~~~~~~~~~
 	
