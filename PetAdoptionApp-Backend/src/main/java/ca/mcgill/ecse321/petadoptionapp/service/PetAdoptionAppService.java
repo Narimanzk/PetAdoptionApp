@@ -142,6 +142,15 @@ public class PetAdoptionAppService {
 		return applications;
 	}
 	
+	//~~~~~~~~~~ DONATION SERVICES ~~~~~~~~~~~~
+	
+	/**
+	 * Create a new donation object
+	 * @param amount
+	 * @param shelter
+	 * @param user
+	 * @return A newly created Donation object
+	 */
 	@Transactional
 	public Donation createDonation(Integer amount, GeneralUser shelter, GeneralUser user) {
 		Donation donation = new Donation();
@@ -152,16 +161,29 @@ public class PetAdoptionAppService {
 		return donation;
 	}
 
+	/**
+	 * Get Donation object by id
+	 * @param id
+	 * @return Donation object with given id
+	 */
 	@Transactional
 	public Donation getDonation(int id) {
 		return donationRepository.findDonationById(id);
 	}
 
+	/**
+	 * @return all donations in a list
+	 */
 	@Transactional
 	public List<Donation> getAllDonations() {
 		return toList(donationRepository.findAll());
 	}
 
+	/**
+	 * get the list of donations made by a user
+	 * @param generalUser
+	 * @return list of donations
+	 */
 	@Transactional
 	public List<Donation> getDonationsMadeByGeneralUser(GeneralUser generalUser) {
 		List<Donation> donationsMadeByGeneralUser = new ArrayList<>();
@@ -171,6 +193,11 @@ public class PetAdoptionAppService {
 		return donationsMadeByGeneralUser;
 	}
 
+	/**
+	 * get the list of donations donated to a shelter
+	 * @param generalUser
+	 * @return list of donations
+	 */
 	@Transactional
 	public List<Donation> getDonationsForGeneralUser(GeneralUser generalUser) {
 		List<Donation> donationsForGeneralUser = new ArrayList<>();
