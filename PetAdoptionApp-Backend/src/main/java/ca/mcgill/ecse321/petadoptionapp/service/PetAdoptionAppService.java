@@ -207,6 +207,35 @@ public class PetAdoptionAppService {
 		return donationsForGeneralUser;
 	}
 	
+	/**
+	 * update an existing donation
+	 * @param id
+	 * @param amount
+	 * @param donatedFrom
+	 * @param donatedTo
+	 * @return updated donation object
+	 */
+	@Transactional
+	public Donation updateDonation(int id, Integer amount, GeneralUser donatedFrom, GeneralUser donatedTo) {
+		Donation donation = donationRepository.findDonationById(id);
+		if(amount !=null) donation.setAmount(amount);
+		if(donatedFrom != null) donation.setDonatedFrom(donatedFrom);
+		if(donatedTo != null)donation.setDonatedTo(donatedTo);
+		donationRepository.save(donation);
+		return donation;
+	}
+	
+	/**
+	 * Delete the donation. 
+	 * @param username
+	 */
+	@Transactional
+	public void deleteDonation(int id) {
+		donationRepository.deleteById(id);
+	}
+	
+	
+	
 	@Transactional
 	public Response createResponse(String text, Question question, GeneralUser author) {
 		Response response = new Response();
