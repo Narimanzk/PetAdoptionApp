@@ -342,15 +342,6 @@ public class PetAdoptionAppService {
 	}
 	
 	/**
-	 * @param user
-	 * @return Address belong to the given user
-	 */
-	@Transactional
-	public Address getAddressByUser(GeneralUser user) {
-		return addressRepository.findAddressByUser(user);
-	}
-	
-	/**
 	 * @return All Addresses in a list.
 	 */
 	@Transactional
