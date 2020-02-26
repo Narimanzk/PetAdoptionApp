@@ -54,8 +54,12 @@ public class PetAdoptionAppController {
 	}
 
 	@PostMapping(value = { "/users" }, consumes = "application/json", produces = "application/json")
-	public GeneralUserDTO createGeneralUser(@RequestBody GeneralUserDTO user) {
-		// TODO Null checking in the essential parameter
+	public GeneralUserDTO createGeneralUser(@RequestBody GeneralUserDTO user) throws IllegalArgumentException {
+		try {
+			checkIfNull(user);
+		} catch (IllegalArgumentException e) {
+			throw new IllegalArgumentException(e.getMessage());
+		}
 		GeneralUser domainUser = service.createGeneralUser(user.getUsername(),
 				convertToDomainObject(user.getUserType()), user.getEmail(), user.getPassword(), user.getName());
 		GeneralUserDTO userDto = convertToDTO(domainUser);
@@ -63,8 +67,12 @@ public class PetAdoptionAppController {
 	}
 
 	@PutMapping(value = { "/users" }, consumes = "application/json", produces = "application/json")
-	public GeneralUserDTO updateGeneralUser(@RequestBody GeneralUserDTO user) {
-		// TODO Null checking in the essential parameter
+	public GeneralUserDTO updateGeneralUser(@RequestBody GeneralUserDTO user) throws IllegalArgumentException{
+		try {
+			checkIfNull(user);
+		} catch (IllegalArgumentException e) {
+			throw new IllegalArgumentException(e.getMessage());
+		}
 		GeneralUser domainUser = service.updateGeneralUser(user.getUsername(), user.getEmail(), user.getPassword(),
 				user.getProfilePicture(), user.getDescription());
 		GeneralUserDTO userDto = convertToDTO(domainUser);
@@ -218,6 +226,30 @@ public class PetAdoptionAppController {
 		if (userType.equalsIgnoreCase("PetShelter"))
 			return UserType.PetShelter;
 		return UserType.Owner;
+	}
+	
+	// ~~~~~~~~~~~~~~~~~~~~ Null Checking ~~~~~~~~~~~~~~~~~~~~~~~~~
+	
+	private void checkIfNull(GeneralUserDTO user) throws IllegalArgumentException {
+		if (user == null) {
+			throw new IllegalArgumentException("User does not exist");
+		}
+		if (user.getUsername() == null || user.getUsername().equals("")) {
+			throw new IllegalArgumentException("User needs a username");
+		}
+		if (!user.getUserType().equals("Admin") && !user.getUserType().equals("PetShelter") &&
+				!user.getUserType().equals("Owner")) {
+			throw new IllegalArgumentException("User needs a user type");
+		}
+		if (user.getEmail() == null || user.getEmail().equals("")) {
+			throw new IllegalArgumentException("User needs an email");
+		}
+		if (user.getPassword() == null || user.getPassword().equals("")) {
+			throw new IllegalArgumentException("User needs a password");
+		}
+		if (user.getName() == null || user.getName().equals("")) {
+			throw new IllegalArgumentException("User needs a name");
+		}
 	}
 
 }
