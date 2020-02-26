@@ -231,6 +231,27 @@ public class PetAdoptionAppService {
 	 */
 	@Transactional
 	public GeneralUser createGeneralUser(String username, UserType userType, String email, String password, String name) {
+		String error = "";
+		if (username == null || username.trim().length() == 0) {
+			error += "User needs a username. ";
+		}
+		if (userType == null) {
+			error += "User needs a user type. ";
+		}
+		if (email == null || email.trim().length() == 0) {
+			error += "User needs an email. ";
+		}
+		if (password == null || password.trim().length() == 0) {
+			error += "User needs a password. ";
+		}
+		if (name == null || name.trim().length() == 0) {
+			error += "User needs a name.";
+		}
+		error = error.trim();
+		if (error.length() > 0) {
+			throw new IllegalArgumentException(error);
+		}
+		
 		GeneralUser user = new GeneralUser();
 		user.setUsername(username);
 		user.setUserType(userType);
