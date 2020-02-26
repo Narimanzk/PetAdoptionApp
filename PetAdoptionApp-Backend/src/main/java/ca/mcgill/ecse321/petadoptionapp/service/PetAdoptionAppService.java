@@ -46,6 +46,7 @@ public class PetAdoptionAppService {
 
 	/**
 	 * get all pet profiles of an user
+	 * 
 	 * @param user
 	 * @return
 	 */
@@ -57,9 +58,20 @@ public class PetAdoptionAppService {
 		}
 		return profiles;
 	}
+	
+	/**
+	 * get a pet profile by id
+	 * @param id
+	 * @return
+	 */
+	@Transactional
+	public PetProfile getPetProfileById(int id) {
+		return petProfileRespository.findPetProfileById(id);
+	}
 
 	/**
 	 * create a new pet profile
+	 * 
 	 * @param name
 	 * @param age
 	 * @param petGender
@@ -71,9 +83,14 @@ public class PetAdoptionAppService {
 	 * @return
 	 */
 	@Transactional
-	public PetProfile createPetProfile(String name, int age, Gender petGender, String description, String species,
-			byte[] profile, String reason, GeneralUser user) {
-		PetProfile pet = new PetProfile();
+	public PetProfile createOrUpdatePetProfile(String name, int age, Gender petGender, String description, String species,
+			byte[] profile, String reason, GeneralUser user, int id) {
+		PetProfile pet;
+		if(id == -1) {
+			pet = new PetProfile();
+		}else {
+			pet = petProfileRespository.findPetProfileById(id);
+		}
 		pet.setAge(age);
 		pet.setPetName(name);
 		pet.setPetGender(petGender);
@@ -88,14 +105,31 @@ public class PetAdoptionAppService {
 
 	/**
 	 * get all pet profiles
+	 * 
 	 * @return
 	 */
 	@Transactional
 	public List<PetProfile> getAllPetProfile() {
 		return toList(petProfileRespository.findAll());
 	}
+	
+	/**
+	 * delete a pet profile by id
+	 * @param id
+	 * @return
+	 */
+	@Transactional
+	public PetProfile deletePetProfile(int id) {
+		PetProfile pet = petProfileRespository.findPetProfileById(id);
+		if(pet != null) {
+			petProfileRespository.delete(pet);
+		}
+		return pet;
+	}
+
 	/**
 	 * create an application
+	 * 
 	 * @param description
 	 * @param status
 	 * @param user
@@ -103,9 +137,14 @@ public class PetAdoptionAppService {
 	 * @return
 	 */
 	@Transactional
-	public AdoptionApplication createAdoptionApplication(String description, ApplicationStatus status, GeneralUser user,
-			PetProfile profile) {
-		AdoptionApplication application = new AdoptionApplication();
+	public AdoptionApplication createOrUpdateAdoptionApplication(String description, ApplicationStatus status, GeneralUser user,
+			PetProfile profile, int id) {
+		AdoptionApplication application;
+		if(id == -1) {
+			application = new AdoptionApplication();
+		}else {
+			application = adoptionApplicationRespository.findAdoptionApplicationById(id);
+		}
 		application.setApplicationDescription(description);
 		application.setApplicationStatus(status);
 		application.setPetProfile(profile);
@@ -113,14 +152,15 @@ public class PetAdoptionAppService {
 		adoptionApplicationRespository.save(application);
 		return application;
 	}
-	
+
 	/**
 	 * get all application of an adopter
+	 * 
 	 * @param user
 	 * @return
 	 */
 	@Transactional
-	public List<AdoptionApplication> getApplicationByUser(GeneralUser user){
+	public List<AdoptionApplication> getApplicationByUser(GeneralUser user) {
 		List<AdoptionApplication> applications = new ArrayList<>();
 		for (AdoptionApplication app : adoptionApplicationRespository.findByUser(user)) {
 			applications.add(app);
@@ -128,13 +168,20 @@ public class PetAdoptionAppService {
 		return applications;
 	}
 	
+	@Transactional
+	public AdoptionApplication getApplicaiontById(int id) {
+		AdoptionApplication application = adoptionApplicationRespository.findAdoptionApplicationById(id);
+		return application;
+	}
+
 	/**
 	 * get all application of a pet profile
+	 * 
 	 * @param profile
 	 * @return
 	 */
 	@Transactional
-	public List<AdoptionApplication> getApplicationByPetProfile(PetProfile profile){
+	public List<AdoptionApplication> getApplicationByPetProfile(PetProfile profile) {
 		List<AdoptionApplication> applications = new ArrayList<>();
 		for (AdoptionApplication app : adoptionApplicationRespository.findByPetProfile(profile)) {
 			applications.add(app);
@@ -142,6 +189,20 @@ public class PetAdoptionAppService {
 		return applications;
 	}
 	
+	/**
+	 * delete an application
+	 * @param id
+	 * @return
+	 */
+	@Transactional
+	public AdoptionApplication deleteApplication(int id) {
+		AdoptionApplication application = adoptionApplicationRespository.findAdoptionApplicationById(id);
+		if(application != null) {
+			adoptionApplicationRespository.delete(application);
+		}
+		return application;
+	}
+
 	@Transactional
 	public Donation createDonation(Integer amount, GeneralUser shelter, GeneralUser user) {
 		Donation donation = new Donation();
@@ -179,7 +240,7 @@ public class PetAdoptionAppService {
 		}
 		return donationsForGeneralUser;
 	}
-	
+
 	@Transactional
 	public Response createResponse(String text, Question question, GeneralUser author) {
 		Response response = new Response();
@@ -218,10 +279,11 @@ public class PetAdoptionAppService {
 		return responsesForGeneralUser;
 	}
 
-	//~~~~~~~~~~ GENERAL USER SERVICES ~~~~~~~~~~~~
-	
+	// ~~~~~~~~~~ GENERAL USER SERVICES ~~~~~~~~~~~~
+
 	/**
 	 * Create a new general user.
+	 * 
 	 * @param username
 	 * @param userType
 	 * @param email
@@ -230,7 +292,8 @@ public class PetAdoptionAppService {
 	 * @return A newly created general user object.
 	 */
 	@Transactional
-	public GeneralUser createGeneralUser(String username, UserType userType, String email, String password, String name) {
+	public GeneralUser createGeneralUser(String username, UserType userType, String email, String password,
+			String name) {
 		GeneralUser user = new GeneralUser();
 		user.setUsername(username);
 		user.setUserType(userType);
@@ -240,9 +303,10 @@ public class PetAdoptionAppService {
 		generalUserRepository.save(user);
 		return user;
 	}
-	
+
 	/**
 	 * Update the general user information.
+	 * 
 	 * @param username
 	 * @param email
 	 * @param password
@@ -251,25 +315,31 @@ public class PetAdoptionAppService {
 	 * @return the updated general user.
 	 */
 	@Transactional
-	public GeneralUser updateGeneralUser(String username, String email, String password, byte[] profilePicture, String description) {
+	public GeneralUser updateGeneralUser(String username, String email, String password, byte[] profilePicture,
+			String description) {
 		GeneralUser user = generalUserRepository.findGeneralUserByUsername(username);
-		if(email!=null)user.setEmail(email);
-		if(password!=null)user.setPassword(password);
-		if(profilePicture!=null)user.setProfilePicture(profilePicture);
-		if(description!=null)user.setDescription(description);
+		if (email != null)
+			user.setEmail(email);
+		if (password != null)
+			user.setPassword(password);
+		if (profilePicture != null)
+			user.setProfilePicture(profilePicture);
+		if (description != null)
+			user.setDescription(description);
 		generalUserRepository.save(user);
 		return user;
 	}
-	
+
 	/**
-	 * Delete the user given. 
+	 * Delete the user given.
+	 * 
 	 * @param username
 	 */
 	@Transactional
 	public void deleteGeneralUser(String username) {
 		generalUserRepository.deleteById(username);
 	}
-	
+
 	/**
 	 * @param username
 	 * @return general user with the given username
@@ -278,7 +348,7 @@ public class PetAdoptionAppService {
 	public GeneralUser getGeneralUser(String username) {
 		return generalUserRepository.findGeneralUserByUsername(username);
 	}
-	
+
 	/**
 	 * @return All general user in a list.
 	 */
@@ -286,16 +356,15 @@ public class PetAdoptionAppService {
 	public List<GeneralUser> getAllGeneralUsers() {
 		return toList(generalUserRepository.findAll());
 	}
-	
-	
+
 	// ~~~~~~~~~~ Helper methods ~~~~~~~~~~
-	
+
 	/**
 	 * @param <T>
 	 * @param iterable
 	 * @return list made from the iterable given.
 	 */
-	private <T> List<T> toList(Iterable<T> iterable){
+	private <T> List<T> toList(Iterable<T> iterable) {
 		List<T> resultList = new ArrayList<T>();
 		for (T t : iterable) {
 			resultList.add(t);
