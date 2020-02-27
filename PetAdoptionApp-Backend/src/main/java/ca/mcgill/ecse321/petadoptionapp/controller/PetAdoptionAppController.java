@@ -172,12 +172,12 @@ public class PetAdoptionAppController {
 	 * @param id
 	 * @return
 	 */
-	@PostMapping(value = {"/{username}/applications/{petId}"}, consumes = "application/json", produces = "application/json")
-	public AdoptionApplicationDTO createApplication(@PathVariable("username") String username, @RequestBody AdoptionApplicationDTO app, 
-			@PathVariable("petId") Integer id) {
-		GeneralUser user = service.getGeneralUser(username);
-		PetProfile pet = service.getPetProfileById(id);
-		AdoptionApplication application = service.createOrUpdateAdoptionApplication(app.getApplicationDescription(), app.getApplicationStatus(), 
+	@PostMapping(value = {"applications/"})
+	public AdoptionApplicationDTO createApplication(@RequestParam(name = "user") GeneralUserDTO userDto,
+	    @RequestParam(name = "petProfile") PetProfileDTO petProfile, @RequestParam(name = "application") AdoptionApplicationDTO applicationDto) {
+		GeneralUser user = service.getGeneralUser(userDto.getUsername());
+		PetProfile pet = service.getPetProfileById(petProfile.getId());
+		AdoptionApplication application = service.createOrUpdateAdoptionApplication(applicationDto.getApplicationDescription(), applicationDto.getApplicationStatus(), 
 				user, pet, -1);
 		return convertToDTO(application);
 	}
@@ -189,7 +189,7 @@ public class PetAdoptionAppController {
 	 * @param id
 	 * @return
 	 */
-	@PutMapping(value = {"/{username}/applications/{petId}"}, consumes = "application/json", produces = "application/json")
+	@PutMapping(value = {"users/{username}/applications/{petId}"}, consumes = "application/json", produces = "application/json")
 	public AdoptionApplicationDTO updateApplication(@PathVariable("username") String username, @RequestBody AdoptionApplicationDTO app, 
 			@PathVariable("petId") Integer id) {
 		GeneralUser user = service.getGeneralUser(username);
