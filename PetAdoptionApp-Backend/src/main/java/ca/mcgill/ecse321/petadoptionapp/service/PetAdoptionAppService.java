@@ -234,7 +234,7 @@ public class PetAdoptionAppService {
 		donationRepository.deleteById(id);
 	}
 	
-	
+	//~~~~~~~~~~ RESPONSE SERVICES ~~~~~~~~~~~~
 	
 	@Transactional
 	public Response createResponse(String text, Question question, GeneralUser author) {
@@ -395,6 +395,15 @@ public class PetAdoptionAppService {
 	@Transactional
 	public void deleteAddress(Integer id) {
 		addressRepository.deleteById(id);
+	}
+	
+	/**
+	 * @param id
+	 * @return address with given id
+	 */
+	@Transactional
+	public Address getAddress(Integer id) {
+		return addressRepository.findAddressById(id);
 	}
 	
 	/**
