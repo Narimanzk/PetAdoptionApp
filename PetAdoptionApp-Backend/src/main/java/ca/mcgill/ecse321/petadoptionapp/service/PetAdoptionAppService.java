@@ -472,7 +472,7 @@ public class PetAdoptionAppService {
 		return toList(addressRepository.findAll());
 	}
   
-  <<<<<<< LenoyTesting
+  
 	// ~~~~~~QUESTION SERVICES~~~~~~~~~
 	
 	@Transactional
