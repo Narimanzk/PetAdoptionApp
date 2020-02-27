@@ -498,7 +498,7 @@ public class PetAdoptionAppService {
 	@Transactional
 	public Question getQuestionForResponse(Response response) {
 		Question questionOfResponse = new Question();
-		questionOfResponse = questionRepository.findQuestionByResponse(response);
+		questionOfResponse = questionRepository.findQuestionByResponses(response);
 		return questionOfResponse;
 	}
 
