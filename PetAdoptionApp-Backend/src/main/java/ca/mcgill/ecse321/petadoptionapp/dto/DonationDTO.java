@@ -14,14 +14,6 @@ public class DonationDTO {
 	public DonationDTO(int amount) {
 		this.amount = amount;
 	}
-	
-
-	public DonationDTO(int amount, GeneralUserDTO donatedTo, GeneralUserDTO donatedFrom) {
-		this.amount = amount;
-		this.donatedTo = donatedTo;
-		this.donatedFrom = donatedFrom;
-	}
-
 
 
 	public int getAmount() {
