@@ -1,11 +1,15 @@
 package ca.mcgill.ecse321.petadoptionapp.dto;
 
 import java.util.List;
+import java.util.Set;
 
+import ca.mcgill.ecse321.petadoptionapp.model.GeneralUser;
+import ca.mcgill.ecse321.petadoptionapp.model.Response;
 import ca.mcgill.ecse321.petadoptionapp.model.ThreadStatus;
 
 public class QuestionDTO {
 
+	private Integer id;
 	private String title; 
 	private String description;
 	private ThreadStatus status;
@@ -16,12 +20,15 @@ public class QuestionDTO {
 		
 	}
 	
-	public QuestionDTO(String title, String description, ThreadStatus status, GeneralUserDTO author, List<ResponseDTO> responses) {
+	public QuestionDTO(Integer id, String title, String description, ThreadStatus status) {
+		this.id = id;
 		this.title = title; 
 		this.description = description; 
 		this.status = status;
-		this.author = author; 
-		this.responses = responses;
+	}
+	
+	public Integer getID() {
+		return id;
 	}
 	
 	public String getTitle() {
@@ -62,5 +69,10 @@ public class QuestionDTO {
 	
 	public void setAuthor(GeneralUserDTO author) {
 		this.author = author;
+	}
+	
+	
+	public void deleteQuestion() {
+		
 	}
 }
