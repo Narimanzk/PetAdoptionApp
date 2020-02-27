@@ -62,7 +62,7 @@ public class PetAdoptionAppController {
 	}
 
 	@PutMapping(value = { "/users" }, consumes = "application/json", produces = "application/json")
-	public GeneralUserDTO updateGeneralUser(@RequestBody GeneralUserDTO user) throws IllegalArgumentException{
+	public GeneralUserDTO updateGeneralUser(@RequestBody GeneralUserDTO user) {
 		GeneralUser domainUser = service.updateGeneralUser(user.getUsername(), user.getEmail(), user.getPassword(),
 				user.getProfilePicture(), user.getDescription());
 		GeneralUserDTO userDto = convertToDTO(domainUser);

@@ -274,11 +274,13 @@ public class PetAdoptionAppService {
 	@Transactional
 	public GeneralUser updateGeneralUser(String username, String email, String password, byte[] profilePicture, String description) {
 		GeneralUser user = generalUserRepository.findGeneralUserByUsername(username);
-		if(email!=null)user.setEmail(email);
-		if(password!=null)user.setPassword(password);
-		if(profilePicture!=null)user.setProfilePicture(profilePicture);
-		if(description!=null)user.setDescription(description);
-		generalUserRepository.save(user);
+		if (user != null) {
+			if (email != null && email.trim().length() == 0) user.setEmail(email);
+			if (password != null && password.trim().length() == 0) user.setPassword(password);
+			if (profilePicture != null) user.setProfilePicture(profilePicture);
+			if (description != null) user.setDescription(description);
+			generalUserRepository.save(user);
+		}
 		return user;
 	}
 	
