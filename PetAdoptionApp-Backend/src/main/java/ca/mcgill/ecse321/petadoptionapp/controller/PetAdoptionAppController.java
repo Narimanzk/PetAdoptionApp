@@ -310,17 +310,17 @@ public class PetAdoptionAppController {
 			return service.getAllDonations().stream().map(p -> convertToDTO(p)).collect(Collectors.toList());
 		}
 		
-		@GetMapping(value = { "donations/users/{username}" })
+		@GetMapping(value = { "donations/donees/{username}" })
 		public List<DonationDTO> getDonationByDonatedTo(@PathVariable("username") String username) {
 			GeneralUser user = service.getGeneralUser(username);
 			return service.getDonationsForGeneralUser(user).stream().map(p -> convertToDTO(p)).collect(Collectors.toList());
 		}
 		
-//		@GetMapping(value = { "donations/users/{username}" })
-//		public List<DonationDTO> getDonationByDonatedFrom(@PathVariable("username") String username) {
-//			GeneralUser user = service.getGeneralUser(username);
-//			return service.getDonationsMadeByGeneralUser(user).stream().map(p -> convertToDTO(p)).collect(Collectors.toList());
-//		}
+		@GetMapping(value = { "donations/donors/{username}" })
+		public List<DonationDTO> getDonationByDonatedFrom(@PathVariable("username") String username) {
+			GeneralUser user = service.getGeneralUser(username);
+			return service.getDonationsMadeByGeneralUser(user).stream().map(p -> convertToDTO(p)).collect(Collectors.toList());
+		}
 		
 		@PostMapping(value = { "/donations" }, consumes = "application/json", produces = "application/json")
 		public DonationDTO createDonation(@RequestParam(name = "donatedFrom") String donatedFrom,
