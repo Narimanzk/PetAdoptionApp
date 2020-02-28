@@ -336,7 +336,7 @@ public class PetAdoptionAppController {
 			return donationDto;
 		}
 		
-		@PutMapping(value = { "/users/{username}/donations" }, consumes = "application/json", produces = "application/json")
+		@PutMapping(value = { "/donations" }, consumes = "application/json", produces = "application/json")
 		public DonationDTO updateDonation(@RequestParam(name = "donatedFrom") String donatedFrom,
 				@RequestParam(name = "donatedTo") String donatedTo, @RequestBody DonationDTO donation) {
 			GeneralUser domainDonatedFrom = service.getGeneralUser(donatedFrom);
