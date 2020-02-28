@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.petadoptionapp.dto;
 
 public class DonationDTO {
+	private Integer id;
 	private int amount;
 	private GeneralUserDTO donatedTo;
 	private GeneralUserDTO donatedFrom;
@@ -11,8 +12,18 @@ public class DonationDTO {
 	}
 
 	
-	public DonationDTO(int amount) {
+	public DonationDTO(Integer id, int amount) {
+		this.id = id;
 		this.amount = amount;
+	}
+	
+	public Integer getId() {
+		return id;
+	}
+
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 
