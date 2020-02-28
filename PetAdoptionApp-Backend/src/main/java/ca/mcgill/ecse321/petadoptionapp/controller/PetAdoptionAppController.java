@@ -45,7 +45,7 @@ public class PetAdoptionAppController {
 	private PetAdoptionAppService service;
 
 	// ~~~~~~~~~~ Rest API for General User ~~~~~~~~~~~~
-	
+
 	@GetMapping(value = { "/users" })
 	public List<GeneralUserDTO> getAllGeneralUsers() {
 		return service.getAllGeneralUsers().stream().map(p -> convertToDTO(p)).collect(Collectors.toList());
@@ -65,7 +65,7 @@ public class PetAdoptionAppController {
 		return userDto;
 	}
 
-	@PutMapping(value = { "/users" }, consumes = "application/json", produces = "application/json")
+	@PutMapping(value = { "/users"}, consumes = "application/json", produces = "application/json")
 	public GeneralUserDTO updateGeneralUser(@RequestBody GeneralUserDTO user) {
 		// TODO Null checking in the essential parameter
 		GeneralUser domainUser = service.updateGeneralUser(user.getUsername(), user.getEmail(), user.getPassword(),
@@ -73,197 +73,216 @@ public class PetAdoptionAppController {
 		GeneralUserDTO userDto = convertToDTO(domainUser);
 		return userDto;
 	}
-	
+
 	@DeleteMapping(value = { "/users/{username}" })
 	public void deleteGeneralUser(@PathVariable("username") String username) {
 		service.deleteGeneralUser(username);
 	}
 
 	// ~~~~~~~~~~ Rest API for Pet Profile ~~~~~~~~~~~~
-	
+
 	/**
 	 * get all pet profiles
+	 * 
 	 * @return
 	 */
-	@GetMapping(value = { "/petprofiles", "petprofile"})
+	@GetMapping(value = { "/petprofiles", "petprofiles" })
 	public List<PetProfileDTO> getAllPetProfiles() {
 		return service.getAllPetProfile().stream().map(p -> convertToDTO(p)).collect(Collectors.toList());
 	}
 
 	/**
 	 * create a new pet profile
+	 * 
 	 * @param username
 	 * @param pet
 	 * @return
 	 */
-	@PostMapping(value = {"/{username}/petprofiles", "/{username}/petprofile" }, consumes = "application/json", produces = "application/json")
-	public PetProfileDTO createPetProfile(@PathVariable("username") String username, @RequestBody PetProfileDTO pet) {
+	@PostMapping(value = { "/petprofiles" }, consumes = "application/json", produces = "application/json")
+	public PetProfileDTO createPetProfile(@RequestParam(name = "username") String username,
+			@RequestBody PetProfileDTO petDto) {
 		GeneralUser user = service.getGeneralUser(username);
-		PetProfile petProfile = service.createOrUpdatePetProfile(pet.getName(), pet.getAge(), pet.getGender(),
-				pet.getDescription(), pet.getSpecies(), pet.getProfilePic(), pet.getReason(), user, -1);
+		PetProfile petProfile = service.createOrUpdatePetProfile(petDto.getName(), petDto.getAge(), petDto.getGender(),
+				petDto.getDescription(), petDto.getSpecies(), petDto.getProfilePic(), petDto.getReason(), user, -1);
 		return convertToDTO(petProfile);
 	}
 
 	/**
 	 * get all pet profiles of an user
+	 * 
 	 * @param username
 	 * @return
 	 */
-	@GetMapping(value = { "{username}/petprofiles", "{username}/petprofile" })
+	@GetMapping(value = { "/petprofiles/users/{username}" })
 	public List<PetProfileDTO> getPetProfileByUser(@PathVariable("username") String username) {
 		GeneralUser user = service.getGeneralUser(username);
 		return service.getPetProfileByUser(user).stream().map(p -> convertToDTO(p)).collect(Collectors.toList());
 	}
-	
+
 	/**
 	 * delete a pet profile
+	 * 
 	 * @param username
 	 * @param id
 	 * @return
 	 */
-	@DeleteMapping(value = {"{username}/petprofile/{id}"})
-	public PetProfileDTO deletePetProfile(@PathVariable("username") String username, @PathVariable("id") Integer id) {
+	@DeleteMapping(value = { "/petprofiles/{id}" })
+	public PetProfileDTO deletePetProfile(@PathVariable("id") Integer id) {
 		PetProfile pet = service.deletePetProfile(id);
 		return convertToDTO(pet);
 	}
-	
+
 	/**
 	 * update a pet profile
+	 * 
 	 * @param username
 	 * @param pet
 	 * @return
 	 */
-	@PutMapping(value = {"{username}/petprofile"})
-	public PetProfileDTO updatePetProfile(@PathVariable("username") String username, @RequestBody PetProfileDTO pet) {
+	@PutMapping(value = { "/petprofiles" }, consumes = "application/json", produces = "application/json")
+	public PetProfileDTO updatePetProfile(@RequestParam(name = "username") String username,
+			@RequestBody PetProfileDTO petDto) {
 		GeneralUser user = service.getGeneralUser(username);
-		PetProfile petProfile = service.createOrUpdatePetProfile(pet.getName(), pet.getAge(), pet.getGender(),
-				pet.getDescription(), pet.getSpecies(), pet.getProfilePic(), pet.getReason(), user, pet.getId());
+		PetProfile petProfile = service.createOrUpdatePetProfile(petDto.getName(), petDto.getAge(), petDto.getGender(),
+				petDto.getDescription(), petDto.getSpecies(), petDto.getProfilePic(), petDto.getReason(), user,
+				petDto.getId());
 		return convertToDTO(petProfile);
 	}
-	
-	//~~~~~~~~~~~~~ Rest api for Adoption Application ~~~~~~~~~~~~~~~~~~~~~~~
-	
+
+	// ~~~~~~~~~~~~~ Rest api for Adoption Application ~~~~~~~~~~~~~~~~~~~~~~~
+
 	/**
 	 * get all applications of an user
+	 * 
 	 * @param id
 	 * @return
 	 */
-	@GetMapping(value = {"/{username}/applications"})
+	@GetMapping(value = { "/applications/users/{username}" })
 	public List<AdoptionApplicationDTO> getApplicationByUser(@PathVariable("username") String username) {
 		GeneralUser user = service.getGeneralUser(username);
 		return service.getApplicationByUser(user).stream().map(app -> convertToDTO(app)).collect(Collectors.toList());
 	}
-	
+
 	/**
 	 * get all applications of a petId
+	 * 
 	 * @param id
 	 * @return
 	 */
-	@GetMapping(value = {"/{username}/applications/{petId}"})
-	public List<AdoptionApplicationDTO> getApplicationByPet(@PathVariable("petId") Integer id){
+	@GetMapping(value = { "/applications/petprofiles/{petId}" })
+	public List<AdoptionApplicationDTO> getApplicationByPet(@PathVariable("petId") Integer id) {
 		PetProfile pet = service.getPetProfileById(id);
-		return service.getApplicationByPetProfile(pet).stream().map(app -> convertToAttributeDTO(app)).collect(Collectors.toList());
+		return service.getApplicationByPetProfile(pet).stream().map(app -> convertToAttributeDTO(app))
+				.collect(Collectors.toList());
 	}
-	
+
 	/**
 	 * post an application
+	 * 
 	 * @param username
 	 * @param app
 	 * @param id
 	 * @return
 	 */
-	@PostMapping(value = {"applications/"})
-	public AdoptionApplicationDTO createApplication(@RequestParam(name = "user") GeneralUserDTO userDto,
-	    @RequestParam(name = "petProfile") PetProfileDTO petProfile, @RequestParam(name = "application") AdoptionApplicationDTO applicationDto) {
-		GeneralUser user = service.getGeneralUser(userDto.getUsername());
-		PetProfile pet = service.getPetProfileById(petProfile.getId());
-		AdoptionApplication application = service.createOrUpdateAdoptionApplication(applicationDto.getApplicationDescription(), applicationDto.getApplicationStatus(), 
-				user, pet, -1);
+	@PostMapping(value = { "/applications" }, consumes = "application/json", produces = "application/json")
+	public AdoptionApplicationDTO createApplication(@RequestParam(name = "username") String username,
+			@RequestParam(name = "petid") Integer petId,
+			@RequestBody AdoptionApplicationDTO applicationDto) {
+		GeneralUser user = service.getGeneralUser(username);
+		PetProfile pet = service.getPetProfileById(petId);
+		AdoptionApplication application = service.createOrUpdateAdoptionApplication(
+				applicationDto.getApplicationDescription(), applicationDto.getApplicationStatus(), user, pet, -1);
 		return convertToDTO(application);
 	}
-	
+
 	/**
 	 * update an application
+	 * 
 	 * @param username
 	 * @param app
 	 * @param id
 	 * @return
 	 */
-	@PutMapping(value = {"users/{username}/applications/{petId}"}, consumes = "application/json", produces = "application/json")
-	public AdoptionApplicationDTO updateApplication(@PathVariable("username") String username, @RequestBody AdoptionApplicationDTO app, 
-			@PathVariable("petId") Integer id) {
+	@PutMapping(value = { "/applications" }, consumes = "application/json", produces = "application/json")
+	public AdoptionApplicationDTO updateApplication(@RequestParam(name = "username") String username,
+			@RequestParam(name = "petid") Integer petId,
+			@RequestParam(name = "application") AdoptionApplicationDTO applicationDto) {
 		GeneralUser user = service.getGeneralUser(username);
-		PetProfile pet = service.getPetProfileById(id);
-		AdoptionApplication application = service.createOrUpdateAdoptionApplication(app.getApplicationDescription(), app.getApplicationStatus(), 
-				user, pet, app.getId());
+		PetProfile pet = service.getPetProfileById(petId);
+		AdoptionApplication application = service.createOrUpdateAdoptionApplication(
+				applicationDto.getApplicationDescription(), applicationDto.getApplicationStatus(), user, pet,
+				applicationDto.getId());
 		return convertToAttributeDTO(application);
 	}
-	
+
 	/**
 	 * delete an application
+	 * 
 	 * @param appId
 	 * @return
 	 */
-	@DeleteMapping(value = {"/{username}/applications/{appId}"})
+	@DeleteMapping(value = { "/applications/{appId}" })
 	public AdoptionApplicationDTO deleteApp(@PathVariable("appId") Integer appId) {
 		return convertToDTO(service.deleteApplication(appId));
 	}
 
-  	// ~~~~~~~~~~ Rest API for Questions ~~~~~~~~~~~~
-	
+	// ~~~~~~~~~~ Rest API for Questions ~~~~~~~~~~~~
+
 	@GetMapping(value = { "/questions" })
 	public List<QuestionDTO> getAllQuestions() {
 		return service.getAllQuestions().stream().map(p -> convertToDTO(p)).collect(Collectors.toList());
 	}
-	
+
 	@PostMapping(value = {
 			"/users/{username}/questions" }, consumes = "application/json", produces = "application/json")
-	public QuestionDTO createQuestion(@PathVariable("username") String username, @RequestBody String title, @RequestBody String description, @RequestBody ThreadStatus status) {
+	public QuestionDTO createQuestion(@PathVariable("username") String username, @RequestBody String title,
+			@RequestBody String description, @RequestBody ThreadStatus status) {
 		GeneralUser author = service.getGeneralUser(username);
 		Question question = service.createQuestion(title, description, status, author);
 		return convertToDTO(question);
 	}
-	
-	@GetMapping(value = {"/users/{username}/questions"})
+
+	@GetMapping(value = { "/users/{username}/questions" })
 	public List<QuestionDTO> getQuestionsByUser(@PathVariable("username") String username) {
 		GeneralUser user = service.getGeneralUser(username);
 		return service.getQuestionsForGeneralUser(user).stream().map(p -> convertToDTO(p)).collect(Collectors.toList());
 	}
-	
-	@GetMapping(value = {"/response/{id}/question"})
+
+	@GetMapping(value = { "/response/{id}/question" })
 	public QuestionDTO getQuestionFromResponse(@PathVariable("id") int id) {
 		Response response = service.getResponse(id);
 		return convertToDTO(service.getQuestionForResponse(response));
 	}
-	
+
 	// ~~~~~~~~~ Rest API for Responses ~~~~~~~~~~
-	
-	@GetMapping(value = {"/responses"})
+
+	@GetMapping(value = { "/responses" })
 	public List<ResponseDTO> getAllResponses() {
 		return service.getAllResponses().stream().map(p -> convertToDTO(p)).collect(Collectors.toList());
 	}
-	
+
 	@PostMapping(value = {
-	"/users/{username}/responses" }, consumes = "application/json", produces = "application/json")
-	public ResponseDTO createResponse(@PathVariable("username") String username, @RequestBody QuestionDTO resQuestion, @RequestBody String text) {
+			"/users/{username}/responses" }, consumes = "application/json", produces = "application/json")
+	public ResponseDTO createResponse(@PathVariable("username") String username, @RequestBody QuestionDTO resQuestion,
+			@RequestBody String text) {
 		GeneralUser author = service.getGeneralUser(username);
 		Question question = service.getQuestion(resQuestion.getID());
 		Response response = service.createResponse(text, question, author);
 		return convertToDTO(response);
 	}
-	
-	@GetMapping(value = {"/users/{username}/responses"})
+
+	@GetMapping(value = { "/users/{username}/responses" })
 	public List<ResponseDTO> getResponsessByUser(@PathVariable("username") String username) {
 		GeneralUser user = service.getGeneralUser(username);
 		return service.getResponsesForGeneralUser(user).stream().map(p -> convertToDTO(p)).collect(Collectors.toList());
 	}
-	
-	@GetMapping(value = {"/question/{id}/responses"})
+
+	@GetMapping(value = { "/question/{id}/responses" })
 	public List<ResponseDTO> getResponsesToQuestions(@PathVariable("id") int id) {
 		Question question = service.getQuestion(id);
-		return service.getResponsesForQuestion(question).stream().map(p -> convertToDTO(p)).collect(Collectors.toList());
+		return service.getResponsesForQuestion(question).stream().map(p -> convertToDTO(p))
+				.collect(Collectors.toList());
 	}
-	
 
 	// ~~~~~~~~~~~~ Convert To DTO Methods Below ~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -324,8 +343,6 @@ public class PetAdoptionAppController {
 		userDTO.setDonationAccepted(donationAccepted);
 		return userDTO;
 	}
-	
-	
 
 	private GeneralUserDTO convertToAttributeDTO(GeneralUser user) {
 		GeneralUserDTO userDTO = new GeneralUserDTO(user.getUsername(), convertToDTO(user.getUserType()),
@@ -338,11 +355,12 @@ public class PetAdoptionAppController {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 	// ~~~~~~~Question to QuestionDTO ~~~~~~~~
 
 	private QuestionDTO convertToDTO(Question question) {
-		QuestionDTO questionDTO = new QuestionDTO(question.getId(),question.getTitle(), question.getDescription(), question.getThreadStatus());
+		QuestionDTO questionDTO = new QuestionDTO(question.getId(), question.getTitle(), question.getDescription(),
+				question.getThreadStatus());
 		List<ResponseDTO> responses = new ArrayList<ResponseDTO>();
 		if (question.getResponses() != null) {
 			for (Response res : question.getResponses()) {
@@ -352,16 +370,18 @@ public class PetAdoptionAppController {
 		questionDTO.setResponses(responses);
 		questionDTO.setAuthor(convertToAttributeDTO(question.getUser()));
 		return questionDTO;
-		
+
 	}
-	
+
 	private QuestionDTO convertToAttributeDTO(Question question) {
-		QuestionDTO questionDTO = new QuestionDTO(question.getId(),question.getTitle(), question.getDescription(), question.getThreadStatus());
+		QuestionDTO questionDTO = new QuestionDTO(question.getId(), question.getTitle(), question.getDescription(),
+				question.getThreadStatus());
 		return questionDTO;
 	}
 
 	/**
 	 * convert a pet profile object to dto object
+	 * 
 	 * @param p
 	 * @return
 	 */
@@ -374,6 +394,7 @@ public class PetAdoptionAppController {
 
 	/**
 	 * convert a pet profile object to dto object with attributes only
+	 * 
 	 * @param p
 	 * @return
 	 */
@@ -382,15 +403,15 @@ public class PetAdoptionAppController {
 				p.getDescription(), p.getPetSpecies(), p.getProfilePicture(), p.getReason());
 		return pet;
 	}
-	
+
 	// ~~~~~~~~Response to ResponseDTO~~~~~~~~~~
-	
+
 	private ResponseDTO convertToDTO(Response res) {
 		ResponseDTO responseDTO = new ResponseDTO(res.getText());
 		responseDTO.setQuestion(convertToAttributeDTO(res.getQuestion()));
 		responseDTO.setUser(convertToAttributeDTO(res.getUser()));
 		return responseDTO;
-		
+
 	}
 
 	private ResponseDTO convertToAttributeDTO(Response res) {
@@ -405,7 +426,7 @@ public class PetAdoptionAppController {
 		application.setUser(convertToAttributeDTO(app.getUser()));
 		return application;
 	}
-	
+
 	private AdoptionApplicationDTO convertToAttributeDTO(AdoptionApplication app) {
 		AdoptionApplicationDTO application = new AdoptionApplicationDTO(app.getId(), app.getApplicationDescription(),
 				app.getApplicationStatus());
