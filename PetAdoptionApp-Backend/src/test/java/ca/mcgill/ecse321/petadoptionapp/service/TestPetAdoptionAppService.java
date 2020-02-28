@@ -34,6 +34,13 @@ public class TestPetAdoptionAppService {
 
 	private static final String USER_KEY = "TestUser";
 	private static final String NONEXISTING_KEY = "NotAUser";
+	private static final String UPDATE_USER_USERNAME = "TestUpdateUser";
+	private static final UserType UPDATE_USER_USERTYPE = UserType.Owner;
+	private static final String UPDATE_USER_EMAIL = "cooluser@email.com";
+	private static final String UPDATE_USER_PASSWORD = "abcdef1234!";
+	private static final String UPDATE_USER_NAME = "Steve";
+	private static final byte[] UPDATE_USER_PROFILEPICTURE = new byte[] {(byte)0xf5};
+	private static final String UPDATE_USER_DESCRIPTION = "Test Description";
 
 	@BeforeEach
 	public void setMockOutput() {
@@ -42,7 +49,19 @@ public class TestPetAdoptionAppService {
 				GeneralUser user = new GeneralUser();
 				user.setUsername(USER_KEY);
 				return user;
-			} else {
+			}
+			else if (invocation.getArgument(0).equals(UPDATE_USER_USERNAME)) {
+				GeneralUser user = new GeneralUser();
+				user.setUsername(UPDATE_USER_USERNAME);
+				user.setUserType(UPDATE_USER_USERTYPE);
+				user.setEmail(UPDATE_USER_EMAIL);
+				user.setPassword(UPDATE_USER_PASSWORD);
+				user.setName(UPDATE_USER_NAME);
+				user.setProfilePicture(UPDATE_USER_PROFILEPICTURE);
+				user.setDescription(UPDATE_USER_DESCRIPTION);
+				return user;
+			}
+			else {
 				return null;
 			}
 		});
@@ -142,106 +161,63 @@ public class TestPetAdoptionAppService {
 	
 	@Test
 	public void testUpdateGeneralUser() {
-		String username = "CoolUser123";
-		UserType userType = UserType.Owner;
-		String email = "cooluser@email.com";
-		String password = "abcdef1234!";
-		String name = "Steve";
-		GeneralUser user = null;
-		user = service.createGeneralUser(username, userType, email, password, name);
-		assertNotNull(user);
-		
-		user = null;
-		user = service.getGeneralUser(username);
-		assertNotNull(user);
-		
+		String username = UPDATE_USER_USERNAME;
 		String newEmail = "differentuser@website.ca";
 		String newPassword = "zyxvut9876$";
-		byte[] profilePicture = new byte[] {(byte)0xe0};
-		String description = "Some stuff about me";
-		user = service.updateGeneralUser(username, newEmail, newPassword, profilePicture, description);
+		byte[] newProfilePicture = new byte[] {(byte)0xe0};
+		String newDescription = "Some stuff about me";
+		
+		GeneralUser user = null;
+		user = service.updateGeneralUser(username, newEmail, newPassword, newProfilePicture, newDescription);
 		
 		assertNotNull(user);
-		assertEquals(newEmail, user.getEmail());
 		assertEquals(newPassword, user.getPassword());
-		assertEquals(profilePicture, user.getProfilePicture());
-		assertEquals(description, user.getDescription());
+		assertEquals(newEmail, user.getEmail());
+		
+		assertEquals(newProfilePicture, user.getProfilePicture());
+		assertEquals(newDescription, user.getDescription());
 	}
 	
 	@Test
 	public void testUpdateGeneralUserNull() {
-		String username = "CoolUser123";
-		UserType userType = UserType.Owner;
-		String email = "cooluser@email.com";
-		String password = "abcdef1234!";
-		String name = "Steve";
+		String username = UPDATE_USER_USERNAME;
 		GeneralUser user = null;
-		user = service.createGeneralUser(username, userType, email, password, name);
-		assertNotNull(user);
-		
-		byte[] profilePicture = {(byte)0xe0};
-		String description = "Some stuff about me";
-		user = service.updateGeneralUser(username, null, null, profilePicture, description);
-		
-		assertNotNull(user);
-		assertEquals(email, user.getEmail());
-		assertEquals(password, user.getPassword());
-		assertEquals(profilePicture, user.getProfilePicture());
-		assertEquals(description, user.getDescription());
 		
 		user = service.updateGeneralUser(username, null, null, null, null);
-		assertEquals(profilePicture, user.getProfilePicture());
-		assertEquals(description, user.getDescription());
+		
+		assertNotNull(user);
+		assertEquals(UPDATE_USER_EMAIL, user.getEmail());
+		assertEquals(UPDATE_USER_PASSWORD, user.getPassword());
+		assertEquals(UPDATE_USER_PROFILEPICTURE, user.getProfilePicture());
+		assertEquals(UPDATE_USER_DESCRIPTION, user.getDescription());
 	}
 	
 	@Test
 	public void testUpdateGeneralUserEmpty() {
-		String username = "CoolUser123";
-		UserType userType = UserType.Owner;
-		String email = "cooluser@email.com";
-		String password = "abcdef1234!";
-		String name = "Steve";
+		String username = UPDATE_USER_USERNAME;
 		GeneralUser user = null;
-		user = service.createGeneralUser(username, userType, email, password, name);
-		assertNotNull(user);
-		
-		byte[] profilePicture = {(byte)0xe0};
-		String description = "Some stuff about me";
-		user = service.updateGeneralUser(username, "", "", profilePicture, description);
+		String emptyDescription = "";
+
+		user = service.updateGeneralUser(username, "", "", null, emptyDescription);
 		
 		assertNotNull(user);
-		assertEquals(email, user.getEmail());
-		assertEquals(password, user.getPassword());
-		assertEquals(profilePicture, user.getProfilePicture());
-		assertEquals(description, user.getDescription());
-		
-		user = service.updateGeneralUser(username, null, null, null, "");
-		assertEquals("", user.getDescription());
+		assertEquals(UPDATE_USER_EMAIL, user.getEmail());
+		assertEquals(UPDATE_USER_PASSWORD, user.getPassword());
+		assertEquals(UPDATE_USER_PROFILEPICTURE, user.getProfilePicture());
+		assertEquals(emptyDescription, user.getDescription());
 	}
 	
 	@Test
 	public void testUpdateGeneralUserSpaces() {
-		String username = "CoolUser123";
-		UserType userType = UserType.Owner;
-		String email = "cooluser@email.com";
-		String password = "abcdef1234!";
-		String name = "Steve";
+		String username = UPDATE_USER_USERNAME;
 		GeneralUser user = null;
-		user = service.createGeneralUser(username, userType, email, password, name);
-		assertNotNull(user);
-		
-		byte[] profilePicture = {(byte)0xe0};
-		String description = "Some stuff about me";
-		user = service.updateGeneralUser(username, "  ", " ", profilePicture, description);
-		
-		assertNotNull(user);
-		assertEquals(email, user.getEmail());
-		assertEquals(password, user.getPassword());
-		assertEquals(profilePicture, user.getProfilePicture());
-		assertEquals(description, user.getDescription());
-		
 		String newDescription = "   ";
-		user = service.updateGeneralUser(username, null, null, null, newDescription);
+		
+		user = service.updateGeneralUser(username, "  ", " ", null, newDescription);
+		
+		assertNotNull(user);
+		assertEquals(UPDATE_USER_EMAIL, user.getEmail());
+		assertEquals(UPDATE_USER_PASSWORD, user.getPassword());
 		assertEquals(newDescription, user.getDescription());
 	}
 	
