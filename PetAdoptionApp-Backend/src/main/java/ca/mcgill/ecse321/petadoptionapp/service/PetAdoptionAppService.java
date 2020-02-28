@@ -204,23 +204,6 @@ public class PetAdoptionAppService {
 		return application;
 	}
 	//~~~~~~~~~~ DONATION SERVICES ~~~~~~~~~~~~
-	
-	/**
-	 * Create a new donation object
-	 * @param amount
-	 * @param shelter
-	 * @param user
-	 * @return A newly created Donation object
-	 */
-	@Transactional
-	public Donation createDonation(Integer amount, GeneralUser shelter, GeneralUser user) {
-		Donation donation = new Donation();
-		donation.setAmount(amount);
-		donation.setDonatedTo(shelter);
-		donation.setDonatedFrom(user);
-		donationRepository.save(donation);
-		return donation;
-	}
 
 	/**
 	 * Get Donation object by id
@@ -268,7 +251,7 @@ public class PetAdoptionAppService {
 		return donationsForGeneralUser;
 	}	
 	/**
-	 * update an existing donation
+	 * create or update a donation
 	 * @param id
 	 * @param amount
 	 * @param donatedFrom
@@ -276,11 +259,16 @@ public class PetAdoptionAppService {
 	 * @return updated donation object
 	 */
 	@Transactional
-	public Donation updateDonation(int id, Integer amount, GeneralUser donatedFrom, GeneralUser donatedTo) {
-		Donation donation = donationRepository.findDonationById(id);
-		if(amount !=null) donation.setAmount(amount);
-		if(donatedFrom != null) donation.setDonatedFrom(donatedFrom);
-		if(donatedTo != null)donation.setDonatedTo(donatedTo);
+	public Donation createOrUpdateDonation(int id, Integer amount, GeneralUser donatedFrom, GeneralUser donatedTo) {
+		Donation donation;
+		if(id == -1) {
+			donation = new Donation();
+		}else {
+			donation = donationRepository.findDonationById(id);
+		}
+		donation.setAmount(amount);
+		donation.setDonatedFrom(donatedFrom);
+		donation.setDonatedTo(donatedTo);
 		donationRepository.save(donation);
 		return donation;
 	}
@@ -290,10 +278,19 @@ public class PetAdoptionAppService {
 	 * @param username
 	 */
 	@Transactional
-	public void deleteDonation(int id) {
-		donationRepository.deleteById(id);
+	public Donation deleteDonation(int id) {
+		Donation donation = donationRepository.findDonationById(id);
+		if(donation != null) {
+			donationRepository.delete(donation);
+		}
+		return donation;
 	}
 	
+
+	//~~~~~~~~~~ RESPONSE SERVICES ~~~~~~~~~~~~
+	
+
+
 	@Transactional
 	public Response createResponse(String text, Question question, GeneralUser author) {
 		Response response = new Response();
@@ -459,10 +456,23 @@ public class PetAdoptionAppService {
 	 * @param id
 	 */
 	@Transactional
-	public void deleteAddress(Integer id) {
-		addressRepository.deleteById(id);
+	public Address deleteAddress(Integer id) {
+		Address address = addressRepository.findAddressById(id);
+		if(address != null) {
+			addressRepository.delete(address);
+		}
+		return address;
 	}
 
+	
+	/**
+	 * @param id
+	 * @return address with given id
+	 */
+	@Transactional
+	public Address getAddress(Integer id) {
+		return addressRepository.findAddressById(id);
+	}
 	
 	/**
 	 * @return All Addresses in a list.
