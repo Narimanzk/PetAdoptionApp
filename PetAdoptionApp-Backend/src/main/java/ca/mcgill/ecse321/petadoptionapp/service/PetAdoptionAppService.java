@@ -21,6 +21,7 @@ import ca.mcgill.ecse321.petadoptionapp.model.GeneralUser;
 import ca.mcgill.ecse321.petadoptionapp.model.PetProfile;
 import ca.mcgill.ecse321.petadoptionapp.model.Question;
 import ca.mcgill.ecse321.petadoptionapp.model.Response;
+import ca.mcgill.ecse321.petadoptionapp.model.ThreadStatus;
 import ca.mcgill.ecse321.petadoptionapp.model.UserType;
 import ca.mcgill.ecse321.petadoptionapp.model.AdoptionApplication;
 import ca.mcgill.ecse321.petadoptionapp.model.ApplicationStatus;
@@ -461,6 +462,7 @@ public class PetAdoptionAppService {
 	public void deleteAddress(Integer id) {
 		addressRepository.deleteById(id);
 	}
+
 	
 	/**
 	 * @return All Addresses in a list.
@@ -469,6 +471,46 @@ public class PetAdoptionAppService {
 	public List<Address> getAllAddresses() {
 		return toList(addressRepository.findAll());
 	}
+  
+  
+	// ~~~~~~QUESTION SERVICES~~~~~~~~~
+	
+	@Transactional
+	public Question createQuestion(String title, String description, ThreadStatus status, GeneralUser author) {
+		Question question = new Question();
+		question.setTitle(title);
+		question.setDescription(description);
+		question.setUser(author);
+		questionRepository.save(question);
+		return question;
+	}
+
+	@Transactional
+	public Question getQuestion(int id) {
+		return questionRepository.findQuestionById(id);
+	}
+
+	@Transactional
+	public List<Question> getAllQuestions() {
+		return toList(questionRepository.findAll());
+	}
+	
+	@Transactional
+	public Question getQuestionForResponse(Response response) {
+		Question questionOfResponse = new Question();
+		questionOfResponse = questionRepository.findQuestionByResponses(response);
+		return questionOfResponse;
+	}
+
+	@Transactional
+	public List<Question> getQuestionsForGeneralUser(GeneralUser user) {
+		List<Question> questionsForGeneralUser = new ArrayList<>();
+		for (Question q : questionRepository.findQuestionsByUser(user)) {
+			questionsForGeneralUser.add(q);
+		}
+		return questionsForGeneralUser;
+	}
+  
 	// ~~~~~~~~~~ Helper methods ~~~~~~~~~~
 
 	/**

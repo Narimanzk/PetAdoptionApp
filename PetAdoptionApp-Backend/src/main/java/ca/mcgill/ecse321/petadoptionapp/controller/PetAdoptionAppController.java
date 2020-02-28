@@ -34,6 +34,7 @@ import ca.mcgill.ecse321.petadoptionapp.model.GeneralUser;
 import ca.mcgill.ecse321.petadoptionapp.model.PetProfile;
 import ca.mcgill.ecse321.petadoptionapp.model.Question;
 import ca.mcgill.ecse321.petadoptionapp.model.Response;
+import ca.mcgill.ecse321.petadoptionapp.model.ThreadStatus;
 import ca.mcgill.ecse321.petadoptionapp.model.UserType;
 import ca.mcgill.ecse321.petadoptionapp.service.PetAdoptionAppService;
 
@@ -171,12 +172,12 @@ public class PetAdoptionAppController {
 	 * @param id
 	 * @return
 	 */
-	@PostMapping(value = {"/{username}/applications/{petId}"}, consumes = "application/json", produces = "application/json")
-	public AdoptionApplicationDTO createApplication(@PathVariable("username") String username, @RequestBody AdoptionApplicationDTO app, 
-			@PathVariable("petId") Integer id) {
-		GeneralUser user = service.getGeneralUser(username);
-		PetProfile pet = service.getPetProfileById(id);
-		AdoptionApplication application = service.createOrUpdateAdoptionApplication(app.getApplicationDescription(), app.getApplicationStatus(), 
+	@PostMapping(value = {"applications/"})
+	public AdoptionApplicationDTO createApplication(@RequestParam(name = "user") GeneralUserDTO userDto,
+	    @RequestParam(name = "petProfile") PetProfileDTO petProfile, @RequestParam(name = "application") AdoptionApplicationDTO applicationDto) {
+		GeneralUser user = service.getGeneralUser(userDto.getUsername());
+		PetProfile pet = service.getPetProfileById(petProfile.getId());
+		AdoptionApplication application = service.createOrUpdateAdoptionApplication(applicationDto.getApplicationDescription(), applicationDto.getApplicationStatus(), 
 				user, pet, -1);
 		return convertToDTO(application);
 	}
@@ -188,7 +189,7 @@ public class PetAdoptionAppController {
 	 * @param id
 	 * @return
 	 */
-	@PutMapping(value = {"/{username}/applications/{petId}"}, consumes = "application/json", produces = "application/json")
+	@PutMapping(value = {"users/{username}/applications/{petId}"}, consumes = "application/json", produces = "application/json")
 	public AdoptionApplicationDTO updateApplication(@PathVariable("username") String username, @RequestBody AdoptionApplicationDTO app, 
 			@PathVariable("petId") Integer id) {
 		GeneralUser user = service.getGeneralUser(username);
@@ -207,6 +208,62 @@ public class PetAdoptionAppController {
 	public AdoptionApplicationDTO deleteApp(@PathVariable("appId") Integer appId) {
 		return convertToDTO(service.deleteApplication(appId));
 	}
+
+  	// ~~~~~~~~~~ Rest API for Questions ~~~~~~~~~~~~
+	
+	@GetMapping(value = { "/questions" })
+	public List<QuestionDTO> getAllQuestions() {
+		return service.getAllQuestions().stream().map(p -> convertToDTO(p)).collect(Collectors.toList());
+	}
+	
+	@PostMapping(value = {
+			"/users/{username}/questions" }, consumes = "application/json", produces = "application/json")
+	public QuestionDTO createQuestion(@PathVariable("username") String username, @RequestBody String title, @RequestBody String description, @RequestBody ThreadStatus status) {
+		GeneralUser author = service.getGeneralUser(username);
+		Question question = service.createQuestion(title, description, status, author);
+		return convertToDTO(question);
+	}
+	
+	@GetMapping(value = {"/users/{username}/questions"})
+	public List<QuestionDTO> getQuestionsByUser(@PathVariable("username") String username) {
+		GeneralUser user = service.getGeneralUser(username);
+		return service.getQuestionsForGeneralUser(user).stream().map(p -> convertToDTO(p)).collect(Collectors.toList());
+	}
+	
+	@GetMapping(value = {"/response/{id}/question"})
+	public QuestionDTO getQuestionFromResponse(@PathVariable("id") int id) {
+		Response response = service.getResponse(id);
+		return convertToDTO(service.getQuestionForResponse(response));
+	}
+	
+	// ~~~~~~~~~ Rest API for Responses ~~~~~~~~~~
+	
+	@GetMapping(value = {"/responses"})
+	public List<ResponseDTO> getAllResponses() {
+		return service.getAllResponses().stream().map(p -> convertToDTO(p)).collect(Collectors.toList());
+	}
+	
+	@PostMapping(value = {
+	"/users/{username}/responses" }, consumes = "application/json", produces = "application/json")
+	public ResponseDTO createResponse(@PathVariable("username") String username, @RequestBody QuestionDTO resQuestion, @RequestBody String text) {
+		GeneralUser author = service.getGeneralUser(username);
+		Question question = service.getQuestion(resQuestion.getID());
+		Response response = service.createResponse(text, question, author);
+		return convertToDTO(response);
+	}
+	
+	@GetMapping(value = {"/users/{username}/responses"})
+	public List<ResponseDTO> getResponsessByUser(@PathVariable("username") String username) {
+		GeneralUser user = service.getGeneralUser(username);
+		return service.getResponsesForGeneralUser(user).stream().map(p -> convertToDTO(p)).collect(Collectors.toList());
+	}
+	
+	@GetMapping(value = {"/question/{id}/responses"})
+	public List<ResponseDTO> getResponsesToQuestions(@PathVariable("id") int id) {
+		Question question = service.getQuestion(id);
+		return service.getResponsesForQuestion(question).stream().map(p -> convertToDTO(p)).collect(Collectors.toList());
+	}
+	
 
 	// ~~~~~~~~~~~~ Convert To DTO Methods Below ~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -267,6 +324,8 @@ public class PetAdoptionAppController {
 		userDTO.setDonationAccepted(donationAccepted);
 		return userDTO;
 	}
+	
+	
 
 	private GeneralUserDTO convertToAttributeDTO(GeneralUser user) {
 		GeneralUserDTO userDTO = new GeneralUserDTO(user.getUsername(), convertToDTO(user.getUserType()),
@@ -279,10 +338,26 @@ public class PetAdoptionAppController {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	// ~~~~~~~Question to QuestionDTO ~~~~~~~~
 
-	private QuestionDTO convertToAttributeDTO(Question res) {
-		// TODO Auto-generated method stub
-		return null;
+	private QuestionDTO convertToDTO(Question question) {
+		QuestionDTO questionDTO = new QuestionDTO(question.getId(),question.getTitle(), question.getDescription(), question.getThreadStatus());
+		List<ResponseDTO> responses = new ArrayList<ResponseDTO>();
+		if (question.getResponses() != null) {
+			for (Response res : question.getResponses()) {
+				responses.add(convertToAttributeDTO(res));
+			}
+		}
+		questionDTO.setResponses(responses);
+		questionDTO.setAuthor(convertToAttributeDTO(question.getUser()));
+		return questionDTO;
+		
+	}
+	
+	private QuestionDTO convertToAttributeDTO(Question question) {
+		QuestionDTO questionDTO = new QuestionDTO(question.getId(),question.getTitle(), question.getDescription(), question.getThreadStatus());
+		return questionDTO;
 	}
 
 	/**
@@ -307,10 +382,20 @@ public class PetAdoptionAppController {
 				p.getDescription(), p.getPetSpecies(), p.getProfilePicture(), p.getReason());
 		return pet;
 	}
+	
+	// ~~~~~~~~Response to ResponseDTO~~~~~~~~~~
+	
+	private ResponseDTO convertToDTO(Response res) {
+		ResponseDTO responseDTO = new ResponseDTO(res.getText());
+		responseDTO.setQuestion(convertToAttributeDTO(res.getQuestion()));
+		responseDTO.setUser(convertToAttributeDTO(res.getUser()));
+		return responseDTO;
+		
+	}
 
 	private ResponseDTO convertToAttributeDTO(Response res) {
-		// TODO Auto-generated method stub
-		return null;
+		ResponseDTO responseDTO = new ResponseDTO(res.getText());
+		return responseDTO;
 	}
 
 	private AdoptionApplicationDTO convertToDTO(AdoptionApplication app) {
