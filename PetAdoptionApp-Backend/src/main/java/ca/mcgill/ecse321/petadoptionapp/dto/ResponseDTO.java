@@ -10,10 +10,8 @@ public class ResponseDTO {
 		
 	}
 	
-	public ResponseDTO(String text, QuestionDTO question, GeneralUserDTO user) {
+	public ResponseDTO(String text) {
 		this.text = text;
-		this.question = question;
-		this.user = user;
 	}
 	
 	public String getText() {
