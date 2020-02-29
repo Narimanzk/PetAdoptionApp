@@ -11,6 +11,7 @@ import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,6 +31,8 @@ import static org.mockito.Mockito.doThrow;
 import ca.mcgill.ecse321.petadoptionapp.dao.AdoptionApplicationRespository;
 import ca.mcgill.ecse321.petadoptionapp.dao.GeneralUserRepository;
 import ca.mcgill.ecse321.petadoptionapp.dao.PetProfileRespository;
+import ca.mcgill.ecse321.petadoptionapp.model.AdoptionApplication;
+import ca.mcgill.ecse321.petadoptionapp.model.ApplicationStatus;
 import ca.mcgill.ecse321.petadoptionapp.model.Gender;
 import ca.mcgill.ecse321.petadoptionapp.model.GeneralUser;
 import ca.mcgill.ecse321.petadoptionapp.model.PetProfile;
@@ -60,6 +63,7 @@ public class TestPetAdoptionAppService {
 	private static HashMap<String, GeneralUser> hmp = new HashMap<>();
 
 	// Parameters for existing pet profile
+	private static final Integer PET_ID = 1;
 	private static final String PET_NAME = "TestPet";
 	private static final int PET_AGE = 2;
 	private static final String PET_DESCRIPTION = "desciption";
@@ -71,19 +75,16 @@ public class TestPetAdoptionAppService {
 	// Map for simulating a petprofile table
 	private static HashMap<Integer, PetProfile> pet_map = new HashMap<Integer, PetProfile>();
 
+	// Parameters for existing adoption application
+	private static final Integer APP_ID = 1;
+	private static final String APP_DESCRIPTION = "description";
+	private static final ApplicationStatus APP_STATUS = ApplicationStatus.Accepted;
+
+	// Map for simulating an adoption application
+	private static HashMap<Integer, AdoptionApplication> app_map = new HashMap<Integer, AdoptionApplication>();
+
 	@BeforeEach
 	public void setMockOutput() {
-		// *********** Setup mock data for GeneralUser ************************
-		// Save General User
-		lenient().when(generalUserDao.save(any(GeneralUser.class))).thenAnswer((InvocationOnMock invocation) -> {
-			hmp.put(((GeneralUser) invocation.getArgument(0)).getUsername(), invocation.getArgument(0));
-			return invocation.getArgument(0);
-		});
-		// Find General User by username
-		lenient().when(generalUserDao.findGeneralUserByUsername(anyString()))
-				.thenAnswer((InvocationOnMock invocation) -> {
-					return hmp.get(invocation.getArgument(0));
-				});
 		// Create a existing user
 		GeneralUser user = new GeneralUser();
 		user.setUsername(USER_KEY);
@@ -95,15 +96,9 @@ public class TestPetAdoptionAppService {
 		user.setPassword(USER_PASSWORD);
 		hmp.put(USER_KEY, user);
 
-		// ************* Setup mock data for PetProfile *****************************
-		// Save PetProfile
-		lenient().when(petProfileDao.save(any(PetProfile.class))).thenAnswer((InvocationOnMock invocation) -> {
-			pet_map.put(((PetProfile) invocation.getArgument(0)).getId(), invocation.getArgument(0));
-			return invocation.getArgument(0);
-		});
-		
-		//Create a new pet profile
+		// Create a new pet profile
 		PetProfile pet = new PetProfile();
+		pet.setId(PET_ID);
 		pet.setAge(PET_AGE);
 		pet.setDescription(PET_DESCRIPTION);
 		pet.setPetGender(PET_GENDER);
@@ -112,12 +107,73 @@ public class TestPetAdoptionAppService {
 		pet.setProfilePicture(PET_PROFILEPIC);
 		pet.setReason(PET_REASON);
 		pet.setUser(user);
-		
-		//find pet profile by id
+		pet_map.put(PET_ID, pet);
+
+		// Create a new adoption application
+		AdoptionApplication app = new AdoptionApplication();
+		app.setApplicationDescription(APP_DESCRIPTION);
+		app.setApplicationStatus(APP_STATUS);
+		app.setUser(user);
+		app.setPetProfile(pet);
+		app_map.put(APP_ID, app);
+
+		// *********** Setup mock data for GeneralUser ************************
+		// Save General User
+		lenient().when(generalUserDao.save(any(GeneralUser.class))).thenAnswer((InvocationOnMock invocation) -> {
+			hmp.put(((GeneralUser) invocation.getArgument(0)).getUsername(), invocation.getArgument(0));
+			return invocation.getArgument(0);
+		});
+		// Find General User by username
+		lenient().when(generalUserDao.findGeneralUserByUsername(anyString())).thenAnswer((InvocationOnMock invocation) -> {
+			return hmp.get(invocation.getArgument(0));
+		});
+
+		// ************* Setup mock data for PetProfile *****************************
+		// Save PetProfile
+		lenient().when(petProfileDao.save(any(PetProfile.class))).thenAnswer((InvocationOnMock invocation) -> {
+			pet_map.put(((PetProfile) invocation.getArgument(0)).getId(), invocation.getArgument(0));
+			return invocation.getArgument(0);
+		});
+
+		// find pet profile by id
 		lenient().when(petProfileDao.findPetProfileById(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
 			return pet_map.get(invocation.getArgument(0));
 		});
+
+		// find pet profile by user
+		lenient().when(petProfileDao.findByUser(user)).thenAnswer((InvocationOnMock invocation) -> {
+			ArrayList<PetProfile> pets = new ArrayList<>();
+			return pets.add(pet_map.get(invocation.getArgument(0)));
+		});
 		
+		// find pet profile by application
+		lenient().when(petProfileDao.findByAdoptionApplications(app)).thenAnswer((InvocationOnMock invocation) -> {
+			return pet_map.get(invocation.getArgument(0));
+		});
+
+		// ***************** Setup mock data for adoption application// *******************
+		// Save Application
+		lenient().when(adoptionApplicationDao.save(any(AdoptionApplication.class))).thenAnswer((InvocationOnMock invocation) -> {
+			app_map.put(((AdoptionApplication) invocation.getArgument(0)).getId(), invocation.getArgument(0));
+			return invocation.getArgument(0);
+		});
+		
+		// Get Application by id
+		lenient().when(adoptionApplicationDao.findAdoptionApplicationById(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
+			return app_map.get(invocation.getArgument(0));
+		});
+		
+		//get application by user
+		lenient().when(adoptionApplicationDao.findByUser(user)).thenAnswer((InvocationOnMock invocation) -> {
+			ArrayList<AdoptionApplication> apps = new ArrayList<>();
+			return apps.add(app_map.get(invocation.getArgument(0)));
+		});
+		
+		//get application by pet profile
+		lenient().when(adoptionApplicationDao.findByPetProfile(pet)).thenAnswer((InvocationOnMock invocation) -> {
+			ArrayList<AdoptionApplication> apps = new ArrayList<>();
+			return apps.add(app_map.get(invocation.getArgument(0)));
+		});
 	}
 
 	// ************* Test GeneralUser service ***********************
