@@ -97,15 +97,17 @@ public class PetAdoptionAppService {
 		}else {
 			pet = petProfileRespository.findPetProfileById(id);
 		}
-		pet.setAge(age);
-		pet.setPetName(name);
-		pet.setPetGender(petGender);
-		pet.setPetSpecies(species);
-		pet.setProfilePicture(profile);
-		pet.setReason(reason);
-		pet.setUser(user);
-		pet.setDescription(description);
-		petProfileRespository.save(pet);
+		if(pet != null) {
+			pet.setAge(age);
+			pet.setPetName(name);
+			pet.setPetGender(petGender);
+			pet.setPetSpecies(species);
+			pet.setProfilePicture(profile);
+			pet.setReason(reason);
+			pet.setUser(user);
+			pet.setDescription(description);
+			petProfileRespository.save(pet);
+		}
 		return pet;
 	}
 
@@ -151,11 +153,13 @@ public class PetAdoptionAppService {
 		}else {
 			application = adoptionApplicationRespository.findAdoptionApplicationById(id);
 		}
-		application.setApplicationDescription(description);
-		application.setApplicationStatus(status);
-		application.setPetProfile(profile);
-		application.setUser(user);
-		adoptionApplicationRespository.save(application);
+		if(application != null) {
+			application.setApplicationDescription(description);
+			application.setApplicationStatus(status);
+			application.setPetProfile(profile);
+			application.setUser(user);
+			adoptionApplicationRespository.save(application);
+		}
 		return application;
 	}
 

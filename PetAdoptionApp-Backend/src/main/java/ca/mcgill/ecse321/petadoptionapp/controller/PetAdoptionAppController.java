@@ -219,7 +219,7 @@ public class PetAdoptionAppController {
 	@PutMapping(value = { "/applications" }, consumes = "application/json", produces = "application/json")
 	public AdoptionApplicationDTO updateApplication(@RequestParam(name = "username") String username,
 			@RequestParam(name = "petid") Integer petId,
-			@RequestParam(name = "application") AdoptionApplicationDTO applicationDto) {
+			@RequestBody AdoptionApplicationDTO applicationDto) {
 		GeneralUser user = service.getGeneralUser(username);
 		PetProfile pet = service.getPetProfileById(petId);
 		AdoptionApplication application = service.createOrUpdateAdoptionApplication(
