@@ -1,6 +1,8 @@
 package ca.mcgill.ecse321.petadoptionapp.service;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -13,16 +15,16 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.stubbing.Answer;
 import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.doNothing;
@@ -63,7 +65,7 @@ public class TestPetAdoptionAppService {
 	private static HashMap<String, GeneralUser> hmp = new HashMap<>();
 
 	// Parameters for existing pet profile
-	private static final Integer PET_ID = 1;
+	private static final Integer PET_ID = 5;
 	private static final String PET_NAME = "TestPet";
 	private static final int PET_AGE = 2;
 	private static final String PET_DESCRIPTION = "desciption";
@@ -141,16 +143,17 @@ public class TestPetAdoptionAppService {
 		});
 
 		// find pet profile by user
-		lenient().when(petProfileDao.findByUser(user)).thenAnswer((InvocationOnMock invocation) -> {
+		lenient().when(petProfileDao.findByUser(any(GeneralUser.class))).thenAnswer((InvocationOnMock invocation) -> {
 			ArrayList<PetProfile> pets = new ArrayList<>();
-			return pets.add(pet_map.get(invocation.getArgument(0)));
+			pets.add(pet_map.get(PET_ID));
+			return pets;
 		});
 		
 		// find pet profile by application
-		lenient().when(petProfileDao.findByAdoptionApplications(app)).thenAnswer((InvocationOnMock invocation) -> {
-			return pet_map.get(invocation.getArgument(0));
+		lenient().when(petProfileDao.findByAdoptionApplications(any(AdoptionApplication.class))).thenAnswer((InvocationOnMock invocation) -> {
+			return pet_map.get(PET_ID);
 		});
-
+		
 		// ***************** Setup mock data for adoption application// *******************
 		// Save Application
 		lenient().when(adoptionApplicationDao.save(any(AdoptionApplication.class))).thenAnswer((InvocationOnMock invocation) -> {
@@ -164,15 +167,17 @@ public class TestPetAdoptionAppService {
 		});
 		
 		//get application by user
-		lenient().when(adoptionApplicationDao.findByUser(user)).thenAnswer((InvocationOnMock invocation) -> {
+		lenient().when(adoptionApplicationDao.findByUser(any(GeneralUser.class))).thenAnswer((InvocationOnMock invocation) -> {
 			ArrayList<AdoptionApplication> apps = new ArrayList<>();
-			return apps.add(app_map.get(invocation.getArgument(0)));
+			apps.add(app_map.get(APP_ID));
+			return apps;
 		});
 		
 		//get application by pet profile
-		lenient().when(adoptionApplicationDao.findByPetProfile(pet)).thenAnswer((InvocationOnMock invocation) -> {
+		lenient().when(adoptionApplicationDao.findByPetProfile(any(PetProfile.class))).thenAnswer((InvocationOnMock invocation) -> {
 			ArrayList<AdoptionApplication> apps = new ArrayList<>();
-			return apps.add(app_map.get(invocation.getArgument(0)));
+			apps.add(app_map.get(APP_ID));
+			return apps;
 		});
 	}
 
@@ -374,6 +379,182 @@ public class TestPetAdoptionAppService {
 		fail();
 	}
 
-	// ************************ Test PetProfile service
-	// *******************************
+	// ************************ Test PetProfile service *******************
+	@Test
+	public void testCreatePetProfile() {
+		assertEquals(0, service.getAllPetProfile().size());
+		Integer PET_ID = -1;
+		String PET_NAME = "TestPet";
+		int PET_AGE = 2;
+		String PET_DESCRIPTION = "desciption";
+		String PET_REASON = "reason";
+		Gender PET_GENDER = Gender.Female;
+		byte[] PET_PROFILEPIC = new byte[] { (byte) 0xf5 };
+		String PET_SPECIES = "species";
+		
+		PetProfile pet = null;
+		GeneralUser user = createMockUser();
+		try {
+			pet = service.createOrUpdatePetProfile(PET_NAME, PET_AGE, PET_GENDER, PET_DESCRIPTION, PET_SPECIES, 
+					PET_PROFILEPIC, PET_REASON, user, PET_ID);
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+		assertNotNull(pet);
+		assertEquals(PET_NAME, pet.getPetName());
+		assertEquals(PET_AGE, pet.getAge());
+		assertEquals(PET_DESCRIPTION, pet.getDescription());
+		assertEquals(PET_REASON, pet.getReason());
+		assertEquals(PET_GENDER, pet.getPetGender());
+		assertArrayEquals(PET_PROFILEPIC, pet.getProfilePicture());
+		assertEquals(PET_SPECIES, pet.getPetSpecies());
+		assertEquals(USER_KEY, pet.getUser().getUsername());
+	}
+	
+	@Test 
+	public void testUpdatePetProfile() {
+		String PET_NAME = "TestPet2";
+		int PET_AGE = 3;
+		String PET_DESCRIPTION = "new desciption";
+		String PET_REASON = "new reason";
+		Gender PET_GENDER = Gender.Male;
+		byte[] PET_PROFILEPIC = new byte[] { (byte) 0xff };
+		String PET_SPECIES = "new species";
+		
+		PetProfile pet = null;
+		GeneralUser user = createMockUser();
+		pet = service.createOrUpdatePetProfile(PET_NAME, PET_AGE, PET_GENDER, PET_DESCRIPTION, PET_SPECIES, 
+				PET_PROFILEPIC, PET_REASON, user, PET_ID);
+		
+		assertNotNull(pet);
+		assertEquals(PET_ID, pet.getId());
+		assertEquals(PET_NAME, pet.getPetName());
+		assertEquals(PET_AGE, pet.getAge());
+		assertEquals(PET_DESCRIPTION, pet.getDescription());
+		assertEquals(PET_REASON, pet.getReason());
+		assertEquals(PET_GENDER, pet.getPetGender());
+		assertArrayEquals(PET_PROFILEPIC, pet.getProfilePicture());
+		assertEquals(PET_SPECIES, pet.getPetSpecies());
+		assertEquals(USER_KEY, pet.getUser().getUsername());
+	}
+	
+	@Test
+	public void testGetPetProfileById() {
+		PetProfile pet = service.getPetProfileById(PET_ID);
+		assertNotNull(pet);
+		assertEquals(PET_ID, pet.getId());
+	}
+	
+	@Test 
+	public void testGetPetProfileByUser() {
+		GeneralUser user = createMockUser();
+		List<PetProfile> pets = service.getPetProfileByUser(user);
+		assertNotEquals(0, pets.size());
+	}
+	
+	@Test
+	public void testGetPetProfileByApplication() {
+		AdoptionApplication app = createMockApp();
+		PetProfile pet = service.getPetProfileByApplication(app);
+		assertEquals(PET_ID, pet.getId());
+	}
+	
+	@Test
+	public void testDeletePetProfileById() {
+		doAnswer((i) -> {
+			pet_map.remove(i.getArgument(0));
+			return null;
+		}).when(petProfileDao).deleteById(anyInt());
+		
+		try {
+			service.deletePetProfile(PET_ID);
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+		PetProfile pet = service.getPetProfileById(PET_ID);
+		assertNull(pet);
+	}
+	
+	
+	//*****************************  Test for Adoption Application
+	
+	@Test
+	public void testCreateApplication() {
+		Integer APP_ID = -1;
+		String desc = "desc";
+		ApplicationStatus status = ApplicationStatus.Accepted;
+		
+		PetProfile pet = createMockPetProfile();
+		GeneralUser user = createMockUser();
+		AdoptionApplication app = null;
+		try {
+			app = service.createOrUpdateAdoptionApplication(desc, status, user, pet, APP_ID);
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+		assertNotNull(app);
+		assertEquals(desc, app.getApplicationDescription());
+		assertEquals(status, app.getApplicationStatus());
+		assertEquals(pet.getId(), app.getPetProfile().getId());
+		assertEquals(user.getUsername(), app.getUser().getUsername());
+	}
+	
+	@Test
+	public void testUpdateApplication() {
+		String desc = "new_desc";
+		ApplicationStatus status = ApplicationStatus.InReview;
+		
+		PetProfile pet = createMockPetProfile();
+		GeneralUser user = createMockUser();
+		AdoptionApplication app = null;
+		try {
+			app = service.createOrUpdateAdoptionApplication(desc, status, user, pet, APP_ID);
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+		assertNotNull(app);
+		assertEquals(desc, app.getApplicationDescription());
+		assertEquals(status, app.getApplicationStatus());
+		assertEquals(pet.getId(), app.getPetProfile().getId());
+		assertEquals(user.getUsername(), app.getUser().getUsername());
+	}
+	
+	@Test
+	public void testGetApplicationById() {
+		AdoptionApplication app = null;
+		app = service.getApplicaiontById(APP_ID);
+		assertNotNull(app);
+	}
+	
+	@Test
+	public void testGetApplicationByUser() {
+		GeneralUser user = createMockUser();
+		List<AdoptionApplication> apps = service.getApplicationByUser(user);
+		assertNotEquals(0, apps.size());
+	}
+	
+	@Test
+	public void testGetApplicationByPet() {
+		PetProfile pet = createMockPetProfile();
+		List<AdoptionApplication> apps = service.getApplicationByPetProfile(pet);
+		assertNotEquals(0, apps.size());
+	}
+	
+	public PetProfile createMockPetProfile() {
+		PetProfile pet = new PetProfile();
+		pet.setId(PET_ID);
+		return pet;
+	}
+	
+	public GeneralUser createMockUser() {
+		GeneralUser user = new GeneralUser();
+		user.setUsername(USER_KEY);
+		return user;
+	}
+	
+	public AdoptionApplication createMockApp() {
+		AdoptionApplication app = new AdoptionApplication();
+		app.setId(APP_ID);
+		return app;
+	}
 }

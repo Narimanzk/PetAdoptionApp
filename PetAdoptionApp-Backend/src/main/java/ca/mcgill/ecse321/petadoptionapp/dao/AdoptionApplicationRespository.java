@@ -7,7 +7,7 @@ import ca.mcgill.ecse321.petadoptionapp.model.AdoptionApplication;
 import ca.mcgill.ecse321.petadoptionapp.model.GeneralUser;
 import ca.mcgill.ecse321.petadoptionapp.model.PetProfile;
 
-public interface AdoptionApplicationRespository extends CrudRepository<AdoptionApplication, String>{
+public interface AdoptionApplicationRespository extends CrudRepository<AdoptionApplication, Integer>{
     AdoptionApplication findAdoptionApplicationById(int id);
     List<AdoptionApplication> findByUser(GeneralUser user);
     List<AdoptionApplication> findByPetProfile(PetProfile profile);
