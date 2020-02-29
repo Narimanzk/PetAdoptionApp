@@ -363,6 +363,15 @@ public class PetAdoptionAppService {
 		if (error.length() > 0) {
 			throw new IllegalArgumentException(error);
 		}
+		GeneralUser user = new GeneralUser();
+		user.setUsername(username);
+		user.setUserType(userType);
+		user.setEmail(email);
+		user.setPassword(password);
+		user.setName(name);
+		generalUserRepository.save(user);
+		return user;
+	}
 
 	/**
 	 * Update the general user information.
