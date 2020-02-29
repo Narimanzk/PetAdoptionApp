@@ -442,17 +442,27 @@ public class PetAdoptionAppController {
 	
 	// ~~~~~~~~Donation to DonationDTO~~~~~~~~~~
 	
-		private DonationDTO convertToDTO(Donation donation) {
-			DonationDTO donationDTO = new DonationDTO(donation.getId(),donation.getAmount());
-			if (donation.getDonatedFrom() != null) {
-				donationDTO.setDonatedFrom(convertToAttributeDTO(donation.getDonatedFrom()));
-			}
-			if (donation.getDonatedTo() != null) {
-				donationDTO.setDonatedTo(convertToAttributeDTO(donation.getDonatedTo()));
-			}
-			return donationDTO;
+	/**
+	 * convert a donation object to dto object
+	 * @param donation
+	 * @return DonationDTO
+	 */
+	private DonationDTO convertToDTO(Donation donation) {
+		DonationDTO donationDTO = new DonationDTO(donation.getId(),donation.getAmount());
+		if (donation.getDonatedFrom() != null) {
+			donationDTO.setDonatedFrom(convertToAttributeDTO(donation.getDonatedFrom()));
 		}
+		if (donation.getDonatedTo() != null) {
+			donationDTO.setDonatedTo(convertToAttributeDTO(donation.getDonatedTo()));
+		}
+		return donationDTO;
+	}
 
+	/**
+	 * convert a donation object to dto object with attributes only
+	 * @param donation
+	 * @return DonationDTO
+	 */
 	private DonationDTO convertToAttributeDTO(Donation donation) {
 		DonationDTO donationDTO = new DonationDTO(donation.getId(),donation.getAmount());
 		return donationDTO;
@@ -537,11 +547,21 @@ public class PetAdoptionAppController {
 	
 	// ~~~~~~~~Address to AddressDTO~~~~~~~~~~
 	
+	/**
+	 * convert an address object to dto object
+	 * @param address
+	 * @return AddressDTO
+	 */
 	private AddressDTO convertToDTO(Address address) {
 		AddressDTO addressDTO = new AddressDTO(address.getId(),address.getStreet(), address.getCity(), address.getState(), address.getPostalCode(), address.getCountry());
 		return addressDTO;
 	}
 
+	/**
+	 * convert an address object to dto object with attributes only
+	 * @param address
+	 * @return AddressDTO
+	 */
 	private AddressDTO convertToAttributeDTO(Address address) {
 		AddressDTO addressDTO = new AddressDTO(address.getId(),address.getStreet(), address.getCity(), 
 				address.getState(), address.getPostalCode(), address.getCountry());
