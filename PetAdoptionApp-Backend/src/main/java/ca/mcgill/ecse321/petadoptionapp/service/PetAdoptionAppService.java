@@ -104,6 +104,7 @@ public class PetAdoptionAppService {
 		if (reason == null || reason.trim().length() == 0) {
 			error += "Pet needs a reason. ";
 		}
+		
 		PetProfile pet;
 		if(id == -1) {
 			pet = new PetProfile();
@@ -149,7 +150,7 @@ public class PetAdoptionAppService {
 	public PetProfile deletePetProfile(int id) {
 		PetProfile pet = petProfileRespository.findPetProfileById(id);
 		if(pet != null) {
-			petProfileRespository.delete(pet);
+			petProfileRespository.deleteById(id);
 		}
 		return pet;
 	}
@@ -168,7 +169,7 @@ public class PetAdoptionAppService {
 			PetProfile profile, int id) {
 		String error = "";
 		if (description == null || description.trim().length() == 0) {
-			error += "User needs a username. ";
+			error += "Application needs a description. ";
 		}
 		
 		AdoptionApplication application;
@@ -237,7 +238,7 @@ public class PetAdoptionAppService {
 	public AdoptionApplication deleteApplication(int id) {
 		AdoptionApplication application = adoptionApplicationRespository.findAdoptionApplicationById(id);
 		if(application != null) {
-			adoptionApplicationRespository.delete(application);
+			adoptionApplicationRespository.deleteById(id);
 		}
 		return application;
 	}

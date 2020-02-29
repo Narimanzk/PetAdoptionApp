@@ -411,6 +411,87 @@ public class TestPetAdoptionAppService {
 		assertEquals(USER_KEY, pet.getUser().getUsername());
 	}
 	
+	@Test
+	public void testCreatePetProfileNull() {
+		Integer PET_ID = -1;
+		String PET_NAME = null;
+		int PET_AGE = 0;
+		String PET_DESCRIPTION = null;
+		String PET_REASON = null;
+		Gender PET_GENDER = Gender.Female;
+		byte[] PET_PROFILEPIC = new byte[] { (byte) 0xf5 };
+		String PET_SPECIES = null;
+		
+		PetProfile pet = null;
+		GeneralUser user = createMockUser();
+		String error = "";
+		try {
+			pet = service.createOrUpdatePetProfile(PET_NAME, PET_AGE, PET_GENDER, PET_DESCRIPTION, PET_SPECIES, 
+					PET_PROFILEPIC, PET_REASON, user, PET_ID);
+		} catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+
+		assertNull(pet);
+		assertEquals(
+				"Pet needs a name. Pet needs a description. Pet needs a species. Pet needs a reason.",
+				error);
+	}
+
+	@Test
+	public void testCreatePetProfileEmpty() {
+		Integer PET_ID = -1;
+		String PET_NAME = "";
+		int PET_AGE = 0;
+		String PET_DESCRIPTION = "";
+		String PET_REASON = "";
+		Gender PET_GENDER = Gender.Female;
+		byte[] PET_PROFILEPIC = new byte[] { (byte) 0xf5 };
+		String PET_SPECIES = "";
+		
+		PetProfile pet = null;
+		GeneralUser user = createMockUser();
+		String error = "";
+		try {
+			pet = service.createOrUpdatePetProfile(PET_NAME, PET_AGE, PET_GENDER, PET_DESCRIPTION, PET_SPECIES, 
+					PET_PROFILEPIC, PET_REASON, user, PET_ID);
+		} catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+
+		assertNull(pet);
+		assertEquals(
+				"Pet needs a name. Pet needs a description. Pet needs a species. Pet needs a reason.",
+				error);
+	}
+
+	@Test
+	public void testCreatePetProfileSpaces() {
+		Integer PET_ID = -1;
+		String PET_NAME = "  ";
+		int PET_AGE = 0;
+		String PET_DESCRIPTION = "   ";
+		String PET_REASON = "   ";
+		Gender PET_GENDER = Gender.Female;
+		byte[] PET_PROFILEPIC = new byte[] { (byte) 0xf5 };
+		String PET_SPECIES = "   ";
+		
+		PetProfile pet = null;
+		GeneralUser user = createMockUser();
+		String error = "";
+		try {
+			pet = service.createOrUpdatePetProfile(PET_NAME, PET_AGE, PET_GENDER, PET_DESCRIPTION, PET_SPECIES, 
+					PET_PROFILEPIC, PET_REASON, user, PET_ID);
+		} catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+
+		assertNull(pet);
+		assertEquals(
+				"Pet needs a name. Pet needs a description. Pet needs a species. Pet needs a reason.",
+				error);
+	}
+	
 	@Test 
 	public void testUpdatePetProfile() {
 		String PET_NAME = "TestPet2";
@@ -436,6 +517,84 @@ public class TestPetAdoptionAppService {
 		assertArrayEquals(PET_PROFILEPIC, pet.getProfilePicture());
 		assertEquals(PET_SPECIES, pet.getPetSpecies());
 		assertEquals(USER_KEY, pet.getUser().getUsername());
+	}
+	
+	@Test
+	public void testUpdatePetProfileNull() {
+		String PET_NAME = null;
+		int PET_AGE = 0;
+		String PET_DESCRIPTION = null;
+		String PET_REASON = null;
+		Gender PET_GENDER = Gender.Female;
+		byte[] PET_PROFILEPIC = new byte[] { (byte) 0xf5 };
+		String PET_SPECIES = null;
+		
+		PetProfile pet = null;
+		GeneralUser user = createMockUser();
+		String error = "";
+		try {
+			pet = service.createOrUpdatePetProfile(PET_NAME, PET_AGE, PET_GENDER, PET_DESCRIPTION, PET_SPECIES, 
+					PET_PROFILEPIC, PET_REASON, user, PET_ID);
+		} catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+
+		assertNull(pet);
+		assertEquals(
+				"Pet needs a name. Pet needs a description. Pet needs a species. Pet needs a reason.",
+				error);
+	}
+
+	@Test
+	public void testUpdatePetProfileEmpty() {
+		String PET_NAME = "";
+		int PET_AGE = 0;
+		String PET_DESCRIPTION = "";
+		String PET_REASON = "";
+		Gender PET_GENDER = Gender.Female;
+		byte[] PET_PROFILEPIC = new byte[] { (byte) 0xf5 };
+		String PET_SPECIES = "";
+		
+		PetProfile pet = null;
+		GeneralUser user = createMockUser();
+		String error = "";
+		try {
+			pet = service.createOrUpdatePetProfile(PET_NAME, PET_AGE, PET_GENDER, PET_DESCRIPTION, PET_SPECIES, 
+					PET_PROFILEPIC, PET_REASON, user, PET_ID);
+		} catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+
+		assertNull(pet);
+		assertEquals(
+				"Pet needs a name. Pet needs a description. Pet needs a species. Pet needs a reason.",
+				error);
+	}
+
+	@Test
+	public void testUpdatePetProfileSpaces() {
+		String PET_NAME = "  ";
+		int PET_AGE = 0;
+		String PET_DESCRIPTION = "   ";
+		String PET_REASON = "   ";
+		Gender PET_GENDER = Gender.Female;
+		byte[] PET_PROFILEPIC = new byte[] { (byte) 0xf5 };
+		String PET_SPECIES = "   ";
+		
+		PetProfile pet = null;
+		GeneralUser user = createMockUser();
+		String error = "";
+		try {
+			pet = service.createOrUpdatePetProfile(PET_NAME, PET_AGE, PET_GENDER, PET_DESCRIPTION, PET_SPECIES, 
+					PET_PROFILEPIC, PET_REASON, user, PET_ID);
+		} catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+
+		assertNull(pet);
+		assertEquals(
+				"Pet needs a name. Pet needs a description. Pet needs a species. Pet needs a reason.",
+				error);
 	}
 	
 	@Test
@@ -466,12 +625,28 @@ public class TestPetAdoptionAppService {
 			return null;
 		}).when(petProfileDao).deleteById(anyInt());
 		
+		String PET_NAME = "TestPet2";
+		int PET_AGE = 3;
+		String PET_DESCRIPTION = "new desciption";
+		String PET_REASON = "new reason";
+		Gender PET_GENDER = Gender.Male;
+		byte[] PET_PROFILEPIC = new byte[] { (byte) 0xff };
+		String PET_SPECIES = "new species";
+		
+		PetProfile pet = null;
+		GeneralUser user = createMockUser();
+		try {
+			pet = service.createOrUpdatePetProfile(PET_NAME, PET_AGE, PET_GENDER, PET_DESCRIPTION, 
+					PET_SPECIES, PET_PROFILEPIC, PET_REASON, user, PET_ID);
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
 		try {
 			service.deletePetProfile(PET_ID);
 		} catch (IllegalArgumentException e) {
 			fail();
 		}
-		PetProfile pet = service.getPetProfileById(PET_ID);
+		pet = service.getPetProfileById(PET_ID);
 		assertNull(pet);
 	}
 	
@@ -500,6 +675,63 @@ public class TestPetAdoptionAppService {
 	}
 	
 	@Test
+	public void testCreateNullApplication() {
+		Integer APP_ID = -1;
+		String desc = null;
+		ApplicationStatus status = ApplicationStatus.Accepted;
+		
+		PetProfile pet = createMockPetProfile();
+		GeneralUser user = createMockUser();
+		AdoptionApplication app = null;
+		String error = "";
+		try {
+			app = service.createOrUpdateAdoptionApplication(desc, status, user, pet, APP_ID);
+		} catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+		assertNull(app);
+		assertEquals("Application needs a description.", error);
+	}
+	
+	@Test
+	public void testCreateEmptyApplication() {
+		Integer APP_ID = -1;
+		String desc = "";
+		ApplicationStatus status = ApplicationStatus.Accepted;
+		
+		PetProfile pet = createMockPetProfile();
+		GeneralUser user = createMockUser();
+		AdoptionApplication app = null;
+		String error = "";
+		try {
+			app = service.createOrUpdateAdoptionApplication(desc, status, user, pet, APP_ID);
+		} catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+		assertNull(app);
+		assertEquals("Application needs a description.", error);
+	}
+	
+	@Test
+	public void testCreateSpaceApplication() {
+		Integer APP_ID = -1;
+		String desc = "   ";
+		ApplicationStatus status = ApplicationStatus.Accepted;
+		
+		PetProfile pet = createMockPetProfile();
+		GeneralUser user = createMockUser();
+		AdoptionApplication app = null;
+		String error = "";
+		try {
+			app = service.createOrUpdateAdoptionApplication(desc, status, user, pet, APP_ID);
+		} catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+		assertNull(app);
+		assertEquals("Application needs a description.", error);
+	}
+	
+	@Test
 	public void testUpdateApplication() {
 		String desc = "new_desc";
 		ApplicationStatus status = ApplicationStatus.InReview;
@@ -517,6 +749,60 @@ public class TestPetAdoptionAppService {
 		assertEquals(status, app.getApplicationStatus());
 		assertEquals(pet.getId(), app.getPetProfile().getId());
 		assertEquals(user.getUsername(), app.getUser().getUsername());
+	}
+	
+	@Test
+	public void testUpdateNullApplication() {
+		String desc = null;
+		ApplicationStatus status = ApplicationStatus.Accepted;
+		
+		PetProfile pet = createMockPetProfile();
+		GeneralUser user = createMockUser();
+		AdoptionApplication app = null;
+		String error = "";
+		try {
+			app = service.createOrUpdateAdoptionApplication(desc, status, user, pet, APP_ID);
+		} catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+		assertNull(app);
+		assertEquals("Application needs a description.", error);
+	}
+	
+	@Test
+	public void testUpdateEmptyApplication() {
+		String desc = "";
+		ApplicationStatus status = ApplicationStatus.Accepted;
+		
+		PetProfile pet = createMockPetProfile();
+		GeneralUser user = createMockUser();
+		AdoptionApplication app = null;
+		String error = "";
+		try {
+			app = service.createOrUpdateAdoptionApplication(desc, status, user, pet, APP_ID);
+		} catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+		assertNull(app);
+		assertEquals("Application needs a description.", error);
+	}
+	
+	@Test
+	public void testUpdateSpaceApplication() {
+		String desc = "   ";
+		ApplicationStatus status = ApplicationStatus.Accepted;
+		
+		PetProfile pet = createMockPetProfile();
+		GeneralUser user = createMockUser();
+		AdoptionApplication app = null;
+		String error = "";
+		try {
+			app = service.createOrUpdateAdoptionApplication(desc, status, user, pet, APP_ID);
+		} catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+		assertNull(app);
+		assertEquals("Application needs a description.", error);
 	}
 	
 	@Test
@@ -538,6 +824,34 @@ public class TestPetAdoptionAppService {
 		PetProfile pet = createMockPetProfile();
 		List<AdoptionApplication> apps = service.getApplicationByPetProfile(pet);
 		assertNotEquals(0, apps.size());
+	}
+	
+	@Test 
+	public void testDeleteApplication() {
+		doAnswer((i) -> {
+			app_map.remove(i.getArgument(0));
+			return null;
+		}).when(adoptionApplicationDao).deleteById(anyInt());
+		
+		String desc = "new desc";
+		ApplicationStatus status = ApplicationStatus.Rejected;
+		
+		PetProfile pet = createMockPetProfile();
+		GeneralUser user = createMockUser();
+		AdoptionApplication app = null;
+		
+		try {
+			app = service.createOrUpdateAdoptionApplication(desc, status, user, pet, APP_ID);
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+		try {
+			service.deleteApplication(APP_ID);
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+		app = service.getApplicaiontById(APP_ID);
+		assertNull(app);
 	}
 	
 	public PetProfile createMockPetProfile() {
