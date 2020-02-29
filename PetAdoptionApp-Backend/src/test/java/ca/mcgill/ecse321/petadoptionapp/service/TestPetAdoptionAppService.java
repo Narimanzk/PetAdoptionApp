@@ -26,14 +26,22 @@ import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 
+import ca.mcgill.ecse321.petadoptionapp.dao.AdoptionApplicationRespository;
 import ca.mcgill.ecse321.petadoptionapp.dao.GeneralUserRepository;
+import ca.mcgill.ecse321.petadoptionapp.dao.PetProfileRespository;
+import ca.mcgill.ecse321.petadoptionapp.model.Gender;
 import ca.mcgill.ecse321.petadoptionapp.model.GeneralUser;
+import ca.mcgill.ecse321.petadoptionapp.model.PetProfile;
 import ca.mcgill.ecse321.petadoptionapp.model.UserType;
 
 @ExtendWith(MockitoExtension.class)
 public class TestPetAdoptionAppService {
 	@Mock
 	private GeneralUserRepository generalUserDao;
+	@Mock 
+	private PetProfileRespository petProfileDao;
+	@Mock
+	private AdoptionApplicationRespository adoptionApplicationDao;
 
 	@InjectMocks
 	private PetAdoptionAppService service;
@@ -49,6 +57,18 @@ public class TestPetAdoptionAppService {
 	private static final String NONEXISTING_KEY = "NotAUser";
 	//Map for simulating a database.
 	private static HashMap<String, GeneralUser> hmp = new HashMap<>();
+	
+	//Parameters for existing pet profile
+	private static final String PET_NAME = "TestPet";
+	private static final int PET_AGE = 2;
+	private static final String PET_DESCRIPTION = "desciption";
+	private static final String PET_REASON = "reason";
+	private static final Gender PET_GENDER = Gender.Female;
+	private static final byte[] PET_PROFILEPIC = new byte[] {(byte)0xf5};
+	private static final String PET_SPECIES = "species";
+	
+	//Map for simulating a petprofile table
+	private static HashMap<Integer, PetProfile> pet_map = new HashMap<Integer, PetProfile>();
 	
 	@BeforeEach
 	public void setMockOutput() {
@@ -73,6 +93,7 @@ public class TestPetAdoptionAppService {
 			hmp.put(USER_KEY,user);
 	}
 
+	//************* Test GeneralUser service ***********************
 	@Test
 	public void testCreateGeneralUser() {
 		assertEquals(0, service.getAllGeneralUsers().size());
@@ -268,4 +289,6 @@ public class TestPetAdoptionAppService {
 		}
 		fail();
 	}
+	
+	//************************ Test PetProfile service *******************************
 }
