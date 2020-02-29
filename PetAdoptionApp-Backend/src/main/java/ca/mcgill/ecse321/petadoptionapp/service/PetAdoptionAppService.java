@@ -261,10 +261,10 @@ public class PetAdoptionAppService {
 	@Transactional
 	public Donation createOrUpdateDonation(Integer id, Integer amount, GeneralUser donatedFrom, GeneralUser donatedTo) {
 		String error = "";
-		if (id == null || id <= 0) {
+		if (id == null || id < -1 || id == 0) {
 			error += "Donation needs a valid id. ";
 		}
-		if (amount <= 0) {
+		if (amount == null || amount <= 0) {
 			error += "Donation needs a positive amount. ";
 		}
 		if (donatedFrom == null || donatedFrom.getUsername().trim().length() == 0) {
@@ -292,15 +292,11 @@ public class PetAdoptionAppService {
 	
 	/**
 	 * Delete the donation. 
-	 * @param username
+	 * @param id
 	 */
 	@Transactional
-	public Donation deleteDonation(int id) {
-		Donation donation = donationRepository.findDonationById(id);
-		if(donation != null) {
-			donationRepository.delete(donation);
-		}
-		return donation;
+	public void deleteDonation(int id) throws IllegalArgumentException {
+			donationRepository.deleteById(id);
 	}
 	
 
@@ -457,7 +453,7 @@ public class PetAdoptionAppService {
 		if (street == null || street.trim().length() == 0) {
 			error += "Address needs a street. ";
 		}
-		if (city == null) {
+		if (city == null || city.trim().length() == 0) {
 			error += "Address needs a city. ";
 		}
 		if (state == null || state.trim().length() == 0) {
@@ -513,12 +509,8 @@ public class PetAdoptionAppService {
 	 * @param id
 	 */
 	@Transactional
-	public Address deleteAddress(Integer id) {
-		Address address = addressRepository.findAddressById(id);
-		if(address != null) {
-			addressRepository.delete(address);
-		}
-		return address;
+	public void deleteAddress(Integer id) throws IllegalArgumentException{
+		addressRepository.deleteById(id);
 	}
 
 	

@@ -127,7 +127,11 @@ public class TestPetAdoptionAppService {
 			addressMap.put(ADDRESS_KEY,address);
 		// Create an existing donation
 			Donation donation = new Donation();
+			donation.setId(DONATION_KEY);
 			donation.setAmount(DONATION_AMOUNT);
+			donation.setDonatedFrom(DONATION_DONOR);
+			donation.setDonatedTo(DONATION_RECIPIENT);
+			donationMap.put(DONATION_KEY, donation);
 	}
 
 	@Test
@@ -461,7 +465,7 @@ public class TestPetAdoptionAppService {
 		assertEquals(ADDRESS_CITY, address.getCity());
 		assertEquals(ADDRESS_STATE, address.getState());
 		assertEquals(ADDRESS_POSTALCODE, address.getPostalCode());
-		assertEquals(emptyCountry, address.getCountry());
+		assertEquals(ADDRESS_COUNTRY, address.getCountry());
 	}
 	//wrong
 	@Test
@@ -477,7 +481,7 @@ public class TestPetAdoptionAppService {
 		assertEquals(ADDRESS_CITY, address.getCity());
 		assertEquals(ADDRESS_STATE, address.getState());
 		assertEquals(ADDRESS_POSTALCODE, address.getPostalCode());
-		assertEquals(spacedCountry, address.getCountry());
+		assertEquals(ADDRESS_COUNTRY, address.getCountry());
 	}
 	
 	@Test
@@ -500,7 +504,7 @@ public class TestPetAdoptionAppService {
 		String state = "QC";
 		String postalCode = "A1A1A1";
 		String country = "CA";
-		Address address = null;
+		Address address = new Address();
 		try {
 			address = service.createAddress(street, city, state, postalCode, country);
 		} catch (IllegalArgumentException e) {
@@ -526,17 +530,17 @@ public class TestPetAdoptionAppService {
 		}
 		fail();
 	}
-	//fail
+	
 	@Test
 	public void testCreateDonation() {
 		assertEquals(0, service.getAllDonations().size());
-		Integer id = 1234;
+		Integer id = -1;
 		Integer amount = 7777;
 		Donation donation = null;
 		GeneralUser donatedFrom = new GeneralUser();
 		GeneralUser donatedTo = new GeneralUser();
 		donatedFrom.setUsername("donor");
-		donatedTo.setUsername("recipeint");
+		donatedTo.setUsername("recipient");
 		
 		
 		try {
@@ -545,10 +549,9 @@ public class TestPetAdoptionAppService {
 			fail();
 		}
 		assertNotNull(donation);
-		assertEquals(id, donation.getId());
 		assertEquals(amount, donation.getAmount());
 		assertEquals("donor", donation.getDonatedFrom().getUsername());
-		assertEquals("recipeint", donation.getDonatedTo().getUsername());
+		assertEquals("recipient", donation.getDonatedTo().getUsername());
 	}
 	//fail
 	@Test
@@ -573,7 +576,7 @@ public class TestPetAdoptionAppService {
 	
 	@Test
 	public void testCreateDonationEmpty() {
-		Integer id = -1;
+		Integer id = -1234;
 		Integer amount = 0;
 		Donation donation = null;
 		GeneralUser donatedFrom = new GeneralUser();
@@ -593,10 +596,10 @@ public class TestPetAdoptionAppService {
 		assertEquals("Donation needs a valid id. Donation needs a positive amount. Donation needs a donor. Donation needs a recipient.",
 				error);
 	}
-	//fail
+	
 	@Test
 	public void testCreateDonationSpaces() {
-		Integer id = -1;
+		Integer id = -123;
 		Integer amount = 0;
 		Donation donation = null;
 		GeneralUser donatedFrom = new GeneralUser();
@@ -615,7 +618,7 @@ public class TestPetAdoptionAppService {
 		assertEquals("Donation needs a valid id. Donation needs a positive amount. Donation needs a donor. Donation needs a recipient.",
 				error);
 	}
-	//fail
+	
 	@Test
 	public void testUpdateDonation() {
 		Integer id = DONATION_KEY;
@@ -632,20 +635,27 @@ public class TestPetAdoptionAppService {
 		assertEquals(newDonatedFrom, donation.getDonatedFrom());
 		assertEquals(newDonatedTo, donation.getDonatedTo());
 	}
-	//fail
+	
 	@Test
 	public void testUpdateDonationNull() {
 		Integer id = DONATION_KEY;
+		Integer amount = null;
+		GeneralUser donatedFrom = null;
+		GeneralUser donatedTo = null;
 		Donation donation = null;
+		String error = null;
 		
-		donation = service.createOrUpdateDonation(id, null, null, null);
+		try {
+			donation = service.createOrUpdateDonation(id, amount, donatedFrom, donatedTo);
+		} catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
 		
-		assertNotNull(id);
-		assertEquals(DONATION_AMOUNT, donation.getAmount());
-		assertEquals(DONATION_DONOR, donation.getDonatedFrom());
-		assertEquals(DONATION_RECIPIENT, donation.getDonatedTo());
+		assertNull(donation);
+		assertEquals("Donation needs a positive amount. Donation needs a donor. Donation needs a recipient.",
+				error);
 	}
-	//fail
+	
 	@Test
 	public void testUpdateDonationEmpty() {
 		Integer id = DONATION_KEY;
@@ -653,16 +663,20 @@ public class TestPetAdoptionAppService {
 		Donation donation = null;
 		GeneralUser donatedFrom = new GeneralUser();
 		GeneralUser donatedTo = new GeneralUser();
+		String error = null;
 		donatedFrom.setUsername("");
 		donatedTo.setUsername("");
-		donation = service.createOrUpdateDonation(id, amount, donatedFrom, donatedTo);
+		try {
+			donation = service.createOrUpdateDonation(id, amount, donatedFrom, donatedTo);
+		} catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
 		
-		assertNotNull(id);
-		assertEquals(amount, donation.getAmount());
-		assertEquals("", donation.getDonatedFrom());
-		assertEquals("", donation.getDonatedTo());
+		assertNull(donation);
+		assertEquals("Donation needs a donor. Donation needs a recipient.",
+				error);
 	}
-	//fail
+	
 	@Test
 	public void testUpdateDonationSpaces() {
 		Integer id = DONATION_KEY;
@@ -670,16 +684,20 @@ public class TestPetAdoptionAppService {
 		Donation donation = null;
 		GeneralUser donatedFrom = new GeneralUser();
 		GeneralUser donatedTo = new GeneralUser();
+		String error = null;
 		donatedFrom.setUsername(" ");
 		donatedTo.setUsername(" ");
-		donation = service.createOrUpdateDonation(id, amount, donatedFrom, donatedTo);
+		try {
+			donation = service.createOrUpdateDonation(id, amount, donatedFrom, donatedTo);
+		} catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
 		
-		assertNotNull(id);
-		assertEquals(amount, donation.getAmount());
-		assertEquals(" ", donation.getDonatedFrom());
-		assertEquals(" ", donation.getDonatedTo());
+		assertNull(donation);
+		assertEquals("Donation needs a donor. Donation needs a recipient.",
+				error);
 	}
-	//fail
+
 	@Test
 	public void testGetExistingDonation() {
 		assertEquals(DONATION_KEY, service.getDonation(ADDRESS_KEY).getId());

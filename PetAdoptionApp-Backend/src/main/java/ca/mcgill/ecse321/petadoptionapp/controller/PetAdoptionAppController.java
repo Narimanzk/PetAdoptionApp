@@ -316,9 +316,8 @@ public class PetAdoptionAppController {
 		
 		
 		@DeleteMapping(value = { "/addresses/{id}" })
-		public AddressDTO deleteAddress(@PathVariable("id") Integer id) {
-			Address address = service.deleteAddress(id);
-			return convertToDTO(address);
+		public void deleteAddress(@PathVariable("id") Integer id) {
+			service.deleteAddress(id);
 		}
 		
 		// ~~~~~~~~~~ Rest API for Donation ~~~~~~~~~~~~
@@ -367,10 +366,8 @@ public class PetAdoptionAppController {
 		}
 		
 		@DeleteMapping(value = { "/donations/{id}" })
-		public DonationDTO deleteGivenDonationsByUser(@PathVariable("id") Integer id) {
-			Donation donation = service.deleteDonation(id);
-			return convertToDTO(donation);
-			
+		public void deleteGivenDonationsByUser(@PathVariable("id") Integer id) {
+			service.deleteDonation(id);
 		}
 
 	// ~~~~~~~~~~~~ Convert To DTO Methods Below ~~~~~~~~~~~~~~~~~~~~~~~
