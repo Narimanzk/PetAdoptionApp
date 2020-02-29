@@ -60,6 +60,11 @@ public class PetAdoptionAppService {
 		return profiles;
 	}
 	
+	@Transactional
+	public PetProfile getPetProfileByApplication(AdoptionApplication app) {
+		PetProfile pet = petProfileRespository.findPetProfileByAdoptionApplication(app);
+		return pet;
+	}
 	/**
 	 * get a pet profile by id
 	 * @param id

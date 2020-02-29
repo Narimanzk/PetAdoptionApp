@@ -87,7 +87,7 @@ public class PetAdoptionAppController {
 	 * 
 	 * @return
 	 */
-	@GetMapping(value = { "/petprofiles", "petprofiles" })
+	@GetMapping(value = { "/petprofiles", "/petprofile" })
 	public List<PetProfileDTO> getAllPetProfiles() {
 		return service.getAllPetProfile().stream().map(p -> convertToDTO(p)).collect(Collectors.toList());
 	}
@@ -118,6 +118,18 @@ public class PetAdoptionAppController {
 	public List<PetProfileDTO> getPetProfileByUser(@PathVariable("username") String username) {
 		GeneralUser user = service.getGeneralUser(username);
 		return service.getPetProfileByUser(user).stream().map(p -> convertToDTO(p)).collect(Collectors.toList());
+	}
+	
+	/**
+	 * get a pet profile through an application
+	 * @param id
+	 * @return
+	 */
+	@GetMapping(value = {"/petprofiles/applications/{appid}"})
+	public PetProfileDTO PetProfileByApplication(@PathVariable("appid") Integer id) {
+		AdoptionApplication app = service.getApplicaiontById(id);
+		PetProfile pet = service.getPetProfileByApplication(app);
+		return convertToDTO(pet);
 	}
 
 	/**
