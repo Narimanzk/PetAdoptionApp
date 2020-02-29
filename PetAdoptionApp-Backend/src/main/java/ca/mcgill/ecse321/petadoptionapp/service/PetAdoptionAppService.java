@@ -204,23 +204,6 @@ public class PetAdoptionAppService {
 		return application;
 	}
 	//~~~~~~~~~~ DONATION SERVICES ~~~~~~~~~~~~
-	
-	/**
-	 * Create a new donation object
-	 * @param amount
-	 * @param shelter
-	 * @param user
-	 * @return A newly created Donation object
-	 */
-	@Transactional
-	public Donation createDonation(Integer amount, GeneralUser shelter, GeneralUser user) {
-		Donation donation = new Donation();
-		donation.setAmount(amount);
-		donation.setDonatedTo(shelter);
-		donation.setDonatedFrom(user);
-		donationRepository.save(donation);
-		return donation;
-	}
 
 	/**
 	 * Get Donation object by id
@@ -268,7 +251,7 @@ public class PetAdoptionAppService {
 		return donationsForGeneralUser;
 	}	
 	/**
-	 * update an existing donation
+	 * create or update a donation
 	 * @param id
 	 * @param amount
 	 * @param donatedFrom
@@ -276,11 +259,16 @@ public class PetAdoptionAppService {
 	 * @return updated donation object
 	 */
 	@Transactional
-	public Donation updateDonation(int id, Integer amount, GeneralUser donatedFrom, GeneralUser donatedTo) {
-		Donation donation = donationRepository.findDonationById(id);
-		if(amount !=null) donation.setAmount(amount);
-		if(donatedFrom != null) donation.setDonatedFrom(donatedFrom);
-		if(donatedTo != null)donation.setDonatedTo(donatedTo);
+	public Donation createOrUpdateDonation(int id, Integer amount, GeneralUser donatedFrom, GeneralUser donatedTo) {
+		Donation donation;
+		if(id == -1) {
+			donation = new Donation();
+		}else {
+			donation = donationRepository.findDonationById(id);
+		}
+		donation.setAmount(amount);
+		donation.setDonatedFrom(donatedFrom);
+		donation.setDonatedTo(donatedTo);
 		donationRepository.save(donation);
 		return donation;
 	}
@@ -290,10 +278,19 @@ public class PetAdoptionAppService {
 	 * @param username
 	 */
 	@Transactional
-	public void deleteDonation(int id) {
-		donationRepository.deleteById(id);
+	public Donation deleteDonation(int id) {
+		Donation donation = donationRepository.findDonationById(id);
+		if(donation != null) {
+			donationRepository.delete(donation);
+		}
+		return donation;
 	}
 	
+
+	//~~~~~~~~~~ RESPONSE SERVICES ~~~~~~~~~~~~
+	
+
+
 	@Transactional
 	public Response createResponse(String text, Question question, GeneralUser author) {
 		Response response = new Response();
@@ -345,8 +342,27 @@ public class PetAdoptionAppService {
 	 * @return A newly created general user object.
 	 */
 	@Transactional
-	public GeneralUser createGeneralUser(String username, UserType userType, String email, String password,
-			String name) {
+	public GeneralUser createGeneralUser(String username, UserType userType, String email, String password, String name) {
+		String error = "";
+		if (username == null || username.trim().length() == 0) {
+			error += "User needs a username. ";
+		}
+		if (userType == null) {
+			error += "User needs a user type. ";
+		}
+		if (email == null || email.trim().length() == 0) {
+			error += "User needs an email. ";
+		}
+		if (password == null || password.trim().length() == 0) {
+			error += "User needs a password. ";
+		}
+		if (name == null || name.trim().length() == 0) {
+			error += "User needs a name.";
+		}
+		error = error.trim();
+		if (error.length() > 0) {
+			throw new IllegalArgumentException(error);
+		}
 		GeneralUser user = new GeneralUser();
 		user.setUsername(username);
 		user.setUserType(userType);
@@ -371,15 +387,13 @@ public class PetAdoptionAppService {
 	public GeneralUser updateGeneralUser(String username, String email, String password, byte[] profilePicture,
 			String description) {
 		GeneralUser user = generalUserRepository.findGeneralUserByUsername(username);
-		if (email != null)
-			user.setEmail(email);
-		if (password != null)
-			user.setPassword(password);
-		if (profilePicture != null)
-			user.setProfilePicture(profilePicture);
-		if (description != null)
-			user.setDescription(description);
-		generalUserRepository.save(user);
+		if (user != null) {
+			if (email != null && email.trim().length() > 0) user.setEmail(email);
+			if (password != null && password.trim().length() > 0) user.setPassword(password);
+			if (profilePicture != null) user.setProfilePicture(profilePicture);
+			if (description != null) user.setDescription(description);
+			generalUserRepository.save(user);
+		}
 		return user;
 	}
 
@@ -389,7 +403,7 @@ public class PetAdoptionAppService {
 	 * @param username
 	 */
 	@Transactional
-	public void deleteGeneralUser(String username) {
+	public void deleteGeneralUser(String username) throws IllegalArgumentException{
 		generalUserRepository.deleteById(username);
 	}
 
@@ -459,10 +473,23 @@ public class PetAdoptionAppService {
 	 * @param id
 	 */
 	@Transactional
-	public void deleteAddress(Integer id) {
-		addressRepository.deleteById(id);
+	public Address deleteAddress(Integer id) {
+		Address address = addressRepository.findAddressById(id);
+		if(address != null) {
+			addressRepository.delete(address);
+		}
+		return address;
 	}
 
+	
+	/**
+	 * @param id
+	 * @return address with given id
+	 */
+	@Transactional
+	public Address getAddress(Integer id) {
+		return addressRepository.findAddressById(id);
+	}
 	
 	/**
 	 * @return All Addresses in a list.
