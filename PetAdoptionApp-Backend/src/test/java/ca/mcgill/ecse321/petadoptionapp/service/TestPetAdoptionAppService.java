@@ -19,6 +19,9 @@ import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.stubbing.Answer;
+import static org.mockito.ArgumentMatchers.isNull;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 
 import ca.mcgill.ecse321.petadoptionapp.dao.GeneralUserRepository;
 import ca.mcgill.ecse321.petadoptionapp.model.GeneralUser;
@@ -229,5 +232,28 @@ public class TestPetAdoptionAppService {
 	@Test
 	public void testGetNonExistingPerson() {
 		assertNull(service.getGeneralUser(NONEXISTING_KEY));
+	}
+	
+	@Test
+	public void testDeleteGeneralUser() {
+		doNothing().when(generalUserDao).deleteById(anyString());
+		String username = USER_KEY;
+		try {
+			service.deleteGeneralUser(username);
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+	}
+
+	@Test
+	public void testDeleteGeneralUserNull() {
+		doThrow(IllegalArgumentException.class).when(generalUserDao).deleteById(isNull());
+		String username = null;
+		try {
+			service.deleteGeneralUser(username);
+		} catch (IllegalArgumentException e) {
+			return;
+		}
+		fail();
 	}
 }
