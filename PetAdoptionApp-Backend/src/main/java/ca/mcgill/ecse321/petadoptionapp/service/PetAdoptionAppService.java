@@ -264,11 +264,14 @@ public class PetAdoptionAppService {
 		if (id == null || id <= 0) {
 			error += "Donation needs a valid id. ";
 		}
-		if (donatedFrom == null) {
+		if (amount <= 0) {
+			error += "Donation needs a positive amount. ";
+		}
+		if (donatedFrom == null || donatedFrom.getUsername().trim().length() == 0) {
 			error += "Donation needs a donor. ";
 		}
-		if (donatedTo == null) {
-			error += "Donation needs a recepient. ";
+		if (donatedTo == null || donatedTo.getUsername().trim().length() == 0) {
+			error += "Donation needs a recipient. ";
 		}
 		error = error.trim();
 		if (error.length() > 0) {
