@@ -62,7 +62,7 @@ public class PetAdoptionAppService {
 	
 	@Transactional
 	public PetProfile getPetProfileByApplication(AdoptionApplication app) {
-		PetProfile pet = petProfileRespository.findPetProfileByAdoptionApplication(app);
+		PetProfile pet = petProfileRespository.findByAdoptionApplications(app);
 		return pet;
 	}
 	/**
