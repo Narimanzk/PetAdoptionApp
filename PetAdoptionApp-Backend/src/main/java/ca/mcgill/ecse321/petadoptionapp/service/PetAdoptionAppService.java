@@ -91,12 +91,31 @@ public class PetAdoptionAppService {
 	@Transactional
 	public PetProfile createOrUpdatePetProfile(String name, int age, Gender petGender, String description, String species,
 			byte[] profile, String reason, GeneralUser user, int id) {
+		String error = "";
+		if (name == null || name.trim().length() == 0) {
+			error += "Pet needs a name. ";
+		}
+		if (description == null || description.trim().length() == 0) {
+			error += "Pet needs a description. ";
+		}
+		if (species == null || species.trim().length() == 0) {
+			error += "Pet needs a species. ";
+		}
+		if (reason == null || reason.trim().length() == 0) {
+			error += "Pet needs a reason. ";
+		}
 		PetProfile pet;
 		if(id == -1) {
 			pet = new PetProfile();
 		}else {
 			pet = petProfileRespository.findPetProfileById(id);
 		}
+		
+		error = error.trim();
+		if(error != "") {
+			throw new IllegalArgumentException(error);
+		}
+		
 		if(pet != null) {
 			pet.setAge(age);
 			pet.setPetName(name);
@@ -147,11 +166,21 @@ public class PetAdoptionAppService {
 	@Transactional
 	public AdoptionApplication createOrUpdateAdoptionApplication(String description, ApplicationStatus status, GeneralUser user,
 			PetProfile profile, int id) {
+		String error = "";
+		if (description == null || description.trim().length() == 0) {
+			error += "User needs a username. ";
+		}
+		
 		AdoptionApplication application;
 		if(id == -1) {
 			application = new AdoptionApplication();
 		}else {
 			application = adoptionApplicationRespository.findAdoptionApplicationById(id);
+		}
+		
+		error = error.trim();
+		if(error != "") {
+			throw new IllegalArgumentException(error);
 		}
 		if(application != null) {
 			application.setApplicationDescription(description);
