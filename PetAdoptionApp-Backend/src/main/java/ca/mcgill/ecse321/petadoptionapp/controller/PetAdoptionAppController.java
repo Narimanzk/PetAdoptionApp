@@ -244,10 +244,10 @@ public class PetAdoptionAppController {
 	}
 	
 	@PostMapping(value = {
-	"/users/{username}/responses" }, consumes = "application/json", produces = "application/json")
-	public ResponseDTO createResponse(@PathVariable("username") String username, @RequestBody QuestionDTO resQuestion, @RequestBody String text) {
+	"users/{username}/responses/{questionID}" }, consumes = "application/json", produces = "application/json")
+	public ResponseDTO createResponse(@PathVariable("username") String username, @PathVariable("questionID") Integer questionID, @RequestBody String text) {
 		GeneralUser author = service.getGeneralUser(username);
-		Question question = service.getQuestion(resQuestion.getID());
+		Question question = service.getQuestion(questionID);
 		Response response = service.createResponse(text, question, author);
 		return convertToDTO(response);
 	}
