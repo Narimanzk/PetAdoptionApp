@@ -60,8 +60,7 @@ public class PetAdoptionAppController {
 	}
 
 	@PostMapping(value = { "/users" }, consumes = "application/json", produces = "application/json")
-	public GeneralUserDTO createGeneralUser(@RequestBody GeneralUserDTO user) {
-		// TODO Null checking in the essential parameter
+	public GeneralUserDTO createGeneralUser(@RequestBody GeneralUserDTO user) throws IllegalArgumentException {
 		GeneralUser domainUser = service.createGeneralUser(user.getUsername(),
 				convertToDomainObject(user.getUserType()), user.getEmail(), user.getPassword(), user.getName());
 		GeneralUserDTO userDto = convertToDTO(domainUser);
@@ -70,7 +69,6 @@ public class PetAdoptionAppController {
 
 	@PutMapping(value = { "/users"}, consumes = "application/json", produces = "application/json")
 	public GeneralUserDTO updateGeneralUser(@RequestBody GeneralUserDTO user) {
-		// TODO Null checking in the essential parameter
 		GeneralUser domainUser = service.updateGeneralUser(user.getUsername(), user.getEmail(), user.getPassword(),
 				user.getProfilePicture(), user.getDescription());
 		GeneralUserDTO userDto = convertToDTO(domainUser);
@@ -78,7 +76,7 @@ public class PetAdoptionAppController {
 	}
 
 	@DeleteMapping(value = { "/users/{username}" })
-	public void deleteGeneralUser(@PathVariable("username") String username) {
+	public void deleteGeneralUser(@PathVariable("username") String username) throws IllegalArgumentException{
 		service.deleteGeneralUser(username);
 	}
 
