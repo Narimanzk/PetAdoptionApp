@@ -6,11 +6,15 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
 
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -27,13 +31,22 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 
 import ca.mcgill.ecse321.petadoptionapp.dao.GeneralUserRepository;
+import ca.mcgill.ecse321.petadoptionapp.dao.QuestionRepository;
+import ca.mcgill.ecse321.petadoptionapp.dao.ResponseRepository;
 import ca.mcgill.ecse321.petadoptionapp.model.GeneralUser;
+import ca.mcgill.ecse321.petadoptionapp.model.Question;
+import ca.mcgill.ecse321.petadoptionapp.model.Response;
+import ca.mcgill.ecse321.petadoptionapp.model.ThreadStatus;
 import ca.mcgill.ecse321.petadoptionapp.model.UserType;
 
 @ExtendWith(MockitoExtension.class)
 public class TestPetAdoptionAppService {
 	@Mock
 	private GeneralUserRepository generalUserDao;
+	@Mock 
+	private QuestionRepository questionDao;
+	@Mock
+	private ResponseRepository responseDao;
 
 	@InjectMocks
 	private PetAdoptionAppService service;
@@ -49,6 +62,22 @@ public class TestPetAdoptionAppService {
 	private static final String NONEXISTING_KEY = "NotAUser";
 	//Map for simulating a database.
 	private static HashMap<String, GeneralUser> hmp = new HashMap<>();
+	//Param for existing question
+	private static final Integer QUESTION_ID = 2552;
+	private static final String QUESTION_TITLE = "QuestionTitle";
+	private static final String QUESTION_DESCRIPTION = "QuestionDescription";
+	private static final ThreadStatus QUESTION_STATUS = ThreadStatus.Open;
+	private static final Integer NONEXISTING_QUESTION_ID = 2755;
+	private static final List<Response> QUESTION_RESPONSES = new ArrayList<Response>();
+	//Map for simulating a question database
+	private static HashMap<Integer, Question> questionMap = new HashMap<>();
+	//Param for existing response
+	private static final Integer RESPONSE_ID = 3552;
+	private static final String RESPONSE_TEXT = "Response Text";
+	//Map for simulating response databse
+	private static HashMap<Integer, Response> responseMap = new HashMap<>();
+	
+	
 	
 	@BeforeEach
 	public void setMockOutput() {
@@ -71,6 +100,40 @@ public class TestPetAdoptionAppService {
 			user.setDescription(USER_DESCRIPTION);
 			user.setPassword(USER_PASSWORD);
 			hmp.put(USER_KEY,user);
+			
+		//Save Question 
+			lenient().when(questionDao.save(any(Question.class))).thenAnswer((InvocationOnMock invocation) -> {
+				questionMap.put(((Question)invocation.getArgument(0)).getId(), invocation.getArgument(0));
+				return invocation.getArgument(0);
+			});
+		//Find Question by ID
+			lenient().when(questionDao.findById(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
+				return questionMap.get(invocation.getArgument(0));
+			});
+		//Create an existing question
+			Question question = new Question();
+			question.setId(QUESTION_ID);
+			question.setDescription(QUESTION_DESCRIPTION);
+			question.setThreadStatus(QUESTION_STATUS);
+			question.setUser(service.getGeneralUser(USER_KEY));
+			questionMap.put(QUESTION_ID, question);
+			
+		//Save Response
+			lenient().when(responseDao.save(any(Response.class))).thenAnswer((InvocationOnMock invocation) -> {
+				responseMap.put(((Response)invocation.getArgument(0)).getId(), invocation.getArgument(0));
+				return invocation.getArgument(0);
+			});
+		//Find Response by ID
+			lenient().when(responseDao.findById(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
+				return responseMap.get(invocation.getArgument(0));
+			});
+		// Create an existing response 
+			Response response = new Response();
+			response.setId(RESPONSE_ID);
+			response.setText(RESPONSE_TEXT);
+			response.setQuestion(service.getQuestion(QUESTION_ID));
+			response.setUser(service.getGeneralUser(USER_KEY));
+			responseMap.put(RESPONSE_ID, response);
 	}
 
 	@Test
@@ -268,4 +331,354 @@ public class TestPetAdoptionAppService {
 		}
 		fail();
 	}
+	
+//~~~~~~~~~~~~ QUESTION TESTS ~~~~~~~~~~~~~~~~~~~
+	
+	@Test 
+	public void testCreateQuestion() {
+		assertEquals(0, service.getAllQuestions().size());
+		Integer id = 2553;
+		String title = "QuestionTitle";
+		String description = "QuestionDescription";
+		ThreadStatus status = ThreadStatus.Open;
+		GeneralUser author = service.getGeneralUser(USER_KEY);
+		Question question = null;
+		
+		try {
+			question = service.createQuestion(id,title, description, status, author);
+		} catch(IllegalArgumentException e) {
+			fail();
+		}
+		assertNotNull(question);
+		assertEquals(title, question.getTitle());
+		assertEquals(description, question.getDescription());
+		assertEquals(status, question.getStatus());
+		assertEquals(author, question.getUser());
+	}
+	
+	@Test
+	public void testCreateQuestionNull() {
+		Integer id = 2535;
+		String title = null;
+		String description = null;
+		ThreadStatus status = null;
+		GeneralUser author = null;
+		String error = null;
+		Question question = null;
+		
+		try {
+			question = service.createQuestion(id, title, description, status, author);
+		} catch(IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+		
+		assertNull(question);
+		assertEquals("Question needs a title. Question needs a description. Question needs a status. Question needs a user.", error);
+		
+	}
+	
+	@Test
+	public void testCreateQuestionEmpty() {
+		Integer id = 2553;
+		String title = "";
+		String description = "";
+		ThreadStatus status = null;
+		GeneralUser author = null;
+		String error = null;
+		Question question = null;
+		
+
+		try {
+			question = service.createQuestion(id, title, description, status, author);
+		} catch(IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+		
+		assertNull(question);
+		assertEquals("Question needs a title. Question needs a description. Question needs a Thread Status. Question needs a user.", error);
+	}
+	
+	@Test
+	public void testCreateQuestionSpaces() {
+		Integer id = 2553;
+		String title = "  ";
+		String description = "  ";
+		ThreadStatus status = null;
+		GeneralUser author = null;
+		String error = null;
+		Question question = null;
+		
+
+		try {
+			question = service.createQuestion(id, title, description, status, author);
+		} catch(IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+		
+		assertNull(question);
+		assertEquals("Question needs a title. Question needs a description. Question needs a Thread Status. Question needs a user.", error);
+	}
+	
+	@Test
+	public void testUpdateQuestion() {
+		Integer id = QUESTION_ID;
+		String newTitle = "newTitle";
+		String newDescription = "new description";
+		ThreadStatus newStatus = ThreadStatus.Closed;
+		GeneralUser author = service.getGeneralUser(USER_KEY);
+		Question question = null;
+		question = service.updateQuestion(id, newTitle, newDescription, newStatus, author);
+		
+		assertNotNull(question);
+		assertEquals(newTitle, question.getTitle());
+		assertEquals(newDescription, question.getDescription());
+		assertEquals(newStatus, question.getStatus());
+		assertEquals(author, question.getUser());
+	}
+	
+	@Test
+	public void testUpdateQuestionNull() {
+		Integer ID = QUESTION_ID;
+		Question question = null;
+		
+		question = service.updateQuestion(ID, null, null, null, null);
+		
+		assertNotNull(question);
+		assertEquals(QUESTION_TITLE, question.getTitle());
+		assertEquals(QUESTION_DESCRIPTION, question.getDescription());
+		assertEquals(QUESTION_STATUS, question.getThreadStatus());
+		assertEquals(service.getGeneralUser(USER_KEY), question.getUser());
+	}
+	
+	@Test
+	public void testUpdateQuestionEmpty() {
+		Integer id = QUESTION_ID;
+		Question question = null; 
+		String emptyDescription = "";
+		question = service.updateQuestion(QUESTION_ID, QUESTION_TITLE, emptyDescription, QUESTION_STATUS, service.getGeneralUser(USER_KEY));
+		assertNotNull(question);
+		assertEquals(QUESTION_TITLE, question.getTitle());
+		assertEquals(emptyDescription, question.getDescription());
+		assertEquals(QUESTION_STATUS, question.getStatus());
+		assertEquals(service.getGeneralUser(USER_KEY), question.getUser());
+	}
+	
+	@Test 
+	public void testGetExistingQuestion() {
+		assertEquals(QUESTION_TITLE, service.getQuestion(QUESTION_ID).getTitle());
+		
+	}
+	
+	@Test
+	public void testGetNonExistingQuestion() {
+		assertNull(service.getQuestion(NONEXISTING_QUESTION_ID));
+	}
+	
+	@Test
+	public void testDeleteQuestion() {
+		doAnswer((i) -> {questionMap.remove(i.getArgument(0));
+		return null;}).when(questionDao).deleteById(anyInt());
+		Integer id = 1234;
+		String title = "New Title";
+		String description = "New Description";
+		ThreadStatus status = ThreadStatus.Open;
+		GeneralUser author = service.getGeneralUser(USER_KEY);
+		Question question;
+		
+		try {
+			question = service.createQuestion(id, title, description, status, author);
+		}catch (IllegalArgumentException e) {
+			fail();
+		}
+		try {
+			service.deleteQuestion(id);
+		}catch (IllegalArgumentException e) {
+			fail();
+		}
+		question = service.getQuestion(id);
+		assertNull(question);
+	}
+	
+	@Test
+	public void testDeleteQuestionNull() {
+		doThrow(IllegalArgumentException.class).when(questionDao).deleteById(isNull());
+		Integer id = null;
+		try {
+			service.deleteQuestion(id);
+		}catch(IllegalArgumentException e) {
+			return;
+		}
+		fail();
+	}
+	
+	
+	// ~~~~~~~~~~~~RESPONSE TESTS ~~~~~~~~~~~~~~~~~
+	
+	@Test 
+	public void testCreateResponse() {
+		assertEquals(0, service.getAllResponses().size());
+		Integer id = 3554;
+		String text = "Response Text";
+		GeneralUser author = service.getGeneralUser(USER_KEY);
+		Question question = service.getQuestion(QUESTION_ID);
+		Response response = null;
+		
+		try {
+			response = service.createResponse(id,text, question, author);
+		} catch(IllegalArgumentException e) {
+			fail();
+		}
+		assertNotNull(response);
+		assertEquals(text, response.getText());
+		assertEquals(question, response.getQuestion());
+		assertEquals(author, response.getUser());
+	}
+	
+	@Test
+	public void testCreateResponseNull() {
+		Integer id = 3554;
+		String text = null;
+		GeneralUser author = null;
+		Question question = null;
+		String error = null;
+		Response response = null;
+		
+		try {
+			response = service.createResponse(id, text, question, author);
+		} catch(IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+		
+		assertNull(response);
+		assertEquals("Response needs a text. Response needs a question. Response needs a user.", error);
+		
+	}
+	
+	@Test
+	public void testCreateResponseEmpty() {
+		Integer id = 3554;
+		String text = "";
+		GeneralUser author = null;
+		Question question = null;
+		String error = null;
+		Response response = null;
+		
+
+		try {
+			response = service.createResponse(id, text, question, author);
+		} catch(IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+		
+		assertNull(response);
+		assertEquals("Response needs a text. Response needs a question. Response needs a user.", error);
+	}
+	
+	@Test
+	public void testCreateResponseSpaces() {
+		Integer id = 3554;
+		String text = "  ";
+		GeneralUser author = null;
+		Question question = null;
+		String error = null;
+		Response response = null;
+		
+
+		try {
+			response = service.createResponse(id, text, question, author);
+		} catch(IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+		
+		assertNull(response);
+		assertEquals("Response needs a text. Response needs a question. Response needs a user.", error);
+	}
+	
+	@Test
+	public void testUpdateResponse() {
+		Integer id = RESPONSE_ID;
+		String newText = "newText";
+		GeneralUser author = service.getGeneralUser(USER_KEY);
+		Question question = service.getQuestion(QUESTION_ID);
+		Response response = null;
+		response = service.updateResponse(id, newText, question, author);
+		
+		assertNotNull(response);
+		assertEquals(newText, response.getText());;
+		assertEquals(question, response.getQuestion());
+		assertEquals(author, response.getUser());
+	}
+	
+	@Test
+	public void testUpdateResponseNull() {
+		Integer ID = RESPONSE_ID;
+		Response response = null;
+		
+		response = service.updateResponse(ID, null, null, null);
+		
+		assertNotNull(response);
+		assertEquals(RESPONSE_TEXT, response.getText());
+		assertEquals(service.getQuestion(QUESTION_ID), response.getQuestion());
+		assertEquals(service.getGeneralUser(USER_KEY), response.getUser());
+	}
+	
+	@Test
+	public void testUpdateResponseEmpty() {
+		Integer id = RESPONSE_ID;
+		Response response = null; 
+		String emptyText = "";
+		response = service.updateResponse(id, emptyText, service.getQuestion(QUESTION_ID), service.getGeneralUser(USER_KEY));
+		assertNotNull(response);
+		assertEquals(emptyText, response.getText());
+		assertEquals(service.getQuestion(QUESTION_ID), response.getQuestion());
+		assertEquals(service.getGeneralUser(USER_KEY), response.getUser());
+	}
+	
+	@Test 
+	public void testGetExistingResponse() {
+		assertEquals(RESPONSE_TEXT, service.getResponse(RESPONSE_ID).getText());
+		
+	}
+	
+	@Test
+	public void testGetNonExistingResponse() {
+		assertNull(service.getResponse(NONEXISTING_QUESTION_ID));
+	}
+	
+	@Test
+	public void testDeleteResponse() {
+		doAnswer((i) -> {responseMap.remove(i.getArgument(0));
+		return null;}).when(responseDao).deleteById(anyInt());
+		Integer id = 3554;
+		String text = "New Text";
+		Question question = service.getQuestion(QUESTION_ID);
+		GeneralUser author = service.getGeneralUser(USER_KEY);
+		Response response;
+		
+		try {
+			response = service.createResponse(id, text, question, author);
+		}catch (IllegalArgumentException e) {
+			fail();
+		}
+		try {
+			service.deleteResponse(id);
+		}catch (IllegalArgumentException e) {
+			fail();
+		}
+		response = service.getResponse(id);
+		assertNull(response);
+	}
+	
+	@Test
+	public void testDeleteResponseNull() {
+		doThrow(IllegalArgumentException.class).when(responseDao).deleteById(isNull());
+		Integer id = null;
+		try {
+			service.deleteResponse(id);
+		}catch(IllegalArgumentException e) {
+			return;
+		}
+		fail();
+	}
 }
+
