@@ -342,8 +342,27 @@ public class PetAdoptionAppService {
 	 * @return A newly created general user object.
 	 */
 	@Transactional
-	public GeneralUser createGeneralUser(String username, UserType userType, String email, String password,
-			String name) {
+	public GeneralUser createGeneralUser(String username, UserType userType, String email, String password, String name) {
+		String error = "";
+		if (username == null || username.trim().length() == 0) {
+			error += "User needs a username. ";
+		}
+		if (userType == null) {
+			error += "User needs a user type. ";
+		}
+		if (email == null || email.trim().length() == 0) {
+			error += "User needs an email. ";
+		}
+		if (password == null || password.trim().length() == 0) {
+			error += "User needs a password. ";
+		}
+		if (name == null || name.trim().length() == 0) {
+			error += "User needs a name.";
+		}
+		error = error.trim();
+		if (error.length() > 0) {
+			throw new IllegalArgumentException(error);
+		}
 		GeneralUser user = new GeneralUser();
 		user.setUsername(username);
 		user.setUserType(userType);
@@ -368,15 +387,13 @@ public class PetAdoptionAppService {
 	public GeneralUser updateGeneralUser(String username, String email, String password, byte[] profilePicture,
 			String description) {
 		GeneralUser user = generalUserRepository.findGeneralUserByUsername(username);
-		if (email != null)
-			user.setEmail(email);
-		if (password != null)
-			user.setPassword(password);
-		if (profilePicture != null)
-			user.setProfilePicture(profilePicture);
-		if (description != null)
-			user.setDescription(description);
-		generalUserRepository.save(user);
+		if (user != null) {
+			if (email != null && email.trim().length() > 0) user.setEmail(email);
+			if (password != null && password.trim().length() > 0) user.setPassword(password);
+			if (profilePicture != null) user.setProfilePicture(profilePicture);
+			if (description != null) user.setDescription(description);
+			generalUserRepository.save(user);
+		}
 		return user;
 	}
 
@@ -386,7 +403,7 @@ public class PetAdoptionAppService {
 	 * @param username
 	 */
 	@Transactional
-	public void deleteGeneralUser(String username) {
+	public void deleteGeneralUser(String username) throws IllegalArgumentException{
 		generalUserRepository.deleteById(username);
 	}
 
