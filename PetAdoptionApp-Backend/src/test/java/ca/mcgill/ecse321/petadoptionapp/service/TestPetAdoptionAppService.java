@@ -7,7 +7,10 @@ import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.lenient;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
+
+import java.util.HashMap;
 
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -35,44 +38,39 @@ public class TestPetAdoptionAppService {
 	@InjectMocks
 	private PetAdoptionAppService service;
 
+	//Param for existing user.
 	private static final String USER_KEY = "TestUser";
+	private static final UserType USER_USERTYPE = UserType.Owner;
+	private static final String USER_EMAIL = "cooluser@email.com";
+	private static final String USER_PASSWORD = "abcdef1234!";
+	private static final String USER_NAME = "Steve";
+	private static final byte[] USER_PROFILEPICTURE = new byte[] {(byte)0xf5};
+	private static final String USER_DESCRIPTION = "Test Description";
 	private static final String NONEXISTING_KEY = "NotAUser";
-	private static final String UPDATE_USER_USERNAME = "TestUpdateUser";
-	private static final UserType UPDATE_USER_USERTYPE = UserType.Owner;
-	private static final String UPDATE_USER_EMAIL = "cooluser@email.com";
-	private static final String UPDATE_USER_PASSWORD = "abcdef1234!";
-	private static final String UPDATE_USER_NAME = "Steve";
-	private static final byte[] UPDATE_USER_PROFILEPICTURE = new byte[] {(byte)0xf5};
-	private static final String UPDATE_USER_DESCRIPTION = "Test Description";
-
+	//Map for simulating a database.
+	private static HashMap<String, GeneralUser> hmp = new HashMap<>();
+	
 	@BeforeEach
 	public void setMockOutput() {
-		lenient().when(generalUserDao.findGeneralUserByUsername(anyString())).thenAnswer((InvocationOnMock invocation) -> {
-			if (invocation.getArgument(0).equals(USER_KEY)) {
-				GeneralUser user = new GeneralUser();
-				user.setUsername(USER_KEY);
-				return user;
-			}
-			else if (invocation.getArgument(0).equals(UPDATE_USER_USERNAME)) {
-				GeneralUser user = new GeneralUser();
-				user.setUsername(UPDATE_USER_USERNAME);
-				user.setUserType(UPDATE_USER_USERTYPE);
-				user.setEmail(UPDATE_USER_EMAIL);
-				user.setPassword(UPDATE_USER_PASSWORD);
-				user.setName(UPDATE_USER_NAME);
-				user.setProfilePicture(UPDATE_USER_PROFILEPICTURE);
-				user.setDescription(UPDATE_USER_DESCRIPTION);
-				return user;
-			}
-			else {
-				return null;
-			}
+		//Save General User
+			lenient().when(generalUserDao.save(any(GeneralUser.class))).thenAnswer((InvocationOnMock invocation) -> {
+				hmp.put(((GeneralUser)invocation.getArgument(0)).getUsername(),invocation.getArgument(0));
+				return invocation.getArgument(0);
+			});
+		// Find General User by username
+			lenient().when(generalUserDao.findGeneralUserByUsername(anyString())).thenAnswer((InvocationOnMock invocation) -> {
+				return hmp.get(invocation.getArgument(0));
 		});
-		// Whenever anything is saved, just return the parameter object
-		Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
-			return invocation.getArgument(0);
-		};
-		lenient().when(generalUserDao.save(any(GeneralUser.class))).thenAnswer(returnParameterAsAnswer);
+		// Create a existing user
+			GeneralUser user =  new GeneralUser();
+			user.setUsername(USER_KEY);
+			user.setUserType(USER_USERTYPE);
+			user.setEmail(USER_EMAIL);
+			user.setName(USER_NAME);
+			user.setProfilePicture(USER_PROFILEPICTURE);
+			user.setDescription(USER_DESCRIPTION);
+			user.setPassword(USER_PASSWORD);
+			hmp.put(USER_KEY,user);
 	}
 
 	@Test
@@ -164,7 +162,7 @@ public class TestPetAdoptionAppService {
 	
 	@Test
 	public void testUpdateGeneralUser() {
-		String username = UPDATE_USER_USERNAME;
+		String username = USER_KEY;
 		String newEmail = "differentuser@website.ca";
 		String newPassword = "zyxvut9876$";
 		byte[] newProfilePicture = new byte[] {(byte)0xe0};
@@ -183,44 +181,44 @@ public class TestPetAdoptionAppService {
 	
 	@Test
 	public void testUpdateGeneralUserNull() {
-		String username = UPDATE_USER_USERNAME;
+		String username = USER_KEY;
 		GeneralUser user = null;
 		
 		user = service.updateGeneralUser(username, null, null, null, null);
 		
 		assertNotNull(user);
-		assertEquals(UPDATE_USER_EMAIL, user.getEmail());
-		assertEquals(UPDATE_USER_PASSWORD, user.getPassword());
-		assertEquals(UPDATE_USER_PROFILEPICTURE, user.getProfilePicture());
-		assertEquals(UPDATE_USER_DESCRIPTION, user.getDescription());
+		assertEquals(USER_EMAIL, user.getEmail());
+		assertEquals(USER_PASSWORD, user.getPassword());
+		assertEquals(USER_PROFILEPICTURE, user.getProfilePicture());
+		assertEquals(USER_DESCRIPTION, user.getDescription());
 	}
 	
 	@Test
 	public void testUpdateGeneralUserEmpty() {
-		String username = UPDATE_USER_USERNAME;
+		String username = USER_KEY;
 		GeneralUser user = null;
 		String emptyDescription = "";
 
-		user = service.updateGeneralUser(username, "", "", null, emptyDescription);
+		user = service.updateGeneralUser(username, USER_EMAIL, USER_PASSWORD, USER_PROFILEPICTURE, emptyDescription);
 		
 		assertNotNull(user);
-		assertEquals(UPDATE_USER_EMAIL, user.getEmail());
-		assertEquals(UPDATE_USER_PASSWORD, user.getPassword());
-		assertEquals(UPDATE_USER_PROFILEPICTURE, user.getProfilePicture());
+		assertEquals(USER_EMAIL, user.getEmail());
+		assertEquals(USER_PASSWORD, user.getPassword());
+		assertEquals(USER_PROFILEPICTURE, user.getProfilePicture());
 		assertEquals(emptyDescription, user.getDescription());
 	}
 	
 	@Test
 	public void testUpdateGeneralUserSpaces() {
-		String username = UPDATE_USER_USERNAME;
+		String username = USER_KEY;
 		GeneralUser user = null;
 		String newDescription = "   ";
 		
-		user = service.updateGeneralUser(username, "  ", " ", null, newDescription);
+		user = service.updateGeneralUser(username, USER_EMAIL, USER_PASSWORD, USER_PROFILEPICTURE, newDescription);
 		
 		assertNotNull(user);
-		assertEquals(UPDATE_USER_EMAIL, user.getEmail());
-		assertEquals(UPDATE_USER_PASSWORD, user.getPassword());
+		assertEquals(USER_EMAIL, user.getEmail());
+		assertEquals(USER_PASSWORD, user.getPassword());
 		assertEquals(newDescription, user.getDescription());
 	}
 	
@@ -236,13 +234,27 @@ public class TestPetAdoptionAppService {
 	
 	@Test
 	public void testDeleteGeneralUser() {
-		doNothing().when(generalUserDao).deleteById(anyString());
-		String username = USER_KEY;
+		// Delete general user by id
+		doAnswer((i) -> {hmp.remove(i.getArgument(0));
+				return null;}).when(generalUserDao).deleteById(anyString());
+		String username = "CoolUser123";
+		UserType userType = UserType.Owner;
+		String email = "cooluser@email.com";
+		String password = "abcdef1234!";
+		String name = "Steve";
+		GeneralUser user;	
+		try {
+			user = service.createGeneralUser(username, userType, email, password, name);
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
 		try {
 			service.deleteGeneralUser(username);
 		} catch (IllegalArgumentException e) {
 			fail();
 		}
+		user = service.getGeneralUser(username);
+		assertNull(user);
 	}
 
 	@Test
