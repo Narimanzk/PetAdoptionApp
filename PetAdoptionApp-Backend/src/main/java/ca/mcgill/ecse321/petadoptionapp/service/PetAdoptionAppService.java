@@ -394,8 +394,8 @@ public class PetAdoptionAppService {
 	 * @param username
 	 */
 	@Transactional
-	public void deleteGeneralUser(String username) throws IllegalArgumentException{
-			generalUserRepository.deleteById(username);
+	public void deleteGeneralUser(String username) {
+		generalUserRepository.deleteById(username);
 	}
 
 	/**

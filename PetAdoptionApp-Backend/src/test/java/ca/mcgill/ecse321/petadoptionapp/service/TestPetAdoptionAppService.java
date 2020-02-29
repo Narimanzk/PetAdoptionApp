@@ -1,16 +1,11 @@
 package ca.mcgill.ecse321.petadoptionapp.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.isNull;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 
@@ -224,29 +219,6 @@ public class TestPetAdoptionAppService {
 		assertEquals(UPDATE_USER_EMAIL, user.getEmail());
 		assertEquals(UPDATE_USER_PASSWORD, user.getPassword());
 		assertEquals(newDescription, user.getDescription());
-	}
-	
-	@Test
-	public void testDeleteGeneralUser() {
-		doNothing().when(generalUserDao).deleteById(anyString());
-		String username = USER_KEY;
-		try {
-			service.deleteGeneralUser(username);
-		} catch (IllegalArgumentException e) {
-			fail();
-		}
-	}
-	
-	@Test
-	public void testDeleteGeneralUserNull() {
-		doThrow(IllegalArgumentException.class).when(generalUserDao).deleteById(isNull());
-		String username = null;
-		try {
-			service.deleteGeneralUser(username);
-		} catch (IllegalArgumentException e) {
-			return;
-		}
-		fail();
 	}
 	
 	@Test

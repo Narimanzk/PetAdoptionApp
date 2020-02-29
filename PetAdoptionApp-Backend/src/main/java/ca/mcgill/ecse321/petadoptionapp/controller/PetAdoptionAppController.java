@@ -76,7 +76,7 @@ public class PetAdoptionAppController {
 	}
 
 	@DeleteMapping(value = { "/users/{username}" })
-	public void deleteGeneralUser(@PathVariable("username") String username) throws IllegalArgumentException{
+	public void deleteGeneralUser(@PathVariable("username") String username) {
 		service.deleteGeneralUser(username);
 	}
 
