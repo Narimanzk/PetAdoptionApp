@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.petadoptionapp.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -11,7 +12,9 @@ import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -104,7 +107,19 @@ public class TestPetAdoptionAppService {
 		//Find Donation by id
 			lenient().when(donationDao.findDonationById(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
 				return donationMap.get(invocation.getArgument(0));
-					});	
+					});
+		//Find Donation by DonatedFrom
+			lenient().when(donationDao.findByDonatedFrom(any(GeneralUser.class))).thenAnswer((InvocationOnMock invocation) -> {
+				ArrayList<Donation> donations = new ArrayList<>();
+				donations.add(donationMap.get(DONATION_KEY));
+				return donations;
+			});
+		//Find Donation by DonatedTo
+			lenient().when(donationDao.findByDonatedTo(any(GeneralUser.class))).thenAnswer((InvocationOnMock invocation) -> {
+				ArrayList<Donation> donations = new ArrayList<>();
+				donations.add(donationMap.get(DONATION_KEY));
+				return donations;
+			});	
 			
 		// Create a existing user
 			GeneralUser user =  new GeneralUser();
@@ -706,6 +721,22 @@ public class TestPetAdoptionAppService {
 	@Test
 	public void testGetNonExistingDonation() {
 		assertNull(service.getDonation(NONEXISTING_DONATION_KEY));
+	}
+	
+	@Test 
+	public void testGetDonationsMadeByGeneralUser() {
+		GeneralUser donatedFrom = new GeneralUser();
+		donatedFrom.setUsername(USER_KEY);
+		List<Donation> donations = service.getDonationsMadeByGeneralUser(donatedFrom);
+		assertNotEquals(0, donations.size());
+	}
+	
+	@Test 
+	public void testGetDonationsForGeneralUser() {
+		GeneralUser donatedTo = new GeneralUser();
+		donatedTo.setUsername(USER_KEY);
+		List<Donation> donations = service.getDonationsMadeByGeneralUser(donatedTo);
+		assertNotEquals(0, donations.size());
 	}
 	
 	@Test

@@ -299,7 +299,7 @@ public class PetAdoptionAppController {
 		}
 		
 		@PostMapping(value = { "/addresses" }, consumes = "application/json", produces = "application/json")
-		public AddressDTO createAddress(@RequestParam(name = "usermaname") String username, @RequestBody AddressDTO address) {
+		public AddressDTO createAddress(@RequestParam(name = "username") String username, @RequestBody AddressDTO address) {
 			GeneralUser user = service.getGeneralUser(username);
 			Address domainAddress = service.createAddress(address.getStreet(), address.getCity(), address.getState(), address.getPostalCode(), address.getCountry());
 			user.setAddress(domainAddress);
@@ -366,7 +366,7 @@ public class PetAdoptionAppController {
 		}
 		
 		@DeleteMapping(value = { "/donations/{id}" })
-		public void deleteGivenDonationsByUser(@PathVariable("id") Integer id) {
+		public void deleteDonationsById(@PathVariable("id") Integer id) {
 			service.deleteDonation(id);
 		}
 
