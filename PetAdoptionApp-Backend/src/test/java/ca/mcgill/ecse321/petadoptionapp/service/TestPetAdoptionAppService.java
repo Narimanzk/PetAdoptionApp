@@ -713,7 +713,6 @@ public class TestPetAdoptionAppService {
 		// Delete donation by id
 		doAnswer((i) -> {donationMap.remove(i.getArgument(0));
 				return null;}).when(donationDao).deleteById(anyInt());
-		Integer id = 1234;
 		Integer amount = 7777;
 		Donation donation = null;
 		GeneralUser donatedFrom = new GeneralUser();
@@ -721,25 +720,24 @@ public class TestPetAdoptionAppService {
 		donatedFrom.setUsername("donor");
 		donatedTo.setUsername("recipeint");
 		try {
-			donation = service.createOrUpdateDonation(id, amount, donatedFrom, donatedTo);
+			donation = service.createOrUpdateDonation(DONATION_KEY, amount, donatedFrom, donatedTo);
 		} catch (IllegalArgumentException e) {
 			fail();
 		}
 		try {
-			service.deleteDonation(donation.getId());
+			service.deleteDonation(DONATION_KEY);
 		} catch (IllegalArgumentException e) {
 			fail();
 		}
-		donation = service.getDonation(donation.getId());
+		donation = service.getDonation(DONATION_KEY);
 		assertNull(donation);
 	}
 	//fail
 	@Test
 	public void testDeleteDonationNull() {
 		doThrow(IllegalArgumentException.class).when(donationDao).deleteById(isNull());
-		Integer id = null;
 		try {
-			service.deleteDonation(id);
+			service.deleteDonation(NONEXISTING_ADDRESS_KEY);
 		} catch (IllegalArgumentException e) {
 			return;
 		}
