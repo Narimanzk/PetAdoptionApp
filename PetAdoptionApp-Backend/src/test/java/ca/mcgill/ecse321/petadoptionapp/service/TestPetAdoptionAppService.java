@@ -12,6 +12,7 @@ import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -106,7 +107,19 @@ public class TestPetAdoptionAppService {
 		//Find Donation by id
 			lenient().when(donationDao.findDonationById(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
 				return donationMap.get(invocation.getArgument(0));
-					});	
+					});
+		//Find Donation by DonatedFrom
+			lenient().when(donationDao.findByDonatedFrom(any(GeneralUser.class))).thenAnswer((InvocationOnMock invocation) -> {
+				ArrayList<Donation> donations = new ArrayList<>();
+				donations.add(donationMap.get(DONATION_KEY));
+				return donations;
+			});
+		//Find Donation by DonatedTo
+			lenient().when(donationDao.findByDonatedTo(any(GeneralUser.class))).thenAnswer((InvocationOnMock invocation) -> {
+				ArrayList<Donation> donations = new ArrayList<>();
+				donations.add(donationMap.get(DONATION_KEY));
+				return donations;
+			});	
 			
 		// Create a existing user
 			GeneralUser user =  new GeneralUser();
