@@ -358,7 +358,7 @@ public class PetAdoptionAppController {
 				@RequestParam(name = "donatedTo") String donatedTo, @RequestBody DonationDTO donation) {
 			GeneralUser domainDonatedFrom = service.getGeneralUser(donatedFrom);
 			GeneralUser domainDonatedTo = service.getGeneralUser(donatedTo);
-			Donation domainDonation = service.createOrUpdateDonation(-1,donation.getAmount(), domainDonatedTo, domainDonatedFrom);
+			Donation domainDonation = service.createOrUpdateDonation(-1,donation.getAmount(), domainDonatedFrom, domainDonatedTo);
 			domainDonatedFrom.getDonationsGiven().add(domainDonation);
 			domainDonatedTo.getDonationsAccepted().add(domainDonation);
 			generalUserRepository.save(domainDonatedFrom);
@@ -372,7 +372,7 @@ public class PetAdoptionAppController {
 				@RequestParam(name = "donatedTo") String donatedTo, @RequestBody DonationDTO donation) {
 			GeneralUser domainDonatedFrom = service.getGeneralUser(donatedFrom);
 			GeneralUser domainDonatedTo = service.getGeneralUser(donatedTo);
-			Donation domainDonation = service.createOrUpdateDonation(donation.getId(),donation.getAmount(), domainDonatedTo, domainDonatedFrom);
+			Donation domainDonation = service.createOrUpdateDonation(donation.getId(),donation.getAmount(), domainDonatedFrom, domainDonatedTo);
 			generalUserRepository.save(domainDonatedFrom);
 			generalUserRepository.save(domainDonatedTo);
 			DonationDTO donationDto = convertToDTO(domainDonation);
