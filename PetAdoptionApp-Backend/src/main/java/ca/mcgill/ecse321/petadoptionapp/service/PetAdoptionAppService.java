@@ -60,6 +60,11 @@ public class PetAdoptionAppService {
 		return profiles;
 	}
 	
+	@Transactional
+	public PetProfile getPetProfileByApplication(AdoptionApplication app) {
+		PetProfile pet = petProfileRespository.findByAdoptionApplications(app);
+		return pet;
+	}
 	/**
 	 * get a pet profile by id
 	 * @param id
@@ -86,21 +91,43 @@ public class PetAdoptionAppService {
 	@Transactional
 	public PetProfile createOrUpdatePetProfile(String name, int age, Gender petGender, String description, String species,
 			byte[] profile, String reason, GeneralUser user, int id) {
+		String error = "";
+		if (name == null || name.trim().length() == 0) {
+			error += "Pet needs a name. ";
+		}
+		if (description == null || description.trim().length() == 0) {
+			error += "Pet needs a description. ";
+		}
+		if (species == null || species.trim().length() == 0) {
+			error += "Pet needs a species. ";
+		}
+		if (reason == null || reason.trim().length() == 0) {
+			error += "Pet needs a reason. ";
+		}
+		
 		PetProfile pet;
 		if(id == -1) {
 			pet = new PetProfile();
 		}else {
 			pet = petProfileRespository.findPetProfileById(id);
 		}
-		pet.setAge(age);
-		pet.setPetName(name);
-		pet.setPetGender(petGender);
-		pet.setPetSpecies(species);
-		pet.setProfilePicture(profile);
-		pet.setReason(reason);
-		pet.setUser(user);
-		pet.setDescription(description);
-		petProfileRespository.save(pet);
+		
+		error = error.trim();
+		if(error != "") {
+			throw new IllegalArgumentException(error);
+		}
+		
+		if(pet != null) {
+			pet.setAge(age);
+			pet.setPetName(name);
+			pet.setPetGender(petGender);
+			pet.setPetSpecies(species);
+			pet.setProfilePicture(profile);
+			pet.setReason(reason);
+			pet.setUser(user);
+			pet.setDescription(description);
+			petProfileRespository.save(pet);
+		}
 		return pet;
 	}
 
@@ -123,7 +150,7 @@ public class PetAdoptionAppService {
 	public PetProfile deletePetProfile(int id) {
 		PetProfile pet = petProfileRespository.findPetProfileById(id);
 		if(pet != null) {
-			petProfileRespository.delete(pet);
+			petProfileRespository.deleteById(id);
 		}
 		return pet;
 	}
@@ -140,17 +167,29 @@ public class PetAdoptionAppService {
 	@Transactional
 	public AdoptionApplication createOrUpdateAdoptionApplication(String description, ApplicationStatus status, GeneralUser user,
 			PetProfile profile, int id) {
+		String error = "";
+		if (description == null || description.trim().length() == 0) {
+			error += "Application needs a description. ";
+		}
+		
 		AdoptionApplication application;
 		if(id == -1) {
 			application = new AdoptionApplication();
 		}else {
 			application = adoptionApplicationRespository.findAdoptionApplicationById(id);
 		}
-		application.setApplicationDescription(description);
-		application.setApplicationStatus(status);
-		application.setPetProfile(profile);
-		application.setUser(user);
-		adoptionApplicationRespository.save(application);
+		
+		error = error.trim();
+		if(error != "") {
+			throw new IllegalArgumentException(error);
+		}
+		if(application != null) {
+			application.setApplicationDescription(description);
+			application.setApplicationStatus(status);
+			application.setPetProfile(profile);
+			application.setUser(user);
+			adoptionApplicationRespository.save(application);
+		}
 		return application;
 	}
 
@@ -199,7 +238,7 @@ public class PetAdoptionAppService {
 	public AdoptionApplication deleteApplication(int id) {
 		AdoptionApplication application = adoptionApplicationRespository.findAdoptionApplicationById(id);
 		if(application != null) {
-			adoptionApplicationRespository.delete(application);
+			adoptionApplicationRespository.deleteById(id);
 		}
 		return application;
 	}
