@@ -104,6 +104,9 @@ public class PetAdoptionAppService {
 		if (reason == null || reason.trim().length() == 0) {
 			error += "Pet needs a reason. ";
 		}
+		if (profile == null) {
+			error += "Pet needs an image.";
+		}
 		
 		PetProfile pet;
 		if(id == -1) {

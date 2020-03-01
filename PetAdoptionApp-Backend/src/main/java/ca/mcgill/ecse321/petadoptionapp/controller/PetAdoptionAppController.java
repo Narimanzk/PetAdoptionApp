@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.petadoptionapp.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import ca.mcgill.ecse321.petadoptionapp.dao.AdoptionApplicationRespository;
 import ca.mcgill.ecse321.petadoptionapp.dao.GeneralUserRepository;
@@ -98,13 +100,14 @@ public class PetAdoptionAppController {
 	 * @param username
 	 * @param pet
 	 * @return
+	 * @throws IOException 
 	 */
 	@PostMapping(value = { "/petprofiles" }, consumes = "application/json", produces = "application/json")
 	public PetProfileDTO createPetProfile(@RequestParam(name = "username") String username,
-			@RequestBody PetProfileDTO petDto) {
+			@RequestBody PetProfileDTO petDto){
 		GeneralUser user = service.getGeneralUser(username);
 		PetProfile petProfile = service.createOrUpdatePetProfile(petDto.getName(), petDto.getAge(), petDto.getGender(),
-				petDto.getDescription(), petDto.getSpecies(), petDto.getProfilePic(), petDto.getReason(), user, -1);
+				petDto.getDescription(), petDto.getSpecies(), petDto.getProfilePicture(), petDto.getReason(), user, -1);
 		return convertToDTO(petProfile);
 	}
 
@@ -157,7 +160,7 @@ public class PetAdoptionAppController {
 			@RequestBody PetProfileDTO petDto) {
 		GeneralUser user = service.getGeneralUser(username);
 		PetProfile petProfile = service.createOrUpdatePetProfile(petDto.getName(), petDto.getAge(), petDto.getGender(),
-				petDto.getDescription(), petDto.getSpecies(), petDto.getProfilePic(), petDto.getReason(), user,
+				petDto.getDescription(), petDto.getSpecies(), petDto.getProfilePicture(), petDto.getReason(), user,
 				petDto.getId());
 		return convertToDTO(petProfile);
 	}

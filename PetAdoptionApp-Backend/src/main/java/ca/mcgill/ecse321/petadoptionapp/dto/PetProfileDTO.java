@@ -11,7 +11,7 @@ public class PetProfileDTO {
 	private int age;
 	private Gender gender;
 	private String reason;
-	private byte[] profile_pic;
+	private byte[] profilePicture;
 	private String species;
 	private GeneralUserDTO user;
 	private List<AdoptionApplicationDTO> applications;
@@ -31,14 +31,14 @@ public class PetProfileDTO {
 	 * @param user
 	 */
 	public PetProfileDTO(Integer id, String name, int age, Gender petGender, String description, String species, 
-			byte[] profile, String reason) {
+			byte[] profilePicture, String reason) {
 		this.id = id;
 		this.name = name;
 		this.description  = description;
 		this.age = age;
 		this.gender = petGender;
 		this.reason = reason;
-		this.profile_pic = profile;
+		this.profilePicture = profilePicture;
 		this.species = species;
 	}
 	
@@ -66,8 +66,8 @@ public class PetProfileDTO {
 		return this.reason;
 	}
 	
-	public byte[] getProfilePic() {
-		return this.profile_pic;
+	public byte[] getProfilePicture() {
+		return this.profilePicture;
 	}
 	
 	public String getSpecies() {
