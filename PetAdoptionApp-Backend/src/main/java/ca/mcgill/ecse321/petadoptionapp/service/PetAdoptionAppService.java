@@ -301,7 +301,24 @@ public class PetAdoptionAppService {
 	 * @return updated donation object
 	 */
 	@Transactional
-	public Donation createOrUpdateDonation(int id, Integer amount, GeneralUser donatedFrom, GeneralUser donatedTo) {
+	public Donation createOrUpdateDonation(Integer id, Integer amount, GeneralUser donatedFrom, GeneralUser donatedTo) {
+		String error = "";
+		if (id == null || id < -1 || id == 0) {
+			error += "Donation needs a valid id. ";
+		}
+		if (amount == null || amount <= 0) {
+			error += "Donation needs a positive amount. ";
+		}
+		if (donatedFrom == null || donatedFrom.getUsername().trim().length() == 0) {
+			error += "Donation needs a donor. ";
+		}
+		if (donatedTo == null || donatedTo.getUsername().trim().length() == 0) {
+			error += "Donation needs a recipient. ";
+		}
+		error = error.trim();
+		if (error.length() > 0) {
+			throw new IllegalArgumentException(error);
+		}
 		Donation donation;
 		if(id == -1) {
 			donation = new Donation();
@@ -317,15 +334,11 @@ public class PetAdoptionAppService {
 	
 	/**
 	 * Delete the donation. 
-	 * @param username
+	 * @param id
 	 */
 	@Transactional
-	public Donation deleteDonation(int id) {
-		Donation donation = donationRepository.findDonationById(id);
-		if(donation != null) {
-			donationRepository.delete(donation);
-		}
-		return donation;
+	public void deleteDonation(int id) throws IllegalArgumentException {
+			donationRepository.deleteById(id);
 	}
 	
 
@@ -334,8 +347,24 @@ public class PetAdoptionAppService {
 
 
 	@Transactional
-	public Response createResponse(String text, Question question, GeneralUser author) {
+	public Response createResponse(Integer Id, String text, Question question, GeneralUser author) {
+		String error = "";
+		if (text == null || text.trim().length() == 0) {
+			error += "Response needs a text. ";
+		}
+		if (question == null) {
+			error += "Response needs a question. ";
+		}
+		if (author == null) {
+			error += "Response needs a user.";
+		}
+		
+		error = error.trim();
+		if (error.length() > 0) {
+			throw new IllegalArgumentException(error);
+		}
 		Response response = new Response();
+		response.setId(Id);
 		response.setText(text);
 		response.setQuestion(question);
 		response.setUser(author);
@@ -370,7 +399,22 @@ public class PetAdoptionAppService {
 		}
 		return responsesForGeneralUser;
 	}
-
+	
+	@Transactional
+	public Response updateResponse(Integer id, String text, Question question, GeneralUser user) {
+		Response response = responseRepository.findResponseById(id);
+		if (response != null) {
+			if (text != null && text.trim().length() > 0) response.setText(text);
+			if (question!= null) response.setQuestion(question);
+			if (user != null) response.setUser(user);
+			responseRepository.save(response);
+		}
+		return response;
+	}
+	@Transactional
+	public void deleteResponse(Integer id) {
+		responseRepository.deleteById(id);
+	}
 	// ~~~~~~~~~~ GENERAL USER SERVICES ~~~~~~~~~~~~
 
 	/**
@@ -478,6 +522,26 @@ public class PetAdoptionAppService {
 	 */
 	@Transactional
 	public Address createAddress(String street, String city, String state, String postalCode, String country) {
+		String error = "";
+		if (street == null || street.trim().length() == 0) {
+			error += "Address needs a street. ";
+		}
+		if (city == null || city.trim().length() == 0) {
+			error += "Address needs a city. ";
+		}
+		if (state == null || state.trim().length() == 0) {
+			error += "Address needs a state. ";
+		}
+		if (postalCode == null || postalCode.trim().length() == 0) {
+			error += "Address needs a postalCode. ";
+		}
+		if (country == null || country.trim().length() == 0) {
+			error += "Address needs a country.";
+		}
+		error = error.trim();
+		if (error.length() > 0) {
+			throw new IllegalArgumentException(error);
+		}
 		Address address = new Address();
 		address.setStreet(street);
 		address.setCity(city);
@@ -501,13 +565,16 @@ public class PetAdoptionAppService {
 	@Transactional
 	public Address updateAddress(Integer id, String street, String city, String state, String postalCode, String country) {
 		Address address = addressRepository.findAddressById(id);
-		if(street!=null)address.setStreet(street);
-		if(city!=null)address.setCity(city);
-		if(state!=null)address.setState(state);
-		if(postalCode!=null)address.setPostalCode(postalCode);
-		if(country!=null)address.setCountry(country);
+		if(address != null) {
+		if(street!=null && street.trim().length() > 0)address.setStreet(street);
+		if(city!=null && city.trim().length() > 0)address.setCity(city);
+		if(state!=null && state.trim().length() > 0)address.setState(state);
+		if(postalCode!=null && postalCode.trim().length() > 0)address.setPostalCode(postalCode);
+		if(country!=null && country.trim().length() > 0)address.setCountry(country);
 		addressRepository.save(address);
+		}
 		return address;
+		
 	}
 	
 	/**
@@ -515,12 +582,8 @@ public class PetAdoptionAppService {
 	 * @param id
 	 */
 	@Transactional
-	public Address deleteAddress(Integer id) {
-		Address address = addressRepository.findAddressById(id);
-		if(address != null) {
-			addressRepository.delete(address);
-		}
-		return address;
+	public void deleteAddress(Integer id) throws IllegalArgumentException{
+		addressRepository.deleteById(id);
 	}
 
 	
@@ -545,10 +608,29 @@ public class PetAdoptionAppService {
 	// ~~~~~~QUESTION SERVICES~~~~~~~~~
 	
 	@Transactional
-	public Question createQuestion(String title, String description, ThreadStatus status, GeneralUser author) {
+	public Question createQuestion(Integer id, String title, String description, ThreadStatus status, GeneralUser author) {
+		String error = "";
+		if (title == null || title.trim().length() == 0) {
+			error += "Question needs a title. ";
+		}
+		if (description == null || description.trim().length() == 0) {
+			error += "Question needs a description. ";
+		}
+		if (status == null) {
+			error += "Question needs a status. ";
+		}
+		if (author == null) {
+			error += "Question needs a user. ";
+		}
+		error = error.trim();
+		if (error.length() > 0) {
+			throw new IllegalArgumentException(error);
+		}
 		Question question = new Question();
+		question.setId(id);
 		question.setTitle(title);
 		question.setDescription(description);
+		question.setThreadStatus(status);
 		question.setUser(author);
 		questionRepository.save(question);
 		return question;
@@ -579,6 +661,25 @@ public class PetAdoptionAppService {
 		}
 		return questionsForGeneralUser;
 	}
+	
+	@Transactional
+	public Question updateQuestion(Integer id, String title, String description, ThreadStatus status, GeneralUser user) {
+		Question question = questionRepository.findQuestionById(id);
+		if (question != null) {
+			if (title != null && title.trim().length() > 0) question.setTitle(title);
+			if (description != null) question.setDescription(description);
+			if (status != null) question.setThreadStatus(status);
+			if (user != null) question.setUser(user);
+			questionRepository.save(question);
+		}
+		return question;
+	}
+	
+	@Transactional
+	public void deleteQuestion(Integer id) throws IllegalArgumentException{
+		questionRepository.deleteById(id);
+	}
+	
   
 	// ~~~~~~~~~~ Helper methods ~~~~~~~~~~
 
