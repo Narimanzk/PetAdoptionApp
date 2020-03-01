@@ -247,11 +247,10 @@ public class PetAdoptionAppController {
 	}
 
 	@PostMapping(value = {
-			"/users/{username}/questions" }, consumes = "application/json", produces = "application/json")
-	public QuestionDTO createQuestion(@PathVariable("username") String username, @RequestBody Integer id, @RequestBody String title,
-			@RequestBody String description, @RequestBody ThreadStatus status) {
+			"/questions" }, consumes = "application/json", produces = "application/json")
+	public QuestionDTO createQuestion(@RequestParam(name = "username") String username, @RequestBody QuestionDTO questionDTO) {
 		GeneralUser author = service.getGeneralUser(username);
-		Question question = service.createQuestion(id, title, description, status, author);
+		Question question = service.createQuestion(questionDTO.getID(), questionDTO.getTitle(), questionDTO.getDescription(), questionDTO.getStatus(), author);
 		return convertToDTO(question);
 	}
 
@@ -288,11 +287,11 @@ public class PetAdoptionAppController {
 	}
 
 	@PostMapping(value = {
-	"users/{username}/responses/{questionID}" }, consumes = "application/json", produces = "application/json")
-	public ResponseDTO createResponse(@PathVariable("username") String username, @PathVariable("questionID") Integer questionID, @RequestBody String text, @RequestBody Integer ID) {
+	"/responses" }, consumes = "application/json", produces = "application/json")
+	public ResponseDTO createResponse(@RequestParam(name = "username") String username, @RequestParam(name = "questionID") Integer questionID, @RequestBody ResponseDTO responseDTO) {
 		GeneralUser author = service.getGeneralUser(username);
 		Question question = service.getQuestion(questionID);
-		Response response = service.createResponse(ID,text, question, author);
+		Response response = service.createResponse(responseDTO.getID(),responseDTO.getText(), question, author);
 		return convertToDTO(response);
 	}
 
