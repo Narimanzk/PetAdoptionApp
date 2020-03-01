@@ -44,6 +44,28 @@ public class PetAdoptionAppService {
 	private QuestionRepository questionRepository;
 	@Autowired
 	private ResponseRepository responseRepository;
+	
+	/**
+	 * signin user
+	 * @param username
+	 * @param password
+	 * @return
+	 */
+	@Transactional
+	public GeneralUser signin(String username, String password) {
+		GeneralUser user = null;
+		user = generalUserRepository.findGeneralUserByUsername(username);
+		String error = "";
+		if(user == null) {
+			error = "Username is incorrect.";
+		}else if(!user.getPassword().equals(password)) {
+			error = "Password is incorrect.";
+		}
+		if(error != "") {
+			throw new IllegalArgumentException(error);
+		}
+		return user;
+	}
 
 	/**
 	 * get all pet profiles of an user
