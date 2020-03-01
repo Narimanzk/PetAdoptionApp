@@ -366,7 +366,7 @@ public class PetAdoptionAppController {
 		}
 		
 		@DeleteMapping(value = { "/donations/{id}" })
-		public void deleteGivenDonationsByUser(@PathVariable("id") Integer id) {
+		public void deleteDonationsById(@PathVariable("id") Integer id) {
 			service.deleteDonation(id);
 		}
 
