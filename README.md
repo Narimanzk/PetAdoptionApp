@@ -18,3 +18,4 @@ We will be creating a back end that will support this whole process, as well as 
 
 ## Links to Documentation
 * [Sprint 1](https://github.com/McGill-ECSE321-Winter2020/project-group-05/wiki/Sprint-1)
+* [Sprint 2](https://github.com/McGill-ECSE321-Winter2020/project-group-05/wiki/Sprint-2)
