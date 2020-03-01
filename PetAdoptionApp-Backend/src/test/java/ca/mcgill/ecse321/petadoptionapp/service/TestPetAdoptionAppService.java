@@ -107,12 +107,13 @@ public class TestPetAdoptionAppService {
 				return invocation.getArgument(0);
 			});
 		//Find Question by ID
-			lenient().when(questionDao.findById(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
+			lenient().when(questionDao.findQuestionById(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
 				return questionMap.get(invocation.getArgument(0));
 			});
 		//Create an existing question
 			Question question = new Question();
 			question.setId(QUESTION_ID);
+			question.setTitle(QUESTION_TITLE);
 			question.setDescription(QUESTION_DESCRIPTION);
 			question.setThreadStatus(QUESTION_STATUS);
 			question.setUser(service.getGeneralUser(USER_KEY));
@@ -124,7 +125,7 @@ public class TestPetAdoptionAppService {
 				return invocation.getArgument(0);
 			});
 		//Find Response by ID
-			lenient().when(responseDao.findById(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
+			lenient().when(responseDao.findResponseById(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
 				return responseMap.get(invocation.getArgument(0));
 			});
 		// Create an existing response 
@@ -352,7 +353,7 @@ public class TestPetAdoptionAppService {
 		assertNotNull(question);
 		assertEquals(title, question.getTitle());
 		assertEquals(description, question.getDescription());
-		assertEquals(status, question.getStatus());
+		assertEquals(status, question.getThreadStatus());
 		assertEquals(author, question.getUser());
 	}
 	
@@ -395,7 +396,7 @@ public class TestPetAdoptionAppService {
 		}
 		
 		assertNull(question);
-		assertEquals("Question needs a title. Question needs a description. Question needs a Thread Status. Question needs a user.", error);
+		assertEquals("Question needs a title. Question needs a description. Question needs a status. Question needs a user.", error);
 	}
 	
 	@Test
@@ -416,7 +417,7 @@ public class TestPetAdoptionAppService {
 		}
 		
 		assertNull(question);
-		assertEquals("Question needs a title. Question needs a description. Question needs a Thread Status. Question needs a user.", error);
+		assertEquals("Question needs a title. Question needs a description. Question needs a status. Question needs a user.", error);
 	}
 	
 	@Test
@@ -425,14 +426,14 @@ public class TestPetAdoptionAppService {
 		String newTitle = "newTitle";
 		String newDescription = "new description";
 		ThreadStatus newStatus = ThreadStatus.Closed;
-		GeneralUser author = service.getGeneralUser(USER_KEY);
+		GeneralUser author = new GeneralUser();
 		Question question = null;
 		question = service.updateQuestion(id, newTitle, newDescription, newStatus, author);
 		
 		assertNotNull(question);
 		assertEquals(newTitle, question.getTitle());
 		assertEquals(newDescription, question.getDescription());
-		assertEquals(newStatus, question.getStatus());
+		assertEquals(newStatus, question.getThreadStatus());
 		assertEquals(author, question.getUser());
 	}
 	
@@ -459,7 +460,7 @@ public class TestPetAdoptionAppService {
 		assertNotNull(question);
 		assertEquals(QUESTION_TITLE, question.getTitle());
 		assertEquals(emptyDescription, question.getDescription());
-		assertEquals(QUESTION_STATUS, question.getStatus());
+		assertEquals(QUESTION_STATUS, question.getThreadStatus());
 		assertEquals(service.getGeneralUser(USER_KEY), question.getUser());
 	}
 	
@@ -629,7 +630,7 @@ public class TestPetAdoptionAppService {
 		String emptyText = "";
 		response = service.updateResponse(id, emptyText, service.getQuestion(QUESTION_ID), service.getGeneralUser(USER_KEY));
 		assertNotNull(response);
-		assertEquals(emptyText, response.getText());
+		assertEquals(RESPONSE_TEXT, response.getText());
 		assertEquals(service.getQuestion(QUESTION_ID), response.getQuestion());
 		assertEquals(service.getGeneralUser(USER_KEY), response.getUser());
 	}
