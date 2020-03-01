@@ -373,6 +373,7 @@ public class PetAdoptionAppController {
 	// ~~~~~~~~~~~~ Convert To DTO Methods Below ~~~~~~~~~~~~~~~~~~~~~~~
 
 	private GeneralUserDTO convertToDTO(GeneralUser user) {
+	    if(user==null)return null;
 		GeneralUserDTO userDTO = new GeneralUserDTO(user.getUsername(), convertToDTO(user.getUserType()),
 				user.getEmail(), null, user.getName(), user.getProfilePicture(), user.getPhone(), user.getBalance(),
 				user.getDescription());
@@ -578,6 +579,7 @@ public class PetAdoptionAppController {
 	// ~~~~~~~~~~~~ Convert To Domain Model ~~~~~~~~~~~~~~~~~~~~~~~
 
 	private UserType convertToDomainObject(String userType) {
+	    if(userType==null)return null;
 		if (userType.equalsIgnoreCase("Admin"))
 			return UserType.Admin;
 		if (userType.equalsIgnoreCase("PetShelter"))
