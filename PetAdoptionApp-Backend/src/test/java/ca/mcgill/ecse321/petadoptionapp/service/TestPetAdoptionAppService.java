@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.petadoptionapp.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -12,6 +13,7 @@ import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -706,6 +708,22 @@ public class TestPetAdoptionAppService {
 	@Test
 	public void testGetNonExistingDonation() {
 		assertNull(service.getDonation(NONEXISTING_DONATION_KEY));
+	}
+	
+	@Test 
+	public void testGetDonationsMadeByGeneralUser() {
+		GeneralUser donatedFrom = new GeneralUser();
+		donatedFrom.setUsername(USER_KEY);
+		List<Donation> donations = service.getDonationsMadeByGeneralUser(donatedFrom);
+		assertNotEquals(0, donations.size());
+	}
+	
+	@Test 
+	public void testGetDonationsForGeneralUser() {
+		GeneralUser donatedTo = new GeneralUser();
+		donatedTo.setUsername(USER_KEY);
+		List<Donation> donations = service.getDonationsMadeByGeneralUser(donatedTo);
+		assertNotEquals(0, donations.size());
 	}
 	
 	@Test
