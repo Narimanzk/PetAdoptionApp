@@ -604,6 +604,11 @@ public class TestPetAdoptionAppService {
 		assertEquals(PET_ID, pet.getId());
 	}
 	
+	@Test
+	public void testGetPetProfileDoestNotExist() {
+		assertNull(service.getPetProfileById(1234));
+	}
+	
 	@Test 
 	public void testGetPetProfileByUser() {
 		GeneralUser user = createMockUser();
@@ -648,6 +653,11 @@ public class TestPetAdoptionAppService {
 		}
 		pet = service.getPetProfileById(PET_ID);
 		assertNull(pet);
+	}
+	
+	@Test
+	public void testDeltePetProfileDoesNotExist() {
+		assertNull(service.deletePetProfile(1234));
 	}
 	
 	
@@ -826,6 +836,11 @@ public class TestPetAdoptionAppService {
 		assertNotEquals(0, apps.size());
 	}
 	
+	@Test
+	public void testApplicationNotExist() {
+		assertNull(service.getApplicaiontById(1234));
+	}
+	
 	@Test 
 	public void testDeleteApplication() {
 		doAnswer((i) -> {
@@ -852,6 +867,11 @@ public class TestPetAdoptionAppService {
 		}
 		app = service.getApplicaiontById(APP_ID);
 		assertNull(app);
+	}
+	
+	@Test
+	public void testDeleteApplicationNotExist() {
+		assertNull(service.getApplicaiontById(1234));
 	}
 	
 	public PetProfile createMockPetProfile() {
