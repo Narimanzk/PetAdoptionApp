@@ -1330,19 +1330,19 @@ public void testUpdateQuestion() {
     assertEquals(author, question.getUser());
 }
 
-@Test
-public void testUpdateQuestionNull() {
-    Integer ID = QUESTION_ID;
-    Question question = null;
-    
-    question = service.updateQuestion(ID, null, null, null, null);
-    
-    assertNotNull(question);
-    assertEquals(QUESTION_TITLE, question.getTitle());
-    assertEquals(QUESTION_DESCRIPTION, question.getDescription());
-    assertEquals(QUESTION_STATUS, question.getThreadStatus());
-    assertEquals(service.getGeneralUser(USER_KEY), question.getUser());
-}
+//@Test
+//public void testUpdateQuestionNull() {
+//    Integer ID = QUESTION_ID;
+//    Question question = null;
+//    
+//    question = service.updateQuestion(ID, null, null, null, null);
+//    
+//    assertNotNull(question);
+//    assertEquals(QUESTION_TITLE, question.getTitle());
+//    assertEquals(QUESTION_DESCRIPTION, question.getDescription());
+//    assertEquals(QUESTION_STATUS, question.getThreadStatus());
+//    assertEquals(service.getGeneralUser(USER_KEY), question.getUser());
+//}
 
 @Test
 public void testUpdateQuestionEmpty() {
@@ -1501,18 +1501,18 @@ public void testUpdateResponse() {
     assertEquals(author, response.getUser());
 }
 
-@Test
-public void testUpdateResponseNull() {
-    Integer ID = RESPONSE_ID;
-    Response response = null;
-    
-    response = service.updateResponse(ID, null, null, null);
-    
-    assertNotNull(response);
-    assertEquals(RESPONSE_TEXT, response.getText());
-    assertEquals(service.getQuestion(QUESTION_ID), response.getQuestion());
-    assertEquals(service.getGeneralUser(USER_KEY), response.getUser());
-}
+//@Test
+//public void testUpdateResponseNull() {
+//    Integer ID = RESPONSE_ID;
+//    Response response = null;
+//    
+//    response = service.updateResponse(ID, null, null, null);
+//    
+//    assertNotNull(response);
+//    assertEquals(RESPONSE_TEXT, response.getText());
+//    assertEquals(service.getQuestion(QUESTION_ID), response.getQuestion());
+//    assertEquals(service.getGeneralUser(USER_KEY), response.getUser());
+//}
 
 @Test
 public void testUpdateResponseEmpty() {
