@@ -556,7 +556,7 @@ public class PetAdoptionAppController {
 	// ~~~~~~~~Response to ResponseDTO~~~~~~~~~~
 
 	private ResponseDTO convertToDTO(Response res) {
-		ResponseDTO responseDTO = new ResponseDTO(res.getText());
+		ResponseDTO responseDTO = new ResponseDTO(res.getId(),res.getText());
 		responseDTO.setQuestion(convertToAttributeDTO(res.getQuestion()));
 		responseDTO.setUser(convertToAttributeDTO(res.getUser()));
 		return responseDTO;
@@ -564,7 +564,7 @@ public class PetAdoptionAppController {
 	}
 
 	private ResponseDTO convertToAttributeDTO(Response res) {
-		ResponseDTO responseDTO = new ResponseDTO(res.getText());
+		ResponseDTO responseDTO = new ResponseDTO(res.getId(), res.getText());
 		return responseDTO;
 	}
 

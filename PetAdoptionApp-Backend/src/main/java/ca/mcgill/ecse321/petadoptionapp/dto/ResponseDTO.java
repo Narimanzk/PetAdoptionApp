@@ -10,7 +10,7 @@ public class ResponseDTO {
 		
 	}
 	
-	public ResponseDTO(String text) {
+	public ResponseDTO(Integer id, String text) {
 		this.text = text;
 	}
 	
