@@ -293,6 +293,21 @@ public class PetAdoptionAppService {
 
 	@Transactional
 	public Response createResponse(Integer Id, String text, Question question, GeneralUser author) {
+		String error = "";
+		if (text == null || text.trim().length() == 0) {
+			error += "Response needs a text. ";
+		}
+		if (question == null) {
+			error += "Response needs a question. ";
+		}
+		if (author == null) {
+			error += "Response needs a user.";
+		}
+		
+		error = error.trim();
+		if (error.length() > 0) {
+			throw new IllegalArgumentException(error);
+		}
 		Response response = new Response();
 		response.setId(Id);
 		response.setText(text);
@@ -342,12 +357,8 @@ public class PetAdoptionAppService {
 		return response;
 	}
 	@Transactional
-	public Response deleteResponse(Integer id) {
-		Response response = responseRepository.findResponseById(id);
-		if(response != null) {
-			responseRepository.delete(response);
-		}
-		return response;
+	public void deleteResponse(Integer id) {
+		responseRepository.deleteById(id);
 	}
 	// ~~~~~~~~~~ GENERAL USER SERVICES ~~~~~~~~~~~~
 
@@ -582,7 +593,7 @@ public class PetAdoptionAppService {
 		Question question = questionRepository.findQuestionById(id);
 		if (question != null) {
 			if (title != null && title.trim().length() > 0) question.setTitle(title);
-			if (description != null && description.trim().length() > 0) question.setDescription(description);
+			if (description != null) question.setDescription(description);
 			if (status != null) question.setThreadStatus(status);;
 			if (user != null) question.setUser(user);
 			questionRepository.save(question);
@@ -591,12 +602,8 @@ public class PetAdoptionAppService {
 	}
 	
 	@Transactional
-	public Question deleteQuestion(Integer id) {
-		Question question = questionRepository.findQuestionById(id);
-		if(question != null) {
-			questionRepository.delete(question);
-		}
-		return question;
+	public void deleteQuestion(Integer id) throws IllegalArgumentException{
+		questionRepository.deleteById(id);
 	}
 	
   
