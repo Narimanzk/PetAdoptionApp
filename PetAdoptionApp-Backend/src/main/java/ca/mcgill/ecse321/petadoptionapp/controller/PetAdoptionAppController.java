@@ -266,6 +266,19 @@ public class PetAdoptionAppController {
 		Response response = service.getResponse(id);
 		return convertToDTO(service.getQuestionForResponse(response));
 	}
+	
+	@PutMapping(value = {"/questions"}, consumes = "application/json", produces = "application/json")
+	public QuestionDTO updateQuestions(@RequestParam(name = "username") String username, @RequestBody QuestionDTO questionDTO) {
+		GeneralUser user = service.getGeneralUser(username);
+		Question question = service.updateQuestion(questionDTO.getID(), questionDTO.getTitle(), questionDTO.getDescription(), questionDTO.getStatus(), user);
+		return convertToDTO(question);
+	}
+	
+	@DeleteMapping(value = {"/questions/{id}"})
+	public void deleteQuestion(@PathVariable("id") Integer id) {
+		service.deleteQuestion(id);
+		
+	}
 
 	// ~~~~~~~~~ Rest API for Responses ~~~~~~~~~~
 
@@ -294,6 +307,19 @@ public class PetAdoptionAppController {
 		Question question = service.getQuestion(id);
 		return service.getResponsesForQuestion(question).stream().map(p -> convertToDTO(p))
 				.collect(Collectors.toList());
+	}
+	
+	@PutMapping(value = {"/responses"}, consumes = "application/json", produces = "application/json")
+	public ResponseDTO updateResponses(@RequestParam(name = "username") String username, @RequestParam(name = "questionID") Integer questionID, @RequestBody ResponseDTO responseDTO) {
+		GeneralUser user = service.getGeneralUser(username);
+		Question question = service.getQuestion(questionID);
+		Response response = service.updateResponse(responseDTO.getID(), responseDTO.getText(), question, user);
+		return convertToDTO(response);
+	}
+	
+	@DeleteMapping(value = {"/responses/{id}"})
+	public void deleteResponse(@PathVariable("id") Integer id) {
+		service.deleteResponse(id);
 	}
 	
 	// ~~~~~~~~~~ Rest API for Address ~~~~~~~~~~~~

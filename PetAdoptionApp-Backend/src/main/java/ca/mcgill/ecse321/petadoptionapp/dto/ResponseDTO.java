@@ -1,7 +1,7 @@
 package ca.mcgill.ecse321.petadoptionapp.dto;
 
 public class ResponseDTO {
-	
+	private Integer id;
 	private String text;
 	private QuestionDTO question;
 	private GeneralUserDTO user;
@@ -12,6 +12,10 @@ public class ResponseDTO {
 	
 	public ResponseDTO(String text) {
 		this.text = text;
+	}
+	
+	public Integer getID() {
+		return id;
 	}
 	
 	public String getText() {
