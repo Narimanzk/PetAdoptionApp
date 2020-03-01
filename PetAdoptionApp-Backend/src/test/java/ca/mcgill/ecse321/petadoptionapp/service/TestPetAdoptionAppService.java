@@ -196,15 +196,15 @@ public class TestPetAdoptionAppService {
       question.setTitle(QUESTION_TITLE);
       question.setDescription(QUESTION_DESCRIPTION);
       question.setThreadStatus(QUESTION_STATUS);
-      question.setUser(service.getGeneralUser(USER_KEY));
+      question.setUser(hmp.get(USER_KEY));
       questionMap.put(QUESTION_ID, question);
       
       // Create an existing response 
       Response response = new Response();
       response.setId(RESPONSE_ID);
       response.setText(RESPONSE_TEXT);
-      response.setQuestion(service.getQuestion(QUESTION_ID));
-      response.setUser(service.getGeneralUser(USER_KEY));
+      response.setQuestion(questionMap.get(QUESTION_ID));
+      response.setUser(hmp.get(USER_KEY));
       responseMap.put(RESPONSE_ID, response);
       
       // *********** Setup mock data for GeneralUser ************************
@@ -1330,19 +1330,19 @@ public void testUpdateQuestion() {
     assertEquals(author, question.getUser());
 }
 
-//@Test
-//public void testUpdateQuestionNull() {
-//    Integer ID = QUESTION_ID;
-//    Question question = null;
-//    
-//    question = service.updateQuestion(ID, null, null, null, null);
-//    
-//    assertNotNull(question);
-//    assertEquals(QUESTION_TITLE, question.getTitle());
-//    assertEquals(QUESTION_DESCRIPTION, question.getDescription());
-//    assertEquals(QUESTION_STATUS, question.getThreadStatus());
-//    assertEquals(service.getGeneralUser(USER_KEY), question.getUser());
-//}
+@Test
+public void testUpdateQuestionNull() {
+    Integer ID = QUESTION_ID;
+    Question question = null;
+    
+    question = service.updateQuestion(ID, null, null, null, null);
+    
+    assertNotNull(question);
+    assertEquals(QUESTION_TITLE, question.getTitle());
+    assertEquals(QUESTION_DESCRIPTION, question.getDescription());
+    assertEquals(QUESTION_STATUS, question.getThreadStatus());
+    assertEquals(service.getGeneralUser(USER_KEY), question.getUser());
+}
 
 @Test
 public void testUpdateQuestionEmpty() {
@@ -1501,18 +1501,18 @@ public void testUpdateResponse() {
     assertEquals(author, response.getUser());
 }
 
-//@Test
-//public void testUpdateResponseNull() {
-//    Integer ID = RESPONSE_ID;
-//    Response response = null;
-//    
-//    response = service.updateResponse(ID, null, null, null);
-//    
-//    assertNotNull(response);
-//    assertEquals(RESPONSE_TEXT, response.getText());
-//    assertEquals(service.getQuestion(QUESTION_ID), response.getQuestion());
-//    assertEquals(service.getGeneralUser(USER_KEY), response.getUser());
-//}
+@Test
+public void testUpdateResponseNull() {
+    Integer ID = RESPONSE_ID;
+    Response response = null;
+    
+    response = service.updateResponse(ID, null, null, null);
+    
+    assertNotNull(response);
+    assertEquals(RESPONSE_TEXT, response.getText());
+    assertEquals(service.getQuestion(QUESTION_ID), response.getQuestion());
+    assertEquals(service.getGeneralUser(USER_KEY), response.getUser());
+}
 
 @Test
 public void testUpdateResponseEmpty() {

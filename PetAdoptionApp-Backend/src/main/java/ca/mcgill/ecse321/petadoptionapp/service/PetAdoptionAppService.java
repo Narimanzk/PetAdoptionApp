@@ -665,7 +665,7 @@ public class PetAdoptionAppService {
 		if (question != null) {
 			if (title != null && title.trim().length() > 0) question.setTitle(title);
 			if (description != null) question.setDescription(description);
-			if (status != null) question.setThreadStatus(status);;
+			if (status != null) question.setThreadStatus(status);
 			if (user != null) question.setUser(user);
 			questionRepository.save(question);
 		}
