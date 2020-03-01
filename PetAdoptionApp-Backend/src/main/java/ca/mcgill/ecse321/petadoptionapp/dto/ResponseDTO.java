@@ -12,6 +12,7 @@ public class ResponseDTO {
 	
 	public ResponseDTO(Integer id, String text) {
 		this.text = text;
+		this.id = id;
 	}
 	
 	public Integer getID() {
@@ -28,6 +29,10 @@ public class ResponseDTO {
 	
 	public GeneralUserDTO getUser() {
 		return user;
+	}
+	
+	public void setID(Integer id) {
+		this.id = id;
 	}
 	
 	public void setText(String text) {
