@@ -293,6 +293,20 @@ public class PetAdoptionAppService {
 
 	@Transactional
 	public Response createResponse(Integer Id, String text, Question question, GeneralUser author) {
+		String error = "";
+		if (text == null || text.trim().length() == 0) {
+			error += "Response needs a text. ";
+		}
+		if (question == null) {
+			error += "Response needs a question. ";
+		}
+		if (author == null) {
+			error += "Response needs a user. ";
+		}
+		error = error.trim();
+		if (error.length() > 0) {
+			throw new IllegalArgumentException(error);
+		}
 		Response response = new Response();
 		response.setId(Id);
 		response.setText(text);

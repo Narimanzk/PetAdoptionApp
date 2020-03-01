@@ -107,7 +107,7 @@ public class TestPetAdoptionAppService {
 				return invocation.getArgument(0);
 			});
 		//Find Question by ID
-			lenient().when(questionDao.findById(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
+			lenient().when(questionDao.findQuestionById(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
 				return questionMap.get(invocation.getArgument(0));
 			});
 		//Create an existing question
@@ -124,7 +124,7 @@ public class TestPetAdoptionAppService {
 				return invocation.getArgument(0);
 			});
 		//Find Response by ID
-			lenient().when(responseDao.findById(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
+			lenient().when(responseDao.findResponseById(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
 				return responseMap.get(invocation.getArgument(0));
 			});
 		// Create an existing response 
@@ -352,7 +352,7 @@ public class TestPetAdoptionAppService {
 		assertNotNull(question);
 		assertEquals(title, question.getTitle());
 		assertEquals(description, question.getDescription());
-		assertEquals(status, question.getStatus());
+		assertEquals(status, question.getThreadStatus());
 		assertEquals(author, question.getUser());
 	}
 	
@@ -395,7 +395,7 @@ public class TestPetAdoptionAppService {
 		}
 		
 		assertNull(question);
-		assertEquals("Question needs a title. Question needs a description. Question needs a Thread Status. Question needs a user.", error);
+		assertEquals("Question needs a title. Question needs a description. Question needs a Thread Status. Question needs a user. ", error);
 	}
 	
 	@Test
@@ -416,7 +416,7 @@ public class TestPetAdoptionAppService {
 		}
 		
 		assertNull(question);
-		assertEquals("Question needs a title. Question needs a description. Question needs a Thread Status. Question needs a user.", error);
+		assertEquals("Question needs a title. Question needs a description. Question needs a Thread Status. Question needs a user. ", error);
 	}
 	
 	@Test
@@ -432,7 +432,7 @@ public class TestPetAdoptionAppService {
 		assertNotNull(question);
 		assertEquals(newTitle, question.getTitle());
 		assertEquals(newDescription, question.getDescription());
-		assertEquals(newStatus, question.getStatus());
+		assertEquals(newStatus, question.getThreadStatus());
 		assertEquals(author, question.getUser());
 	}
 	
@@ -459,7 +459,7 @@ public class TestPetAdoptionAppService {
 		assertNotNull(question);
 		assertEquals(QUESTION_TITLE, question.getTitle());
 		assertEquals(emptyDescription, question.getDescription());
-		assertEquals(QUESTION_STATUS, question.getStatus());
+		assertEquals(QUESTION_STATUS, question.getThreadStatus());
 		assertEquals(service.getGeneralUser(USER_KEY), question.getUser());
 	}
 	
