@@ -259,7 +259,24 @@ public class PetAdoptionAppService {
 	 * @return updated donation object
 	 */
 	@Transactional
-	public Donation createOrUpdateDonation(int id, Integer amount, GeneralUser donatedFrom, GeneralUser donatedTo) {
+	public Donation createOrUpdateDonation(Integer id, Integer amount, GeneralUser donatedFrom, GeneralUser donatedTo) {
+		String error = "";
+		if (id == null || id < -1 || id == 0) {
+			error += "Donation needs a valid id. ";
+		}
+		if (amount == null || amount <= 0) {
+			error += "Donation needs a positive amount. ";
+		}
+		if (donatedFrom == null || donatedFrom.getUsername().trim().length() == 0) {
+			error += "Donation needs a donor. ";
+		}
+		if (donatedTo == null || donatedTo.getUsername().trim().length() == 0) {
+			error += "Donation needs a recipient. ";
+		}
+		error = error.trim();
+		if (error.length() > 0) {
+			throw new IllegalArgumentException(error);
+		}
 		Donation donation;
 		if(id == -1) {
 			donation = new Donation();
@@ -275,15 +292,11 @@ public class PetAdoptionAppService {
 	
 	/**
 	 * Delete the donation. 
-	 * @param username
+	 * @param id
 	 */
 	@Transactional
-	public Donation deleteDonation(int id) {
-		Donation donation = donationRepository.findDonationById(id);
-		if(donation != null) {
-			donationRepository.delete(donation);
-		}
-		return donation;
+	public void deleteDonation(int id) throws IllegalArgumentException {
+			donationRepository.deleteById(id);
 	}
 	
 
@@ -436,6 +449,26 @@ public class PetAdoptionAppService {
 	 */
 	@Transactional
 	public Address createAddress(String street, String city, String state, String postalCode, String country) {
+		String error = "";
+		if (street == null || street.trim().length() == 0) {
+			error += "Address needs a street. ";
+		}
+		if (city == null || city.trim().length() == 0) {
+			error += "Address needs a city. ";
+		}
+		if (state == null || state.trim().length() == 0) {
+			error += "Address needs a state. ";
+		}
+		if (postalCode == null || postalCode.trim().length() == 0) {
+			error += "Address needs a postalCode. ";
+		}
+		if (country == null || country.trim().length() == 0) {
+			error += "Address needs a country.";
+		}
+		error = error.trim();
+		if (error.length() > 0) {
+			throw new IllegalArgumentException(error);
+		}
 		Address address = new Address();
 		address.setStreet(street);
 		address.setCity(city);
@@ -459,13 +492,16 @@ public class PetAdoptionAppService {
 	@Transactional
 	public Address updateAddress(Integer id, String street, String city, String state, String postalCode, String country) {
 		Address address = addressRepository.findAddressById(id);
-		if(street!=null)address.setStreet(street);
-		if(city!=null)address.setCity(city);
-		if(state!=null)address.setState(state);
-		if(postalCode!=null)address.setPostalCode(postalCode);
-		if(country!=null)address.setCountry(country);
+		if(address != null) {
+		if(street!=null && street.trim().length() > 0)address.setStreet(street);
+		if(city!=null && city.trim().length() > 0)address.setCity(city);
+		if(state!=null && state.trim().length() > 0)address.setState(state);
+		if(postalCode!=null && postalCode.trim().length() > 0)address.setPostalCode(postalCode);
+		if(country!=null && country.trim().length() > 0)address.setCountry(country);
 		addressRepository.save(address);
+		}
 		return address;
+		
 	}
 	
 	/**
@@ -473,12 +509,8 @@ public class PetAdoptionAppService {
 	 * @param id
 	 */
 	@Transactional
-	public Address deleteAddress(Integer id) {
-		Address address = addressRepository.findAddressById(id);
-		if(address != null) {
-			addressRepository.delete(address);
-		}
-		return address;
+	public void deleteAddress(Integer id) throws IllegalArgumentException{
+		addressRepository.deleteById(id);
 	}
 
 	
