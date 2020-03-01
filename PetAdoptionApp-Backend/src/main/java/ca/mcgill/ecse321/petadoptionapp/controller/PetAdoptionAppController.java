@@ -248,10 +248,10 @@ public class PetAdoptionAppController {
 
 	@PostMapping(value = {
 			"/users/{username}/questions" }, consumes = "application/json", produces = "application/json")
-	public QuestionDTO createQuestion(@PathVariable("username") String username, @RequestBody String title,
+	public QuestionDTO createQuestion(@PathVariable("username") String username, @RequestBody Integer id, @RequestBody String title,
 			@RequestBody String description, @RequestBody ThreadStatus status) {
 		GeneralUser author = service.getGeneralUser(username);
-		Question question = service.createQuestion(title, description, status, author);
+		Question question = service.createQuestion(id, title, description, status, author);
 		return convertToDTO(question);
 	}
 
@@ -275,12 +275,11 @@ public class PetAdoptionAppController {
 	}
 
 	@PostMapping(value = {
-			"/users/{username}/responses" }, consumes = "application/json", produces = "application/json")
-	public ResponseDTO createResponse(@PathVariable("username") String username, @RequestBody QuestionDTO resQuestion,
-			@RequestBody String text) {
+	"users/{username}/responses/{questionID}" }, consumes = "application/json", produces = "application/json")
+	public ResponseDTO createResponse(@PathVariable("username") String username, @PathVariable("questionID") Integer questionID, @RequestBody String text, @RequestBody Integer ID) {
 		GeneralUser author = service.getGeneralUser(username);
-		Question question = service.getQuestion(resQuestion.getID());
-		Response response = service.createResponse(text, question, author);
+		Question question = service.getQuestion(questionID);
+		Response response = service.createResponse(ID,text, question, author);
 		return convertToDTO(response);
 	}
 
