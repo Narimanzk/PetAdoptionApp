@@ -374,7 +374,7 @@ public class TestPetAdoptionAppService {
 		assertEquals("Address needs a street. Address needs a city. Address needs a state. Address needs a postalCode. Address needs a country.",
 				error);
 	}
-	//wrong
+	
 	@Test
 	public void testCreateAddressEmpty() {
 		String street = "";
@@ -396,7 +396,7 @@ public class TestPetAdoptionAppService {
 		assertEquals("Address needs a street. Address needs a city. Address needs a state. Address needs a postalCode. Address needs a country.",
 				error);
 	}
-	//wrong
+	
 	@Test
 	public void testCreateAddressSpaces() {
 		String street = "  ";
@@ -451,7 +451,7 @@ public class TestPetAdoptionAppService {
 		assertEquals(ADDRESS_POSTALCODE, address.getPostalCode());
 		assertEquals(ADDRESS_COUNTRY, address.getCountry());
 	}
-	//wrong
+	
 	@Test
 	public void testUpdateAddressEmpty() {
 		Integer id = ADDRESS_KEY;
@@ -467,7 +467,7 @@ public class TestPetAdoptionAppService {
 		assertEquals(ADDRESS_POSTALCODE, address.getPostalCode());
 		assertEquals(ADDRESS_COUNTRY, address.getCountry());
 	}
-	//wrong
+	
 	@Test
 	public void testUpdateAddressSpaces() {
 		Integer id = ADDRESS_KEY;
@@ -493,12 +493,12 @@ public class TestPetAdoptionAppService {
 	public void testGetNonExistingAddress() {
 		assertNull(service.getAddress(NONEXISTING_ADDRESS_KEY));
 	}
-	//failed
+	
 	@Test
 	public void testDeleteAddress() {
 		// Delete address by id
 		doAnswer((i) -> {addressMap.remove(i.getArgument(0));
-				return null;}).when(addressDao).deleteById(anyInt());
+				return null;}).when(addressDao).deleteById(isNull());
 		String street = "mcgillSt";
 		String city = "montreal";
 		String state = "QC";
@@ -518,7 +518,7 @@ public class TestPetAdoptionAppService {
 		address = service.getAddress(address.getId());
 		assertNull(address);
 	}
-	//wrong
+	
 	@Test
 	public void testDeleteAddressNull() {
 		doThrow(IllegalArgumentException.class).when(addressDao).deleteById(isNull());
@@ -553,7 +553,7 @@ public class TestPetAdoptionAppService {
 		assertEquals("donor", donation.getDonatedFrom().getUsername());
 		assertEquals("recipient", donation.getDonatedTo().getUsername());
 	}
-	//fail
+	
 	@Test
 	public void testCreateDonationNull() {
 		Integer id = null;
@@ -707,7 +707,7 @@ public class TestPetAdoptionAppService {
 	public void testGetNonExistingDonation() {
 		assertNull(service.getDonation(NONEXISTING_DONATION_KEY));
 	}
-	//fail
+	
 	@Test
 	public void testDeleteDonation() {
 		// Delete donation by id
@@ -732,10 +732,10 @@ public class TestPetAdoptionAppService {
 		donation = service.getDonation(DONATION_KEY);
 		assertNull(donation);
 	}
-	//fail
+	
 	@Test
 	public void testDeleteDonationNull() {
-		doThrow(IllegalArgumentException.class).when(donationDao).deleteById(isNull());
+		doThrow(IllegalArgumentException.class).when(donationDao).deleteById(anyInt());
 		try {
 			service.deleteDonation(NONEXISTING_ADDRESS_KEY);
 		} catch (IllegalArgumentException e) {
