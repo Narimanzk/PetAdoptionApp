@@ -87,7 +87,7 @@ public class PetAdoptionAppController {
 	 * 
 	 * @return
 	 */
-	@GetMapping(value = { "/petprofiles", "petprofiles" })
+	@GetMapping(value = { "/petprofiles", "/petprofile" })
 	public List<PetProfileDTO> getAllPetProfiles() {
 		return service.getAllPetProfile().stream().map(p -> convertToDTO(p)).collect(Collectors.toList());
 	}
@@ -118,6 +118,18 @@ public class PetAdoptionAppController {
 	public List<PetProfileDTO> getPetProfileByUser(@PathVariable("username") String username) {
 		GeneralUser user = service.getGeneralUser(username);
 		return service.getPetProfileByUser(user).stream().map(p -> convertToDTO(p)).collect(Collectors.toList());
+	}
+	
+	/**
+	 * get a pet profile through an application
+	 * @param id
+	 * @return
+	 */
+	@GetMapping(value = {"/petprofiles/applications/{appid}"})
+	public PetProfileDTO PetProfileByApplication(@PathVariable("appid") Integer id) {
+		AdoptionApplication app = service.getApplicaiontById(id);
+		PetProfile pet = service.getPetProfileByApplication(app);
+		return convertToDTO(pet);
 	}
 
 	/**
@@ -207,7 +219,7 @@ public class PetAdoptionAppController {
 	@PutMapping(value = { "/applications" }, consumes = "application/json", produces = "application/json")
 	public AdoptionApplicationDTO updateApplication(@RequestParam(name = "username") String username,
 			@RequestParam(name = "petid") Integer petId,
-			@RequestParam(name = "application") AdoptionApplicationDTO applicationDto) {
+			@RequestBody AdoptionApplicationDTO applicationDto) {
 		GeneralUser user = service.getGeneralUser(username);
 		PetProfile pet = service.getPetProfileById(petId);
 		AdoptionApplication application = service.createOrUpdateAdoptionApplication(
@@ -298,7 +310,7 @@ public class PetAdoptionAppController {
 		}
 		
 		@PostMapping(value = { "/addresses" }, consumes = "application/json", produces = "application/json")
-		public AddressDTO createAddress(@RequestParam(name = "usermaname") String username, @RequestBody AddressDTO address) {
+		public AddressDTO createAddress(@RequestParam(name = "username") String username, @RequestBody AddressDTO address) {
 			GeneralUser user = service.getGeneralUser(username);
 			Address domainAddress = service.createAddress(address.getStreet(), address.getCity(), address.getState(), address.getPostalCode(), address.getCountry());
 			user.setAddress(domainAddress);
@@ -315,9 +327,8 @@ public class PetAdoptionAppController {
 		
 		
 		@DeleteMapping(value = { "/addresses/{id}" })
-		public AddressDTO deleteAddress(@PathVariable("id") Integer id) {
-			Address address = service.deleteAddress(id);
-			return convertToDTO(address);
+		public void deleteAddress(@PathVariable("id") Integer id) {
+			service.deleteAddress(id);
 		}
 		
 		// ~~~~~~~~~~ Rest API for Donation ~~~~~~~~~~~~
@@ -327,17 +338,17 @@ public class PetAdoptionAppController {
 			return service.getAllDonations().stream().map(p -> convertToDTO(p)).collect(Collectors.toList());
 		}
 		
-		@GetMapping(value = { "donations/users/{username}" })
+		@GetMapping(value = { "donations/recipients/{username}" })
 		public List<DonationDTO> getDonationByDonatedTo(@PathVariable("username") String username) {
 			GeneralUser user = service.getGeneralUser(username);
 			return service.getDonationsForGeneralUser(user).stream().map(p -> convertToDTO(p)).collect(Collectors.toList());
 		}
 		
-//		@GetMapping(value = { "donations/users/{username}" })
-//		public List<DonationDTO> getDonationByDonatedFrom(@PathVariable("username") String username) {
-//			GeneralUser user = service.getGeneralUser(username);
-//			return service.getDonationsMadeByGeneralUser(user).stream().map(p -> convertToDTO(p)).collect(Collectors.toList());
-//		}
+		@GetMapping(value = { "donations/donors/{username}" })
+		public List<DonationDTO> getDonationByDonatedFrom(@PathVariable("username") String username) {
+			GeneralUser user = service.getGeneralUser(username);
+			return service.getDonationsMadeByGeneralUser(user).stream().map(p -> convertToDTO(p)).collect(Collectors.toList());
+		}
 		
 		@PostMapping(value = { "/donations" }, consumes = "application/json", produces = "application/json")
 		public DonationDTO createDonation(@RequestParam(name = "donatedFrom") String donatedFrom,
@@ -353,7 +364,7 @@ public class PetAdoptionAppController {
 			return donationDto;
 		}
 		
-		@PutMapping(value = { "/users/{username}/donations" }, consumes = "application/json", produces = "application/json")
+		@PutMapping(value = { "/donations" }, consumes = "application/json", produces = "application/json")
 		public DonationDTO updateDonation(@RequestParam(name = "donatedFrom") String donatedFrom,
 				@RequestParam(name = "donatedTo") String donatedTo, @RequestBody DonationDTO donation) {
 			GeneralUser domainDonatedFrom = service.getGeneralUser(donatedFrom);
@@ -366,15 +377,14 @@ public class PetAdoptionAppController {
 		}
 		
 		@DeleteMapping(value = { "/donations/{id}" })
-		public DonationDTO deleteGivenDonationsByUser(@PathVariable("id") Integer id) {
-			Donation donation = service.deleteDonation(id);
-			return convertToDTO(donation);
-			
+		public void deleteDonationsById(@PathVariable("id") Integer id) {
+			service.deleteDonation(id);
 		}
 
 	// ~~~~~~~~~~~~ Convert To DTO Methods Below ~~~~~~~~~~~~~~~~~~~~~~~
 
 	private GeneralUserDTO convertToDTO(GeneralUser user) {
+	    if(user==null)return null;
 		GeneralUserDTO userDTO = new GeneralUserDTO(user.getUsername(), convertToDTO(user.getUserType()),
 				user.getEmail(), null, user.getName(), user.getProfilePicture(), user.getPhone(), user.getBalance(),
 				user.getDescription());
@@ -441,17 +451,27 @@ public class PetAdoptionAppController {
 	
 	// ~~~~~~~~Donation to DonationDTO~~~~~~~~~~
 	
-		private DonationDTO convertToDTO(Donation donation) {
-			DonationDTO donationDTO = new DonationDTO(donation.getId(),donation.getAmount());
-			if (donation.getDonatedFrom() != null) {
-				donationDTO.setDonatedFrom(convertToAttributeDTO(donation.getDonatedFrom()));
-			}
-			if (donation.getDonatedTo() != null) {
-				donationDTO.setDonatedTo(convertToAttributeDTO(donation.getDonatedTo()));
-			}
-			return donationDTO;
+	/**
+	 * convert a donation object to dto object
+	 * @param donation
+	 * @return DonationDTO
+	 */
+	private DonationDTO convertToDTO(Donation donation) {
+		DonationDTO donationDTO = new DonationDTO(donation.getId(),donation.getAmount());
+		if (donation.getDonatedFrom() != null) {
+			donationDTO.setDonatedFrom(convertToAttributeDTO(donation.getDonatedFrom()));
 		}
+		if (donation.getDonatedTo() != null) {
+			donationDTO.setDonatedTo(convertToAttributeDTO(donation.getDonatedTo()));
+		}
+		return donationDTO;
+	}
 
+	/**
+	 * convert a donation object to dto object with attributes only
+	 * @param donation
+	 * @return DonationDTO
+	 */
 	private DonationDTO convertToAttributeDTO(Donation donation) {
 		DonationDTO donationDTO = new DonationDTO(donation.getId(),donation.getAmount());
 		return donationDTO;
@@ -536,11 +556,21 @@ public class PetAdoptionAppController {
 	
 	// ~~~~~~~~Address to AddressDTO~~~~~~~~~~
 	
+	/**
+	 * convert an address object to dto object
+	 * @param address
+	 * @return AddressDTO
+	 */
 	private AddressDTO convertToDTO(Address address) {
 		AddressDTO addressDTO = new AddressDTO(address.getId(),address.getStreet(), address.getCity(), address.getState(), address.getPostalCode(), address.getCountry());
 		return addressDTO;
 	}
 
+	/**
+	 * convert an address object to dto object with attributes only
+	 * @param address
+	 * @return AddressDTO
+	 */
 	private AddressDTO convertToAttributeDTO(Address address) {
 		AddressDTO addressDTO = new AddressDTO(address.getId(),address.getStreet(), address.getCity(), 
 				address.getState(), address.getPostalCode(), address.getCountry());
@@ -560,6 +590,7 @@ public class PetAdoptionAppController {
 	// ~~~~~~~~~~~~ Convert To Domain Model ~~~~~~~~~~~~~~~~~~~~~~~
 
 	private UserType convertToDomainObject(String userType) {
+	    if(userType==null)return null;
 		if (userType.equalsIgnoreCase("Admin"))
 			return UserType.Admin;
 		if (userType.equalsIgnoreCase("PetShelter"))

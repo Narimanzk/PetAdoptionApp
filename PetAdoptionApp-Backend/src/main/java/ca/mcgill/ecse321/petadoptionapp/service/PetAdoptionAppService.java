@@ -60,6 +60,11 @@ public class PetAdoptionAppService {
 		return profiles;
 	}
 	
+	@Transactional
+	public PetProfile getPetProfileByApplication(AdoptionApplication app) {
+		PetProfile pet = petProfileRespository.findByAdoptionApplications(app);
+		return pet;
+	}
 	/**
 	 * get a pet profile by id
 	 * @param id
@@ -86,21 +91,43 @@ public class PetAdoptionAppService {
 	@Transactional
 	public PetProfile createOrUpdatePetProfile(String name, int age, Gender petGender, String description, String species,
 			byte[] profile, String reason, GeneralUser user, int id) {
+		String error = "";
+		if (name == null || name.trim().length() == 0) {
+			error += "Pet needs a name. ";
+		}
+		if (description == null || description.trim().length() == 0) {
+			error += "Pet needs a description. ";
+		}
+		if (species == null || species.trim().length() == 0) {
+			error += "Pet needs a species. ";
+		}
+		if (reason == null || reason.trim().length() == 0) {
+			error += "Pet needs a reason. ";
+		}
+		
 		PetProfile pet;
 		if(id == -1) {
 			pet = new PetProfile();
 		}else {
 			pet = petProfileRespository.findPetProfileById(id);
 		}
-		pet.setAge(age);
-		pet.setPetName(name);
-		pet.setPetGender(petGender);
-		pet.setPetSpecies(species);
-		pet.setProfilePicture(profile);
-		pet.setReason(reason);
-		pet.setUser(user);
-		pet.setDescription(description);
-		petProfileRespository.save(pet);
+		
+		error = error.trim();
+		if(error != "") {
+			throw new IllegalArgumentException(error);
+		}
+		
+		if(pet != null) {
+			pet.setAge(age);
+			pet.setPetName(name);
+			pet.setPetGender(petGender);
+			pet.setPetSpecies(species);
+			pet.setProfilePicture(profile);
+			pet.setReason(reason);
+			pet.setUser(user);
+			pet.setDescription(description);
+			petProfileRespository.save(pet);
+		}
 		return pet;
 	}
 
@@ -123,7 +150,7 @@ public class PetAdoptionAppService {
 	public PetProfile deletePetProfile(int id) {
 		PetProfile pet = petProfileRespository.findPetProfileById(id);
 		if(pet != null) {
-			petProfileRespository.delete(pet);
+			petProfileRespository.deleteById(id);
 		}
 		return pet;
 	}
@@ -140,17 +167,29 @@ public class PetAdoptionAppService {
 	@Transactional
 	public AdoptionApplication createOrUpdateAdoptionApplication(String description, ApplicationStatus status, GeneralUser user,
 			PetProfile profile, int id) {
+		String error = "";
+		if (description == null || description.trim().length() == 0) {
+			error += "Application needs a description. ";
+		}
+		
 		AdoptionApplication application;
 		if(id == -1) {
 			application = new AdoptionApplication();
 		}else {
 			application = adoptionApplicationRespository.findAdoptionApplicationById(id);
 		}
-		application.setApplicationDescription(description);
-		application.setApplicationStatus(status);
-		application.setPetProfile(profile);
-		application.setUser(user);
-		adoptionApplicationRespository.save(application);
+		
+		error = error.trim();
+		if(error != "") {
+			throw new IllegalArgumentException(error);
+		}
+		if(application != null) {
+			application.setApplicationDescription(description);
+			application.setApplicationStatus(status);
+			application.setPetProfile(profile);
+			application.setUser(user);
+			adoptionApplicationRespository.save(application);
+		}
 		return application;
 	}
 
@@ -199,7 +238,7 @@ public class PetAdoptionAppService {
 	public AdoptionApplication deleteApplication(int id) {
 		AdoptionApplication application = adoptionApplicationRespository.findAdoptionApplicationById(id);
 		if(application != null) {
-			adoptionApplicationRespository.delete(application);
+			adoptionApplicationRespository.deleteById(id);
 		}
 		return application;
 	}
@@ -259,7 +298,24 @@ public class PetAdoptionAppService {
 	 * @return updated donation object
 	 */
 	@Transactional
-	public Donation createOrUpdateDonation(int id, Integer amount, GeneralUser donatedFrom, GeneralUser donatedTo) {
+	public Donation createOrUpdateDonation(Integer id, Integer amount, GeneralUser donatedFrom, GeneralUser donatedTo) {
+		String error = "";
+		if (id == null || id < -1 || id == 0) {
+			error += "Donation needs a valid id. ";
+		}
+		if (amount == null || amount <= 0) {
+			error += "Donation needs a positive amount. ";
+		}
+		if (donatedFrom == null || donatedFrom.getUsername().trim().length() == 0) {
+			error += "Donation needs a donor. ";
+		}
+		if (donatedTo == null || donatedTo.getUsername().trim().length() == 0) {
+			error += "Donation needs a recipient. ";
+		}
+		error = error.trim();
+		if (error.length() > 0) {
+			throw new IllegalArgumentException(error);
+		}
 		Donation donation;
 		if(id == -1) {
 			donation = new Donation();
@@ -275,15 +331,11 @@ public class PetAdoptionAppService {
 	
 	/**
 	 * Delete the donation. 
-	 * @param username
+	 * @param id
 	 */
 	@Transactional
-	public Donation deleteDonation(int id) {
-		Donation donation = donationRepository.findDonationById(id);
-		if(donation != null) {
-			donationRepository.delete(donation);
-		}
-		return donation;
+	public void deleteDonation(int id) throws IllegalArgumentException {
+			donationRepository.deleteById(id);
 	}
 	
 
@@ -303,6 +355,7 @@ public class PetAdoptionAppService {
 		if (author == null) {
 			error += "Response needs a user. ";
 		}
+
 		error = error.trim();
 		if (error.length() > 0) {
 			throw new IllegalArgumentException(error);
@@ -356,12 +409,8 @@ public class PetAdoptionAppService {
 		return response;
 	}
 	@Transactional
-	public Response deleteResponse(Integer id) {
-		Response response = responseRepository.findResponseById(id);
-		if(response != null) {
-			responseRepository.delete(response);
-		}
-		return response;
+	public void deleteResponse(Integer id) {
+		responseRepository.deleteById(id);
 	}
 	// ~~~~~~~~~~ GENERAL USER SERVICES ~~~~~~~~~~~~
 
@@ -470,6 +519,26 @@ public class PetAdoptionAppService {
 	 */
 	@Transactional
 	public Address createAddress(String street, String city, String state, String postalCode, String country) {
+		String error = "";
+		if (street == null || street.trim().length() == 0) {
+			error += "Address needs a street. ";
+		}
+		if (city == null || city.trim().length() == 0) {
+			error += "Address needs a city. ";
+		}
+		if (state == null || state.trim().length() == 0) {
+			error += "Address needs a state. ";
+		}
+		if (postalCode == null || postalCode.trim().length() == 0) {
+			error += "Address needs a postalCode. ";
+		}
+		if (country == null || country.trim().length() == 0) {
+			error += "Address needs a country.";
+		}
+		error = error.trim();
+		if (error.length() > 0) {
+			throw new IllegalArgumentException(error);
+		}
 		Address address = new Address();
 		address.setStreet(street);
 		address.setCity(city);
@@ -493,13 +562,16 @@ public class PetAdoptionAppService {
 	@Transactional
 	public Address updateAddress(Integer id, String street, String city, String state, String postalCode, String country) {
 		Address address = addressRepository.findAddressById(id);
-		if(street!=null)address.setStreet(street);
-		if(city!=null)address.setCity(city);
-		if(state!=null)address.setState(state);
-		if(postalCode!=null)address.setPostalCode(postalCode);
-		if(country!=null)address.setCountry(country);
+		if(address != null) {
+		if(street!=null && street.trim().length() > 0)address.setStreet(street);
+		if(city!=null && city.trim().length() > 0)address.setCity(city);
+		if(state!=null && state.trim().length() > 0)address.setState(state);
+		if(postalCode!=null && postalCode.trim().length() > 0)address.setPostalCode(postalCode);
+		if(country!=null && country.trim().length() > 0)address.setCountry(country);
 		addressRepository.save(address);
+		}
 		return address;
+		
 	}
 	
 	/**
@@ -507,12 +579,8 @@ public class PetAdoptionAppService {
 	 * @param id
 	 */
 	@Transactional
-	public Address deleteAddress(Integer id) {
-		Address address = addressRepository.findAddressById(id);
-		if(address != null) {
-			addressRepository.delete(address);
-		}
-		return address;
+	public void deleteAddress(Integer id) throws IllegalArgumentException{
+		addressRepository.deleteById(id);
 	}
 
 	
@@ -596,8 +664,8 @@ public class PetAdoptionAppService {
 		Question question = questionRepository.findQuestionById(id);
 		if (question != null) {
 			if (title != null && title.trim().length() > 0) question.setTitle(title);
-			if (description != null && description.trim().length() > 0) question.setDescription(description);
-			if (status != null) question.setThreadStatus(status);;
+			if (description != null) question.setDescription(description);
+			if (status != null) question.setThreadStatus(status);
 			if (user != null) question.setUser(user);
 			questionRepository.save(question);
 		}
@@ -605,12 +673,8 @@ public class PetAdoptionAppService {
 	}
 	
 	@Transactional
-	public Question deleteQuestion(Integer id) {
-		Question question = questionRepository.findQuestionById(id);
-		if(question != null) {
-			questionRepository.delete(question);
-		}
-		return question;
+	public void deleteQuestion(Integer id) throws IllegalArgumentException{
+		questionRepository.deleteById(id);
 	}
 	
   
