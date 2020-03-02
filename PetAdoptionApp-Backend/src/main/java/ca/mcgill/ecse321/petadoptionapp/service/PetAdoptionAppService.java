@@ -366,6 +366,14 @@ public class PetAdoptionAppService {
 
 	//~~~~~~~~~~ RESPONSE SERVICES ~~~~~~~~~~~~
 	
+	/**
+	 * Create a response
+	 * @param Id
+	 * @param text
+	 * @param question
+	 * @param author
+	 * @return Response
+	 */
 
 
 	@Transactional
@@ -393,17 +401,32 @@ public class PetAdoptionAppService {
 		responseRepository.save(response);
 		return response;
 	}
-
+	
+	/**
+	 * Get a Response object by id
+	 * @param id
+	 * @return Response 
+	 */
 	@Transactional
 	public Response getResponse(int id) {
 		return responseRepository.findResponseById(id);
 	}
+	
+	/**
+	 * Get all responses in a list
+	 * @return List of Response
+	 */
 
 	@Transactional
 	public List<Response> getAllResponses() {
 		return toList(responseRepository.findAll());
 	}
 
+	/**
+	 * Get all responses to a particular Question
+	 * @param question
+	 * @return List of Response
+	 */
 	@Transactional
 	public List<Response> getResponsesForQuestion(Question question) {
 		List<Response> responsesForQuestion = new ArrayList<>();
@@ -412,6 +435,12 @@ public class PetAdoptionAppService {
 		}
 		return responsesForQuestion;
 	}
+	
+	/**
+	 * Get all responses by a particular GeneralUser
+	 * @param user
+	 * @return List of response
+	 */
 
 	@Transactional
 	public List<Response> getResponsesForGeneralUser(GeneralUser user) {
@@ -422,6 +451,14 @@ public class PetAdoptionAppService {
 		return responsesForGeneralUser;
 	}
 	
+	/**
+	 * Update a response's fields
+	 * @param id
+	 * @param text
+	 * @param question
+	 * @param user
+	 * @return Response
+	 */
 	@Transactional
 	public Response updateResponse(Integer id, String text, Question question, GeneralUser user) {
 		Response response = responseRepository.findResponseById(id);
@@ -433,6 +470,10 @@ public class PetAdoptionAppService {
 		}
 		return response;
 	}
+	/**
+	 * Delete a particular Response object by id
+	 * @param id
+	 */
 	@Transactional
 	public void deleteResponse(Integer id) {
 		responseRepository.deleteById(id);
@@ -629,6 +670,15 @@ public class PetAdoptionAppService {
   
 	// ~~~~~~QUESTION SERVICES~~~~~~~~~
 	
+	/**
+	 * Create a new Question
+	 * @param id
+	 * @param title
+	 * @param description
+	 * @param status
+	 * @param author
+	 * @return Question
+	 */
 	@Transactional
 	public Question createQuestion(Integer id, String title, String description, ThreadStatus status, GeneralUser author) {
 		String error = "";
@@ -657,16 +707,32 @@ public class PetAdoptionAppService {
 		questionRepository.save(question);
 		return question;
 	}
+	
+	/**
+	 * Get a particular question by id
+	 * @param id
+	 * @return Question object
+	 */
 
 	@Transactional
 	public Question getQuestion(int id) {
 		return questionRepository.findQuestionById(id);
 	}
 
+	/**
+	 * Get all questions in a list
+	 * @return List of Question
+	 */
 	@Transactional
 	public List<Question> getAllQuestions() {
 		return toList(questionRepository.findAll());
 	}
+	
+	/**
+	 * Get the question associated with a particular Response
+	 * @param response
+	 * @return Question
+	 */
 	
 	@Transactional
 	public Question getQuestionForResponse(Response response) {
@@ -675,6 +741,11 @@ public class PetAdoptionAppService {
 		return questionOfResponse;
 	}
 
+	/**
+	 * Get a list of questions by a particular GeneralUser
+	 * @param user
+	 * @return List of Question
+	 */
 	@Transactional
 	public List<Question> getQuestionsForGeneralUser(GeneralUser user) {
 		List<Question> questionsForGeneralUser = new ArrayList<>();
@@ -684,6 +755,15 @@ public class PetAdoptionAppService {
 		return questionsForGeneralUser;
 	}
 	
+	/**
+	 * Update a question's fields
+	 * @param id
+	 * @param title
+	 * @param description
+	 * @param status
+	 * @param user
+	 * @return Question
+	 */
 	@Transactional
 	public Question updateQuestion(Integer id, String title, String description, ThreadStatus status, GeneralUser user) {
 		Question question = questionRepository.findQuestionById(id);
@@ -696,6 +776,10 @@ public class PetAdoptionAppService {
 		}
 		return question;
 	}
+	
+	/**
+	 * Delete a question by id 
+	 */
 	
 	@Transactional
 	public void deleteQuestion(Integer id) throws IllegalArgumentException{

@@ -256,11 +256,21 @@ public class PetAdoptionAppController {
 
 	// ~~~~~~~~~~ Rest API for Questions ~~~~~~~~~~~~
 
+	/**
+	 * Get all questions
+	 * @return
+	 */
 	@GetMapping(value = { "/questions" })
 	public List<QuestionDTO> getAllQuestions() {
 		return service.getAllQuestions().stream().map(p -> convertToDTO(p)).collect(Collectors.toList());
 	}
 
+	/**
+	 * Create a new question
+	 * @param username
+	 * @param questionDTO
+	 * @return
+	 */
 	@PostMapping(value = {
 			"/questions" }, consumes = "application/json", produces = "application/json")
 	public QuestionDTO createQuestion(@RequestParam(name = "username") String username, @RequestBody QuestionDTO questionDTO) {
@@ -268,12 +278,24 @@ public class PetAdoptionAppController {
 		Question question = service.createQuestion(questionDTO.getID(), questionDTO.getTitle(), questionDTO.getDescription(), questionDTO.getStatus(), author);
 		return convertToDTO(question);
 	}
+	
+	/**
+	 * Get all questions by a user
+	 * @param username
+	 * @return
+	 */
 
 	@GetMapping(value = { "/users/{username}/questions" })
 	public List<QuestionDTO> getQuestionsByUser(@PathVariable("username") String username) {
 		GeneralUser user = service.getGeneralUser(username);
 		return service.getQuestionsForGeneralUser(user).stream().map(p -> convertToDTO(p)).collect(Collectors.toList());
 	}
+	
+	/**
+	 * Get the question associated to a response
+	 * @param id
+	 * @return
+	 */
 
 	@GetMapping(value = { "/response/{id}/question" })
 	public QuestionDTO getQuestionFromResponse(@PathVariable("id") int id) {
@@ -281,12 +303,23 @@ public class PetAdoptionAppController {
 		return convertToDTO(service.getQuestionForResponse(response));
 	}
 	
+	/**
+	 * Update a question
+	 * @param username
+	 * @param questionDTO
+	 * @return
+	 */
 	@PutMapping(value = {"/questions"}, consumes = "application/json", produces = "application/json")
 	public QuestionDTO updateQuestions(@RequestParam(name = "username") String username, @RequestBody QuestionDTO questionDTO) {
 		GeneralUser user = service.getGeneralUser(username);
 		Question question = service.updateQuestion(questionDTO.getID(), questionDTO.getTitle(), questionDTO.getDescription(), questionDTO.getStatus(), user);
 		return convertToDTO(question);
 	}
+	
+	/**
+	 * Delete a question by id
+	 * @param id
+	 */
 	
 	@DeleteMapping(value = {"/questions/{id}"})
 	public void deleteQuestion(@PathVariable("id") Integer id) {
@@ -296,10 +329,23 @@ public class PetAdoptionAppController {
 
 	// ~~~~~~~~~ Rest API for Responses ~~~~~~~~~~
 
+	
+	/**
+	 * Get all responses
+	 * @return
+	 */
 	@GetMapping(value = { "/responses" })
 	public List<ResponseDTO> getAllResponses() {
 		return service.getAllResponses().stream().map(p -> convertToDTO(p)).collect(Collectors.toList());
 	}
+	
+	/**
+	 * Create a new response
+	 * @param username
+	 * @param questionID
+	 * @param responseDTO
+	 * @return
+	 */
 
 	@PostMapping(value = {
 	"/responses" }, consumes = "application/json", produces = "application/json")
@@ -309,12 +355,24 @@ public class PetAdoptionAppController {
 		Response response = service.createResponse(responseDTO.getID(),responseDTO.getText(), question, author);
 		return convertToDTO(response);
 	}
+	
+	/**
+	 * Get all responses by a user
+	 * @param username
+	 * @return
+	 */
 
 	@GetMapping(value = { "/users/{username}/responses" })
 	public List<ResponseDTO> getResponsessByUser(@PathVariable("username") String username) {
 		GeneralUser user = service.getGeneralUser(username);
 		return service.getResponsesForGeneralUser(user).stream().map(p -> convertToDTO(p)).collect(Collectors.toList());
 	}
+	
+	/**
+	 * Get all responses to a question
+	 * @param id
+	 * @return
+	 */
 
 	@GetMapping(value = { "/question/{id}/responses" })
 	public List<ResponseDTO> getResponsesToQuestions(@PathVariable("id") int id) {
@@ -322,6 +380,14 @@ public class PetAdoptionAppController {
 		return service.getResponsesForQuestion(question).stream().map(p -> convertToDTO(p))
 				.collect(Collectors.toList());
 	}
+	
+	/**
+	 * Update a particular response
+	 * @param username
+	 * @param questionID
+	 * @param responseDTO
+	 * @return
+	 */
 	
 	@PutMapping(value = {"/responses"}, consumes = "application/json", produces = "application/json")
 	public ResponseDTO updateResponses(@RequestParam(name = "username") String username, @RequestParam(name = "questionID") Integer questionID, @RequestBody ResponseDTO responseDTO) {
@@ -331,6 +397,10 @@ public class PetAdoptionAppController {
 		return convertToDTO(response);
 	}
 	
+	/**
+	 * Delete a response
+	 * @param id
+	 */
 	@DeleteMapping(value = {"/responses/{id}"})
 	public void deleteResponse(@PathVariable("id") Integer id) {
 		service.deleteResponse(id);
