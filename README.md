@@ -16,6 +16,16 @@ We will be creating a back end that will support this whole process, as well as 
 | Andrew Ta | Software Developer | 30 | 40 |  |  |
 | Noah Zwack | Software Developer | 20 | 35 |  |  |
 
+### Individual efforts - Sprint 2
+| Name | Tasks | 
+| ---- | ---- | 
+| Le-li (Shuby) Mao | Implement service and controller methods for GeneralUser class. Perform unit and integration tests on these methods
+| Nariman (Narry) Zendehrooh | Implement service and controller methods for Address and Donation classes. Perform unit and integration tests on these methods
+| Lenoy Christy | Implement service and controller methods for Question and Response classes. Perform unit and integration tests on these methods
+| Andrew Ta | Implement service and controller methods for PetProfile and AdoptionApplication classes. Perform unit and integration tests on these methods
+| Noah Zwack | Implement service and controller methods for GeneralUser and Response classes. Perform unit test on these methods. Setup continuous integration on Heroku
+
+
 ## Links to Documentation
 * [Sprint 1](https://github.com/McGill-ECSE321-Winter2020/project-group-05/wiki/Sprint-1)
 * [Sprint 2](https://github.com/McGill-ECSE321-Winter2020/project-group-05/wiki/Sprint-2)
