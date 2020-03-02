@@ -250,11 +250,10 @@ public class PetAdoptionAppController {
 	}
 
 	@PostMapping(value = {
-			"/users/{username}/questions" }, consumes = "application/json", produces = "application/json")
-	public QuestionDTO createQuestion(@PathVariable("username") String username, @RequestBody Integer id, @RequestBody String title,
-			@RequestBody String description, @RequestBody ThreadStatus status) {
+			"/questions" }, consumes = "application/json", produces = "application/json")
+	public QuestionDTO createQuestion(@RequestParam(name = "username") String username, @RequestBody QuestionDTO questionDTO) {
 		GeneralUser author = service.getGeneralUser(username);
-		Question question = service.createQuestion(id, title, description, status, author);
+		Question question = service.createQuestion(questionDTO.getID(), questionDTO.getTitle(), questionDTO.getDescription(), questionDTO.getStatus(), author);
 		return convertToDTO(question);
 	}
 
@@ -269,6 +268,19 @@ public class PetAdoptionAppController {
 		Response response = service.getResponse(id);
 		return convertToDTO(service.getQuestionForResponse(response));
 	}
+	
+	@PutMapping(value = {"/questions"}, consumes = "application/json", produces = "application/json")
+	public QuestionDTO updateQuestions(@RequestParam(name = "username") String username, @RequestBody QuestionDTO questionDTO) {
+		GeneralUser user = service.getGeneralUser(username);
+		Question question = service.updateQuestion(questionDTO.getID(), questionDTO.getTitle(), questionDTO.getDescription(), questionDTO.getStatus(), user);
+		return convertToDTO(question);
+	}
+	
+	@DeleteMapping(value = {"/questions/{id}"})
+	public void deleteQuestion(@PathVariable("id") Integer id) {
+		service.deleteQuestion(id);
+		
+	}
 
 	// ~~~~~~~~~ Rest API for Responses ~~~~~~~~~~
 
@@ -278,11 +290,11 @@ public class PetAdoptionAppController {
 	}
 
 	@PostMapping(value = {
-	"users/{username}/responses/{questionID}" }, consumes = "application/json", produces = "application/json")
-	public ResponseDTO createResponse(@PathVariable("username") String username, @PathVariable("questionID") Integer questionID, @RequestBody String text, @RequestBody Integer ID) {
+	"/responses" }, consumes = "application/json", produces = "application/json")
+	public ResponseDTO createResponse(@RequestParam(name = "username") String username, @RequestParam(name = "questionID") Integer questionID, @RequestBody ResponseDTO responseDTO) {
 		GeneralUser author = service.getGeneralUser(username);
 		Question question = service.getQuestion(questionID);
-		Response response = service.createResponse(ID,text, question, author);
+		Response response = service.createResponse(responseDTO.getID(),responseDTO.getText(), question, author);
 		return convertToDTO(response);
 	}
 
@@ -297,6 +309,19 @@ public class PetAdoptionAppController {
 		Question question = service.getQuestion(id);
 		return service.getResponsesForQuestion(question).stream().map(p -> convertToDTO(p))
 				.collect(Collectors.toList());
+	}
+	
+	@PutMapping(value = {"/responses"}, consumes = "application/json", produces = "application/json")
+	public ResponseDTO updateResponses(@RequestParam(name = "username") String username, @RequestParam(name = "questionID") Integer questionID, @RequestBody ResponseDTO responseDTO) {
+		GeneralUser user = service.getGeneralUser(username);
+		Question question = service.getQuestion(questionID);
+		Response response = service.updateResponse(responseDTO.getID(), responseDTO.getText(), question, user);
+		return convertToDTO(response);
+	}
+	
+	@DeleteMapping(value = {"/responses/{id}"})
+	public void deleteResponse(@PathVariable("id") Integer id) {
+		service.deleteResponse(id);
 	}
 	
 	// ~~~~~~~~~~ Rest API for Address ~~~~~~~~~~~~
@@ -531,7 +556,7 @@ public class PetAdoptionAppController {
 	// ~~~~~~~~Response to ResponseDTO~~~~~~~~~~
 
 	private ResponseDTO convertToDTO(Response res) {
-		ResponseDTO responseDTO = new ResponseDTO(res.getText());
+		ResponseDTO responseDTO = new ResponseDTO(res.getId(),res.getText());
 		responseDTO.setQuestion(convertToAttributeDTO(res.getQuestion()));
 		responseDTO.setUser(convertToAttributeDTO(res.getUser()));
 		return responseDTO;
@@ -539,7 +564,7 @@ public class PetAdoptionAppController {
 	}
 
 	private ResponseDTO convertToAttributeDTO(Response res) {
-		ResponseDTO responseDTO = new ResponseDTO(res.getText());
+		ResponseDTO responseDTO = new ResponseDTO(res.getId(), res.getText());
 		return responseDTO;
 	}
 

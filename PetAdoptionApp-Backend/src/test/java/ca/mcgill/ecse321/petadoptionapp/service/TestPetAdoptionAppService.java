@@ -1048,6 +1048,7 @@ public class TestPetAdoptionAppService {
 		assertEquals(state, address.getState());
 		assertEquals(postalCode, address.getPostalCode());
 		assertEquals(country, address.getCountry());
+
 	}
 	
 	@Test
@@ -1088,6 +1089,7 @@ public class TestPetAdoptionAppService {
 			error = e.getMessage();
 		}
 		
+		
 		assertNull(address);
 		assertEquals("Address needs a street. Address needs a city. Address needs a state. Address needs a postalCode. Address needs a country.",
 				error);
@@ -1125,6 +1127,7 @@ public class TestPetAdoptionAppService {
 		Address address = null;
 		address = service.updateAddress(id, newStreet, newCity, newState, newPostalCode, newCountry);
 		
+
 		assertNotNull(id);
 		assertEquals(newStreet, address.getStreet());
 		assertEquals(newCity, address.getCity());
