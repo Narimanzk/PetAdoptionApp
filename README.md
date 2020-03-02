@@ -11,10 +11,10 @@ We will be creating a back end that will support this whole process, as well as 
 | Name | Role | Sprint 1 Hours | Sprint 2 Hours | Sprint 3 Hours | Sprint 4 Hours |
 | ---- | ---- | --------------: | --------------: | --------------: | --------------: |
 | Le-li (Shuby) Mao | Project Lead | 30 |  |  |  |
-| Nariman (Narry) Zendehrooh | Software Developer | 30 |  |  |  |
-| Lenoy Christy | Software Developer | 25 |  |  |  |
-| Andrew Ta | Software Developer | 30 |  |  |  |
-| Noah Zwack | Software Developer | 20 |  |  |  |
+| Nariman (Narry) Zendehrooh | Software Developer | 30 | 35 |  |  |
+| Lenoy Christy | Software Developer | 25 | 35 |  |  |
+| Andrew Ta | Software Developer | 30 | 40 |  |  |
+| Noah Zwack | Software Developer | 20 | 35 |  |  |
 
 ## Links to Documentation
 * [Sprint 1](https://github.com/McGill-ECSE321-Winter2020/project-group-05/wiki/Sprint-1)
