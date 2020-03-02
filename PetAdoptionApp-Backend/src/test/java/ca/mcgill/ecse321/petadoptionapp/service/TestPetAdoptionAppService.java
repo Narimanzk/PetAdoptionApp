@@ -350,6 +350,28 @@ public class TestPetAdoptionAppService {
 	}
 
 	@Test
+	public void testSignInGeneralUser() {
+	  try {
+        GeneralUser user = service.signin(USER_KEY, USER_PASSWORD);
+        assertEquals(user.getEmail(),USER_EMAIL);
+        assertEquals(user.getDescription(),USER_DESCRIPTION);
+        assertEquals(user.getName(),USER_NAME);
+	  } catch (IllegalArgumentException e) {
+        fail();
+      }
+	}
+	
+	@Test
+    public void testSignInFailGeneralUser() {
+      try {
+        GeneralUser user = service.signin(USER_KEY, "Admin123");
+      } catch (IllegalArgumentException e) {
+        return;
+      }
+      fail();
+    }
+	
+	@Test
 	public void testCreateGeneralUserNull() {
 		String username = null;
 		UserType userType = null;
