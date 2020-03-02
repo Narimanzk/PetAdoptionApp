@@ -30,6 +30,7 @@ import ca.mcgill.ecse321.petadoptionapp.dto.GeneralUserDTO;
 import ca.mcgill.ecse321.petadoptionapp.dto.PetProfileDTO;
 import ca.mcgill.ecse321.petadoptionapp.dto.QuestionDTO;
 import ca.mcgill.ecse321.petadoptionapp.dto.ResponseDTO;
+import ca.mcgill.ecse321.petadoptionapp.dto.SigninDTO;
 import ca.mcgill.ecse321.petadoptionapp.model.Address;
 import ca.mcgill.ecse321.petadoptionapp.model.AdoptionApplication;
 import ca.mcgill.ecse321.petadoptionapp.model.Donation;
@@ -48,6 +49,13 @@ public class PetAdoptionAppController {
 	private PetAdoptionAppService service;
 	@Autowired
 	private GeneralUserRepository generalUserRepository;
+	
+	// ~~~~~~~~~~ Rest API for Authenticate User ~~~~~~~~~~~~~~~
+	@PostMapping(value = {"/signin"})
+	public GeneralUserDTO signin(@RequestBody SigninDTO signinDTO) {
+		GeneralUser user = service.signin(signinDTO.getUsername(), signinDTO.getPassword());
+		return convertToAttributeDTO(user);
+	}
 
 	// ~~~~~~~~~~ Rest API for General User ~~~~~~~~~~~~
 
