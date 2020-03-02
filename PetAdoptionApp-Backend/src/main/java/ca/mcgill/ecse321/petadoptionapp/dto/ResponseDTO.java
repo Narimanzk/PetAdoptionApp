@@ -1,7 +1,7 @@
 package ca.mcgill.ecse321.petadoptionapp.dto;
 
 public class ResponseDTO {
-	
+	private Integer id;
 	private String text;
 	private QuestionDTO question;
 	private GeneralUserDTO user;
@@ -10,8 +10,13 @@ public class ResponseDTO {
 		
 	}
 	
-	public ResponseDTO(String text) {
+	public ResponseDTO(Integer id, String text) {
 		this.text = text;
+		this.id = id;
+	}
+	
+	public Integer getID() {
+		return id;
 	}
 	
 	public String getText() {
@@ -24,6 +29,10 @@ public class ResponseDTO {
 	
 	public GeneralUserDTO getUser() {
 		return user;
+	}
+	
+	public void setID(Integer id) {
+		this.id = id;
 	}
 	
 	public void setText(String text) {

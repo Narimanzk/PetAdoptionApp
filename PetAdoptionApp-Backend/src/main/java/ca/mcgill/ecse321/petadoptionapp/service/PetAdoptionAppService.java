@@ -378,9 +378,9 @@ public class PetAdoptionAppService {
 			error += "Response needs a question. ";
 		}
 		if (author == null) {
-			error += "Response needs a user.";
+			error += "Response needs a user. ";
 		}
-		
+
 		error = error.trim();
 		if (error.length() > 0) {
 			throw new IllegalArgumentException(error);
