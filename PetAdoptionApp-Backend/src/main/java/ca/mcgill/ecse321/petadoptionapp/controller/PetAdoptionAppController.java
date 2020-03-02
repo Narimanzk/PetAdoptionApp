@@ -42,6 +42,10 @@ import ca.mcgill.ecse321.petadoptionapp.model.ThreadStatus;
 import ca.mcgill.ecse321.petadoptionapp.model.UserType;
 import ca.mcgill.ecse321.petadoptionapp.service.PetAdoptionAppService;
 
+/**
+ * @author Nariman
+ *
+ */
 @CrossOrigin(origins = "*")
 @RestController
 public class PetAdoptionAppController {
@@ -334,17 +338,32 @@ public class PetAdoptionAppController {
 	
 	// ~~~~~~~~~~ Rest API for Address ~~~~~~~~~~~~
 	
+		/**
+		 * get all addresses
+		 * @return List<AddressDTO>
+		 */
 		@GetMapping(value = { "/addresses" })
 		public List<AddressDTO> getAllAddresses() {
 			return service.getAllAddresses().stream().map(p -> convertToDTO(p)).collect(Collectors.toList());
 		}
 		
+		/**
+		 * get address by user
+		 * @param username
+		 * @return AddressDTO
+		 */
 		@GetMapping(value = { "/addresses/users/{username}" })
 		public AddressDTO getAddressByUser(@PathVariable("username") String username) {
 			Address address = service.getGeneralUser(username).getAddress();
 			return convertToDTO(service.getAddress(address.getId()));
 		}
 		
+		/**
+		 * Create address object
+		 * @param username
+		 * @param address
+		 * @return AddressDTO
+		 */
 		@PostMapping(value = { "/addresses" }, consumes = "application/json", produces = "application/json")
 		public AddressDTO createAddress(@RequestParam(name = "username") String username, @RequestBody AddressDTO address) {
 			GeneralUser user = service.getGeneralUser(username);
@@ -354,6 +373,12 @@ public class PetAdoptionAppController {
 			return convertToDTO(domainAddress);
 		}
 		
+		/**
+		 * Update existing address object
+		 * @param username
+		 * @param address
+		 * @return AddressDTO
+		 */
 		@PutMapping(value = { "/addresses" }, consumes = "application/json", produces = "application/json")
 		public AddressDTO updateAddress(@RequestParam(name = "username") String username, @RequestBody AddressDTO address) {
 			Address domainAddress = service.getGeneralUser(username).getAddress();
@@ -362,6 +387,10 @@ public class PetAdoptionAppController {
 		}
 		
 		
+		/**
+		 * delete existing address object by id
+		 * @param id
+		 */
 		@DeleteMapping(value = { "/addresses/{id}" })
 		public void deleteAddress(@PathVariable("id") Integer id) {
 			service.deleteAddress(id);
@@ -369,23 +398,44 @@ public class PetAdoptionAppController {
 		
 		// ~~~~~~~~~~ Rest API for Donation ~~~~~~~~~~~~
 		
+		/**
+		 * get all donation objects
+		 * @return List<DonationDTO>
+		 */
 		@GetMapping(value = { "/donations" })
 		public List<DonationDTO> getAllDonations() {
 			return service.getAllDonations().stream().map(p -> convertToDTO(p)).collect(Collectors.toList());
 		}
 		
+		/**
+		 * get donations by recipient
+		 * @param username
+		 * @return List<DonationDTO>
+		 */
 		@GetMapping(value = { "donations/recipients/{username}" })
 		public List<DonationDTO> getDonationByDonatedTo(@PathVariable("username") String username) {
 			GeneralUser user = service.getGeneralUser(username);
 			return service.getDonationsForGeneralUser(user).stream().map(p -> convertToDTO(p)).collect(Collectors.toList());
 		}
 		
+		/**
+		 * get donations by donor
+		 * @param username
+		 * @return List<DonationDTO>
+		 */
 		@GetMapping(value = { "donations/donors/{username}" })
 		public List<DonationDTO> getDonationByDonatedFrom(@PathVariable("username") String username) {
 			GeneralUser user = service.getGeneralUser(username);
 			return service.getDonationsMadeByGeneralUser(user).stream().map(p -> convertToDTO(p)).collect(Collectors.toList());
 		}
 		
+		/**
+		 * create donation object
+		 * @param donatedFrom
+		 * @param donatedTo
+		 * @param donation
+		 * @return DonationDTO
+		 */
 		@PostMapping(value = { "/donations" }, consumes = "application/json", produces = "application/json")
 		public DonationDTO createDonation(@RequestParam(name = "donatedFrom") String donatedFrom,
 				@RequestParam(name = "donatedTo") String donatedTo, @RequestBody DonationDTO donation) {
@@ -400,6 +450,13 @@ public class PetAdoptionAppController {
 			return donationDto;
 		}
 		
+		/**
+		 * update existing donation object
+		 * @param donatedFrom
+		 * @param donatedTo
+		 * @param donation
+		 * @return DonationDTO
+		 */
 		@PutMapping(value = { "/donations" }, consumes = "application/json", produces = "application/json")
 		public DonationDTO updateDonation(@RequestParam(name = "donatedFrom") String donatedFrom,
 				@RequestParam(name = "donatedTo") String donatedTo, @RequestBody DonationDTO donation) {
@@ -412,6 +469,10 @@ public class PetAdoptionAppController {
 			return donationDto;
 		}
 		
+		/**
+		 * Delete existing donation object by id
+		 * @param id
+		 */
 		@DeleteMapping(value = { "/donations/{id}" })
 		public void deleteDonationsById(@PathVariable("id") Integer id) {
 			service.deleteDonation(id);
